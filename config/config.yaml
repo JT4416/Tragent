@@ -1,0 +1,29 @@
+trading:
+  cycle_interval_regular_min: 15
+  cycle_interval_extended_min: 30
+  regular_hours_start: "09:30"
+  regular_hours_end: "16:00"
+  extended_hours_start: "04:00"
+  extended_hours_end: "20:00"
+  open_blackout_minutes: 5
+
+risk:
+  max_position_size_pct: 5.0
+  stop_loss_pct: 2.0
+  trailing_stop_pct: 1.5
+  max_concurrent_positions: 5
+  daily_loss_limit_pct: 6.0
+  confidence_threshold_regular: 0.65
+  confidence_threshold_extended: 0.78
+
+competition:
+  round_duration_days: 14
+  base_capital: 50000.0
+  capital_advantage_pct: 10.0
+
+api_cost:
+  daily_claude_spend_limit_usd: 10.0
+
+auto_commit:
+  enabled: true
+  time_et: "16:00"
