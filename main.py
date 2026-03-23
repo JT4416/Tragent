@@ -62,11 +62,17 @@ def reconcile(schwab: SchwabClient, store_a, store_b) -> None:
             if discrepancies:
                 sys_log.log({"event": "reconciliation_discrepancy",
                              "agent": agent_id, "symbols": list(discrepancies)})
+                # Remove local positions that no longer exist at broker
                 for pos in local_positions:
                     if pos.symbol not in broker_symbols:
                         store.remove_position(pos.symbol)
                         sys_log.log({"event": "removed_stale_position",
                                      "agent": agent_id, "symbol": pos.symbol})
+                # Log broker positions absent from local state (manual review needed)
+                for symbol in broker_symbols - local_symbols:
+                    sys_log.log({"event": "unknown_broker_position",
+                                 "agent": agent_id, "symbol": symbol,
+                                 "note": "broker holds position with no local state — review manually"})
         sys_log.log({"event": "reconciliation_complete"})
     except Exception as e:
         sys_log.log({"event": "reconciliation_failed", "error": str(e)})
