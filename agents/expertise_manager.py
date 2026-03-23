@@ -21,16 +21,21 @@ class ExpertiseManager:
         path = self._path(name)
         if not path.exists():
             return self._seed(name)
-        return yaml.safe_load(path.read_text()) or {}
+        try:
+            return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except yaml.YAMLError:
+            # File may be partially truncated; re-seed from scratch
+            return self._seed(name)
 
     def save(self, name: str, data: dict) -> None:
         content = yaml.dump(data, default_flow_style=False, sort_keys=False)
         lines = content.splitlines()
         if len(lines) > self._max_lines:
             content = "\n".join(lines[: self._max_lines])
-        self._path(name).write_text(content)
+        self._path(name).write_text(content, encoding="utf-8")
 
     def load_all(self) -> dict[str, dict]:
+        # crypto is excluded — only activated in Round 2+ via separate load("crypto")
         return {name: self.load(name)
                 for name in ("market", "news", "institutional", "trade")}
 
