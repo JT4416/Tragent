@@ -13,7 +13,7 @@ class Logger:
         return self._dir / f"{date}.json"
 
     def log(self, entry: dict) -> None:
-        entry["_ts"] = datetime.now(timezone.utc).isoformat()
+        entry = {**entry, "_ts": datetime.now(timezone.utc).isoformat()}
         path = self._path()
         existing = json.loads(path.read_text()) if path.exists() else []
         existing.append(entry)

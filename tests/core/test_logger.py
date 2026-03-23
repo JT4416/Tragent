@@ -9,6 +9,7 @@ def test_logs_json_to_file(tmp_dir):
     assert len(log_files) == 1
     entries = json.loads(log_files[0].read_text())
     assert entries[0]["symbol"] == "AAPL"
+    assert "_ts" in entries[0]
 
 def test_appends_multiple_entries(tmp_dir):
     logger = get_logger("agent_a", "trades", log_dir=tmp_dir)
