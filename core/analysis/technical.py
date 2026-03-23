@@ -46,7 +46,7 @@ class TechnicalAnalyzer:
 
     def _vwap_cross(self, df: pd.DataFrame,
                     symbol: str) -> list[BreakoutSignal]:
-        if "vwap" not in df.columns:
+        if "VWAP_D" not in df.columns:
             df = df.copy()
             df.ta.vwap(append=True)
         if "VWAP_D" not in df.columns:
@@ -85,7 +85,7 @@ class TechnicalAnalyzer:
                              symbol: str) -> list[BreakoutSignal]:
         if len(df) < 252:
             return []
-        high_52w = df["high"].iloc[-252:].max()
+        high_52w = df["high"].iloc[-253:-1].max()
         last_close = df["close"].iloc[-1]
         if last_close >= high_52w * 0.99:
             return [BreakoutSignal(
