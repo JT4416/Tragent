@@ -141,7 +141,11 @@ class Agent:
                 direction=direction,
                 entry_price=price,
                 stop_loss=stop_price,
-                trailing_stop=round(price * (1 - trailing_pct / 100), 2),
+                trailing_stop=round(
+                    price * (1 - trailing_pct / 100) if direction == "long"
+                    else price * (1 + trailing_pct / 100),
+                    2
+                ),
                 quantity=quantity,
             )
         )
