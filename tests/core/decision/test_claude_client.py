@@ -22,7 +22,7 @@ def test_parse_hold_decision():
     decision = ClaudeClient._parse_response(raw)
     assert decision.action == "hold"
 
-def test_cost_tracking(tmp_dir, monkeypatch):
+def test_cost_tracking(tmp_dir):
     mock_response = MagicMock()
     mock_response.content = [MagicMock(text=json.dumps({
         "action": "hold", "symbol": None, "confidence": 0.3,
@@ -37,3 +37,17 @@ def test_cost_tracking(tmp_dir, monkeypatch):
         client = ClaudeClient(daily_limit_usd=10.0, log_dir=tmp_dir)
         client.decide("prompt", "context")
         assert client.daily_spend_usd > 0
+
+def test_parse_response_with_markdown_fence():
+    raw = '```json\n{"action": "buy", "symbol": "AAPL", "confidence": 0.82, "position_size_pct": 3.0, "reasoning": "test", "signals_used": [], "skip_reason": null}\n```'
+    decision = ClaudeClient._parse_response(raw)
+    assert decision.action == "buy"
+    assert decision.confidence == 0.82
+
+def test_spend_limit_raises(monkeypatch):
+    with patch("core.decision.claude_client.anthropic.Anthropic"):
+        client = ClaudeClient(daily_limit_usd=5.0)
+        client.daily_spend_usd = 5.0
+        import pytest as _pytest
+        with _pytest.raises(RuntimeError, match="spend limit"):
+            client.decide("system", "prompt")

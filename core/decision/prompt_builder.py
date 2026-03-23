@@ -1,3 +1,5 @@
+import json
+import yaml
 from datetime import datetime, timezone
 
 
@@ -89,7 +91,7 @@ def build_self_improve_prompt(
     max_lines: int = 1000,
 ) -> str:
     return f"""## Completed Trade
-{trade_record}
+{json.dumps(trade_record, indent=2)}
 
 ## Claude's Original Reasoning
 {original_reasoning}
@@ -110,7 +112,6 @@ Update the expertise file to reflect what was learned from this trade.
 
 
 def _yaml_summary(data: dict) -> str:
-    import yaml
     return yaml.dump(data, default_flow_style=False)[:2000]
 
 
