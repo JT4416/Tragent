@@ -26,6 +26,7 @@ def api_key(name: str) -> str:
 ANTHROPIC_API_KEY = lambda: api_key("ANTHROPIC_API_KEY")
 SCHWAB_APP_KEY = lambda: api_key("SCHWAB_APP_KEY")
 SCHWAB_APP_SECRET = lambda: api_key("SCHWAB_APP_SECRET")
+SCHWAB_CALLBACK_URL = lambda: api_key("SCHWAB_CALLBACK_URL")
 ALPHA_VANTAGE_API_KEY = lambda: api_key("ALPHA_VANTAGE_API_KEY")
 NEWS_API_KEY = lambda: api_key("NEWS_API_KEY")
 QUIVER_QUANT_API_KEY = lambda: api_key("QUIVER_QUANT_API_KEY")
