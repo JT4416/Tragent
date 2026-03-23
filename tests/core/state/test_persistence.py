@@ -22,3 +22,7 @@ def test_save_and_load_round_pnl(tmp_dir):
     store = StateStore("agent_a", db_dir=tmp_dir)
     store.update_round_pnl(250.75)
     assert store.get_round_pnl() == 250.75
+
+def test_round_pnl_default_is_zero(tmp_dir):
+    store = StateStore("agent_a", db_dir=tmp_dir)
+    assert store.get_round_pnl() == 0.0
