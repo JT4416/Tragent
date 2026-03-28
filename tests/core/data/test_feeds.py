@@ -20,7 +20,7 @@ def test_news_feed_returns_list(monkeypatch):
 def test_institutional_feed_returns_list(monkeypatch):
     mock_resp = MagicMock()
     mock_resp.json.return_value = [
-        {"ticker": "AAPL", "transaction_type": "Buy",
+        {"Ticker": "AAPL", "transaction_type": "Buy",
          "insider": "CEO", "date": "2026-03-20"}
     ]
     mock_resp.raise_for_status = MagicMock()
@@ -28,4 +28,4 @@ def test_institutional_feed_returns_list(monkeypatch):
         feed = InstitutionalFeed()
         signals = feed.fetch_insider_trades("AAPL")
         assert len(signals) == 1
-        assert signals[0]["ticker"] == "AAPL"
+        assert signals[0]["Ticker"] == "AAPL"
