@@ -17,7 +17,7 @@ risk:
   open_blackout_minutes: 5
 
 competition:
-  round_duration_days: 14
+  round_duration_days: 28
   base_capital: 50000.0
   capital_advantage_pct: 10.0
 
