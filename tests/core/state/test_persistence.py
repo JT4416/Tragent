@@ -50,6 +50,11 @@ def test_get_position_returns_position(tmp_path):
     loaded = store.get_position("NVDA")
     assert loaded is not None
     assert loaded.symbol == "NVDA"
+    assert loaded.direction == "long"
+    assert loaded.entry_price == 800.0
+    assert loaded.stop_loss == 784.0
+    assert loaded.trailing_stop == 788.0
+    assert loaded.quantity == 3
     assert loaded.entry_time == "2026-03-30T11:00:00+00:00"
 
 

@@ -52,25 +52,35 @@ class StateStore:
         cols = {row[1] for row in
                 self._conn.execute("PRAGMA table_info(positions)").fetchall()}
         if "entry_time" not in cols:
-            self._conn.execute(
-                "ALTER TABLE positions ADD COLUMN entry_time TEXT")
-            self._conn.commit()
+            try:
+                self._conn.execute(
+                    "ALTER TABLE positions ADD COLUMN entry_time TEXT")
+                self._conn.commit()
+            except Exception:
+                pass  # column already added by a concurrent process
 
     def save_position(self, pos: Position) -> None:
         self._conn.execute("""
             INSERT OR REPLACE INTO positions
+            (symbol, direction, entry_price, stop_loss, trailing_stop, quantity, entry_time)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (pos.symbol, pos.direction, pos.entry_price,
               pos.stop_loss, pos.trailing_stop, pos.quantity, pos.entry_time))
         self._conn.commit()
 
     def get_positions(self) -> list[Position]:
-        rows = self._conn.execute("SELECT * FROM positions").fetchall()
+        rows = self._conn.execute(
+            "SELECT symbol, direction, entry_price, stop_loss, trailing_stop, "
+            "quantity, entry_time FROM positions"
+        ).fetchall()
         return [Position(*r) for r in rows]
 
     def get_position(self, symbol: str) -> "Position | None":
         row = self._conn.execute(
-            "SELECT * FROM positions WHERE symbol=?", (symbol,)).fetchone()
+            "SELECT symbol, direction, entry_price, stop_loss, trailing_stop, "
+            "quantity, entry_time FROM positions WHERE symbol=?",
+            (symbol,)
+        ).fetchone()
         return Position(*row) if row else None
 
     def remove_position(self, symbol: str) -> None:

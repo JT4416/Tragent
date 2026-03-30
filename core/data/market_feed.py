@@ -23,8 +23,8 @@ DEFAULT_WATCHLIST = [
     "META", "TSLA", "AMD", "SPY", "QQQ",
     # Inverse ETFs — long-only bearish exposure (no short selling)
     "SH",   # ProShares Short S&P500 (1x inverse)
-    "SDS",  # ProShares UltraShort S&P500 (2x inverse) — short-hold only
-    "QID",  # ProShares UltraShort QQQ (2x inverse) — short-hold only
+    "SDS",  # ProShares UltraShort S&P500 (2x inverse) — short-duration hold only (leveraged decay)
+    "QID",  # ProShares UltraShort QQQ (2x inverse) — short-duration hold only (leveraged decay)
     "DOG",  # ProShares Short Dow30 (1x inverse)
 ]
 
