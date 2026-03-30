@@ -22,6 +22,7 @@ from core.data.schwab_client import SchwabClient
 from core.decision.claude_client import ClaudeClient
 from config import settings
 from core.kill_switch import KillSwitch
+from core.risk.stop_enforcer import StopEnforcer
 
 
 def _session() -> str:
@@ -106,6 +107,14 @@ def main():
     agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
                     claude_b, schwab, data_queue=queue_b)
 
+    enforcer = StopEnforcer(
+        agents=[agent_a, agent_b],
+        broker=schwab,   # only needs get_quote(); same price feed for both agents
+        interval_seconds=30,
+    )
+    enforcer_thread = threading.Thread(
+        target=enforcer.run, args=(stop,), daemon=True)
+
     scorer_a = CompetitionScorer("agent_a", base_capital)
     scorer_b = CompetitionScorer("agent_b", base_capital)
     reporter = DailyReporter(scorer_a, scorer_b)
@@ -133,6 +142,7 @@ def main():
     print("Starting Tragent — Agent A and Agent B")
     print("To kill: create a KILL file in project root, or press Ctrl+C")
     feed_thread.start()
+    enforcer_thread.start()
     thread_a.start()
     thread_b.start()
 
@@ -143,6 +153,7 @@ def main():
 
     print("Shutdown signal received — waiting for threads to finish...")
     feed_thread.join(timeout=5)
+    enforcer_thread.join(timeout=5)
     thread_a.join(timeout=5)
     thread_b.join(timeout=5)
     print("Tragent stopped.")
