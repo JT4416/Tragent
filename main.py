@@ -23,6 +23,8 @@ from core.decision.claude_client import ClaudeClient
 from core.execution.paper_broker import PaperBroker
 from config import settings
 from core.kill_switch import KillSwitch
+from core.risk.stop_enforcer import StopEnforcer
+from core.monitor.alerter import Alerter
 
 
 def _session() -> str:
@@ -137,6 +139,18 @@ def main():
 
     stop = threading.Event()
     kill_switch = KillSwitch(stop)
+    alerter = Alerter()
+    monitoring_enabled = settings.get("monitoring", "enabled")
+    drawdown_threshold = settings.get("monitoring", "drawdown_alert_pct")
+    idle_threshold = settings.get("monitoring", "idle_agent_minutes")
+
+    enforcer = StopEnforcer(
+        agents=[agent_a, agent_b],
+        broker=schwab,   # only needs get_quote(); same price feed for both agents
+        interval_seconds=30,
+    )
+    enforcer_thread = threading.Thread(
+        target=enforcer.run, args=(stop,), daemon=True)
     kill_switch.arm()
     regular_interval = settings.get("trading", "cycle_interval_regular_min")
 
@@ -154,16 +168,33 @@ def main():
     print("Starting Tragent — Agent A and Agent B")
     print("To kill: create a KILL file in project root, or press Ctrl+C")
     feed_thread.start()
+    enforcer_thread.start()
     thread_a.start()
     thread_b.start()
 
     while not stop.is_set():
         schedule.run_pending()
         kill_switch.poll()
-        time.sleep(1)
+
+        if monitoring_enabled:
+            pnl_a = store_a.get_round_pnl()
+            pnl_b = store_b.get_round_pnl()
+            pnl_a_pct = (pnl_a / base_capital) * 100
+            pnl_b_pct = (pnl_b / base_capital) * 100
+            alerter.check_drawdown("agent_a", pnl_a_pct, drawdown_threshold)
+            alerter.check_drawdown("agent_b", pnl_b_pct, drawdown_threshold)
+
+            alerter.check_api_errors(
+                "claude_a", claude_a.daily_spend_usd >= settings.get(
+                    "api_cost", "daily_claude_spend_limit_usd") and 999 or 0,
+                threshold=settings.get("monitoring", "api_error_threshold"),
+            )
+
+        time.sleep(60)   # alert check cadence: once per minute
 
     print("Shutdown signal received — waiting for threads to finish...")
     feed_thread.join(timeout=5)
+    enforcer_thread.join(timeout=5)
     thread_a.join(timeout=5)
     thread_b.join(timeout=5)
     print("Tragent stopped.")

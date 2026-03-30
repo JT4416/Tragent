@@ -71,9 +71,8 @@ class PaperBroker:
     def place_order(self, symbol: str, action: str, quantity: int) -> dict:
         quote = self._schwab.get_quote(symbol)
         price = quote.get("lastPrice") or quote.get("mark") or 0.0
-        fill_price = round(price * (1 + _SLIPPAGE_PCT), 2)
-
         if action == "buy":
+            fill_price = round(price * (1 + _SLIPPAGE_PCT), 2)
             cost = fill_price * quantity
             self._state["cash"] = round(self._state["cash"] - cost, 2)
             if symbol in self._state["positions"]:
@@ -84,6 +83,7 @@ class PaperBroker:
                     "entry_price": fill_price,
                 }
         elif action == "sell":
+            fill_price = round(price * (1 - _SLIPPAGE_PCT), 2)
             proceeds = fill_price * quantity
             self._state["cash"] = round(self._state["cash"] + proceeds, 2)
             self._state["positions"].pop(symbol, None)
