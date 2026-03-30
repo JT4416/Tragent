@@ -27,3 +27,7 @@ api_cost:
 auto_commit:
   enabled: true
   time_et: "16:00"
+
+paper_trading:
+  enabled: true
+  trading_days_gate: 15

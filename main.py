@@ -20,6 +20,7 @@ from competition.reporter import DailyReporter
 from competition.eliminator import RoundEliminator
 from core.data.schwab_client import SchwabClient
 from core.decision.claude_client import ClaudeClient
+from core.execution.paper_broker import PaperBroker
 from config import settings
 
 
@@ -100,10 +101,30 @@ def main():
     # Startup reconciliation — always before agents start
     reconcile(schwab, store_a, store_b)
 
+    paper_mode = settings.get("paper_trading", "enabled")
+    if paper_mode:
+        from pathlib import Path
+        state_dir = Path("state")
+        broker_a = PaperBroker(schwab, base_capital,
+                                agent_id="agent_a", state_dir=state_dir)
+        broker_b = PaperBroker(schwab, base_capital,
+                                agent_id="agent_b", state_dir=state_dir)
+        days = broker_a.trading_days_completed()
+        gate = settings.get("paper_trading", "trading_days_gate")
+        if not broker_a.is_live_ready():
+            print(f"PAPER TRADING MODE — {days}/{gate} trading days completed "
+                  f"before live capital is used.")
+        else:
+            print(f"Paper gate cleared ({days} days). "
+                  f"Set paper_trading.enabled=false to trade live capital.")
+    else:
+        broker_a = schwab
+        broker_b = schwab
+
     agent_a = Agent(AgentConfig("agent_a", "regular", base_capital),
-                    claude_a, schwab, data_queue=queue_a)
+                    claude_a, broker_a, data_queue=queue_a)
     agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
-                    claude_b, schwab, data_queue=queue_b)
+                    claude_b, broker_b, data_queue=queue_b)
 
     scorer_a = CompetitionScorer("agent_a", base_capital)
     scorer_b = CompetitionScorer("agent_b", base_capital)
