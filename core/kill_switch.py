@@ -22,28 +22,29 @@ class KillSwitch:
                  kill_file: Path = _DEFAULT_KILL_FILE):
         self._stop = stop_event
         self._kill_file = kill_file
-        signal.signal(signal.SIGINT, self._handle_signal)
-        try:
-            signal.signal(signal.SIGTERM, self._handle_signal)
-        except (OSError, AttributeError):
-            pass  # SIGTERM unavailable on some platforms (Windows)
+        # Signal handlers must be registered from the main thread only
+        if threading.current_thread() is threading.main_thread():
+            signal.signal(signal.SIGINT, self._handle_signal)
+            try:
+                signal.signal(signal.SIGTERM, self._handle_signal)
+            except (OSError, AttributeError):
+                pass  # SIGTERM unavailable on some platforms (Windows)
 
     def _handle_signal(self, signum, frame):
-        print(f"\nSignal {signum} received — shutting down gracefully...")
+        # Keep signal handler minimal — no print(), no I/O, just set the event
         self._stop.set()
 
     def arm(self) -> None:
         """Remove any stale KILL file left from a prior run."""
         if self._kill_file.exists():
             self._kill_file.unlink()
-            print("Removed stale KILL file from prior session.")
 
     def check(self) -> bool:
         """Return True if a KILL file is present."""
         return self._kill_file.exists()
 
     def poll(self) -> None:
-        """Set stop_event if KILL file is detected. Call this in the main loop."""
+        """Set stop_event and remove KILL file if detected. Call in the main loop."""
         if self.check():
-            print(f"KILL file detected at {self._kill_file} — shutting down...")
+            self._kill_file.unlink()  # remove so it won't retrigger
             self._stop.set()
