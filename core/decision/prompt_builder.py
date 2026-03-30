@@ -67,11 +67,13 @@ Daily P&L: ${daily_pnl:,.2f} ({daily_pnl_pct:.1f}%)
 Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 
 ## Task
-Analyze the signals above and return a trading decision.
+Analyze the signals above. You may only trade during regular market hours (09:30–16:00 ET).
+Long positions only — no short selling. To express bearish conviction, buy an inverse ETF
+(SH, SDS, QID, or DOG) instead.
 
 ## Response Format (JSON only)
 {{
-  "action": "buy|sell|short|cover|hold",
+  "action": "buy|sell|hold",
   "symbol": "TICKER or null",
   "confidence": 0.0,
   "position_size_pct": 0.0,

@@ -13,7 +13,6 @@ risk:
   max_concurrent_positions: 5
   daily_loss_limit_pct: 6.0
   confidence_threshold_regular: 0.65
-  confidence_threshold_extended: 0.78
   open_blackout_minutes: 5
 
 competition:
