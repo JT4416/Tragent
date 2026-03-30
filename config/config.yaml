@@ -14,8 +14,8 @@ risk:
 
 competition:
   round_duration_days: 28
-  base_capital: 50000.0
-  capital_advantage_pct: 10.0
+  base_capital: 500.0
+  capital_advantage_pct: 15.0
 
 api_cost:
   daily_claude_spend_limit_usd: 10.0
@@ -30,6 +30,6 @@ paper_trading:
 
 monitoring:
   enabled: true
-  drawdown_alert_pct: 3.0
+  drawdown_alert_pct: 5.0
   idle_agent_minutes: 120
   api_error_threshold: 5
