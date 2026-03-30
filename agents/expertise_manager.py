@@ -35,7 +35,6 @@ class ExpertiseManager:
         self._path(name).write_text(content, encoding="utf-8")
 
     def load_all(self) -> dict[str, dict]:
-        # crypto is excluded — only activated in Round 2+ via separate load("crypto")
         return {name: self.load(name)
                 for name in ("market", "news", "institutional", "trade")}
 
@@ -47,6 +46,26 @@ class ExpertiseManager:
                 "breakout_patterns": [],
                 "volume_signals": [],
                 "known_false_signals": [],
+                "inverse_etfs": {
+                    "note": (
+                        "Inverse ETFs allow bearish exposure without short selling. "
+                        "Buy these when bearish — no margin, no unlimited downside."
+                    ),
+                    "universe": [
+                        {"symbol": "SH",  "tracks": "S&P 500 inverse 1x",
+                         "use_when": "broadly bearish on large caps"},
+                        {"symbol": "SDS", "tracks": "S&P 500 inverse 2x",
+                         "use_when": "high conviction broad market decline"},
+                        {"symbol": "QID", "tracks": "Nasdaq-100 inverse 2x",
+                         "use_when": "high conviction tech sector decline"},
+                        {"symbol": "DOG", "tracks": "Dow Jones inverse 1x",
+                         "use_when": "broadly bearish on industrials/blue chips"},
+                    ],
+                    "caution": (
+                        "2x ETFs decay over time — do not hold for more than 1–2 days. "
+                        "1x ETFs (SH, DOG) are suitable for slightly longer holds."
+                    ),
+                },
             },
             "news": {
                 "overview": {"last_updated": str(date.today())},
@@ -71,14 +90,6 @@ class ExpertiseManager:
                 },
                 "lessons_learned": [],
                 "recent_trades": [],
-            },
-            "crypto": {
-                "overview": {"last_updated": str(date.today()),
-                             "activated": False,
-                             "preferred_crypto": None,
-                             "total_allocated_usd": 0.0},
-                "crypto_patterns": [],
-                "trade_history": [],
             },
         }
         data = seeds.get(name, {"overview": {"last_updated": str(date.today())}})

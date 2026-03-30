@@ -15,7 +15,7 @@ _OUTPUT_COST_PER_1M = 15.00
 
 @dataclass
 class TradeDecision:
-    action: str            # buy | sell | short | cover | hold
+    action: str            # buy | sell | hold
     symbol: str | None
     confidence: float
     position_size_pct: float

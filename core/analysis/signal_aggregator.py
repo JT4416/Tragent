@@ -3,7 +3,7 @@ from core.analysis.technical import BreakoutSignal
 
 
 class SignalAggregator:
-    def __init__(self, allow_short: bool = True):
+    def __init__(self, allow_short: bool = False):
         self._allow_short = allow_short
 
     def rank(self, signals: list[BreakoutSignal]) -> list[dict]:
