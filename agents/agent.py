@@ -89,6 +89,22 @@ class Agent:
                                "confidence": decision.confidence})
             return
 
+        # Voluntary exit: agent decided to close an existing long
+        if decision.action == "sell":
+            if decision.symbol:
+                quote = self._schwab.get_quote(decision.symbol)
+                price = quote.get("lastPrice") or quote.get("mark") or 0.0
+                if price > 0:
+                    self.close_position(decision.symbol, price,
+                                        reason="agent_decision")
+                else:
+                    self._logger.log({
+                        "event": "sell_skipped",
+                        "reason": "no_quote",
+                        "symbol": decision.symbol,
+                    })
+            return
+
         # ACT: risk gate
         risk_result = self._risk.check(
             action=decision.action,
@@ -165,4 +181,68 @@ class Agent:
             outcome="open",
             pnl_pct=0.0,
             duration="0m",
+        )
+
+    def close_position(self, symbol: str, exit_price: float,
+                       reason: str = "stop") -> None:
+        """Close an open position, calculate real P&L, trigger learn loop."""
+        pos = self._store.get_position(symbol)
+        if pos is None:
+            return
+
+        pnl = round((exit_price - pos.entry_price) * pos.quantity, 2)
+        if pos.entry_price:
+            pnl_pct = round(
+                (exit_price - pos.entry_price) / pos.entry_price * 100, 2)
+        else:
+            pnl_pct = 0.0
+
+        # Duration
+        if pos.entry_time:
+            entry_dt = datetime.fromisoformat(pos.entry_time)
+            now = datetime.now(timezone.utc)
+            secs = int((now - entry_dt).total_seconds())
+            hours, rem = divmod(secs, 3600)
+            mins = rem // 60
+            duration = f"{hours}h{mins}m" if hours else f"{mins}m"
+        else:
+            duration = "unknown"
+
+        # Remove position from store FIRST to prevent double-sell if order raises
+        self._store.update_round_pnl(self._store.get_round_pnl() + pnl)
+        self._store.remove_position(symbol)
+
+        # Place closing order
+        self._schwab.place_order(
+            symbol=symbol, action="sell", quantity=pos.quantity)
+
+        self._logger.log({
+            "event": "position_closed",
+            "symbol": symbol,
+            "reason": reason,
+            "entry": pos.entry_price,
+            "exit": exit_price,
+            "pnl": pnl,
+            "pnl_pct": pnl_pct,
+            "duration": duration,
+        })
+
+        # LEARN: self-improve with real outcome
+        trade_record = {
+            "trade_id": f"close_{self._cfg.agent_id}_{int(time.time())}",
+            "symbol": symbol,
+            "direction": pos.direction,
+            "entry": pos.entry_price,
+            "exit": exit_price,
+            "pnl_pct": pnl_pct,
+            "signals_used": [],
+            "outcome": "win" if pnl > 0 else "loss",
+            "claude_confidence": None,
+        }
+        self._improve.run(
+            trade_record=trade_record,
+            original_reasoning=f"Position closed: {reason}",
+            outcome="win" if pnl > 0 else "loss",
+            pnl_pct=pnl_pct,
+            duration=duration,
         )
