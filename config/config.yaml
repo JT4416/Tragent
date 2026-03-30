@@ -23,3 +23,9 @@ api_cost:
 auto_commit:
   enabled: true
   time_et: "16:00"
+
+monitoring:
+  enabled: true
+  drawdown_alert_pct: 3.0
+  idle_agent_minutes: 120
+  api_error_threshold: 5
