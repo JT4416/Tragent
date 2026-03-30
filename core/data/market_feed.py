@@ -18,8 +18,14 @@ _ET = ZoneInfo("America/New_York")
 
 # Watchlist — expand over time; agents learn which ones produce signals
 DEFAULT_WATCHLIST = [
+    # Core large caps
     "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL",
     "META", "TSLA", "AMD", "SPY", "QQQ",
+    # Inverse ETFs — long-only bearish exposure (no short selling)
+    "SH",   # ProShares Short S&P500 (1x inverse)
+    "SDS",  # ProShares UltraShort S&P500 (2x inverse) — short-hold only
+    "QID",  # ProShares UltraShort QQQ (2x inverse) — short-hold only
+    "DOG",  # ProShares Short Dow30 (1x inverse)
 ]
 
 
