@@ -1,10 +1,7 @@
 trading:
   cycle_interval_regular_min: 15
-  cycle_interval_extended_min: 30
   regular_hours_start: "09:30"
   regular_hours_end: "16:00"
-  extended_hours_start: "04:00"
-  extended_hours_end: "20:00"
 
 risk:
   max_position_size_pct: 5.0
