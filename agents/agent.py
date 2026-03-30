@@ -137,6 +137,7 @@ class Agent:
                 stop_loss=stop_price,
                 trailing_stop=round(price * (1 - trailing_pct / 100), 2),
                 quantity=quantity,
+                entry_time=datetime.now(timezone.utc).isoformat(),
             )
         )
 
