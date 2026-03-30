@@ -27,10 +27,12 @@ def test_send_silently_handles_request_failure():
 
 
 def test_no_webhook_url_skips_send():
-    alerter = Alerter(webhook_url=None)
-    with patch("requests.post") as mock_post:
-        alerter.send("agent_a", "test", "msg")
-        mock_post.assert_not_called()
+    with patch.dict("os.environ", {}, clear=False), \
+         patch("core.monitor.alerter.os.getenv", return_value=None):
+        alerter = Alerter(webhook_url=None)
+        with patch("requests.post") as mock_post:
+            alerter.send("agent_a", "test", "msg")
+            mock_post.assert_not_called()
 
 
 def test_check_drawdown_fires_alert_when_threshold_exceeded():
@@ -80,3 +82,10 @@ def test_check_api_errors_fires_when_threshold_exceeded():
         mock_send.assert_called_once()
         args = mock_send.call_args[0]
         assert args[1] == "api_errors"
+
+
+def test_check_api_errors_does_not_fire_at_threshold():
+    alerter = _alerter()
+    with patch.object(alerter, "send") as mock_send:
+        alerter.check_api_errors("claude", error_count=5, threshold=5)
+        mock_send.assert_not_called()
