@@ -42,8 +42,6 @@ class Agent:
             max_concurrent_positions=settings.get("risk", "max_concurrent_positions"),
             confidence_threshold_regular=settings.get(
                 "risk", "confidence_threshold_regular"),
-            confidence_threshold_extended=settings.get(
-                "risk", "confidence_threshold_extended"),
             open_blackout_minutes=settings.get("risk", "open_blackout_minutes"),
         ))
 
@@ -92,7 +90,6 @@ class Agent:
             return
 
         # ACT: risk gate
-        has_inst = len(market_data.get("institutional", [])) > 0
         risk_result = self._risk.check(
             action=decision.action,
             confidence=decision.confidence,
@@ -101,7 +98,6 @@ class Agent:
             open_positions=len(open_positions),
             portfolio_value=cash,
             daily_pnl_pct=daily_pnl_pct,
-            institutional_signal_present=has_inst,
             current_time=datetime.now(timezone.utc),
         )
 
@@ -123,9 +119,8 @@ class Agent:
 
         stop_pct = evolved.get("stop_loss_pct", 2.0)
         trailing_pct = evolved.get("trailing_stop_pct", 1.5)
-        stop_price = round(price * (1 - stop_pct / 100), 2) \
-            if decision.action in ("buy",) else \
-            round(price * (1 + stop_pct / 100), 2)
+        stop_price = round(price * (1 - stop_pct / 100), 2)
+        direction = "long"
 
         order = self._schwab.place_order(
             symbol=decision.symbol,
@@ -134,19 +129,15 @@ class Agent:
         )
 
         # Persist position with broker-side stop levels
-        direction = "long" if decision.action == "buy" else "short"
         self._store.save_position(
             Position(
                 symbol=decision.symbol,
                 direction=direction,
                 entry_price=price,
                 stop_loss=stop_price,
-                trailing_stop=round(
-                    price * (1 - trailing_pct / 100) if direction == "long"
-                    else price * (1 + trailing_pct / 100),
-                    2
-                ),
+                trailing_stop=round(price * (1 - trailing_pct / 100), 2),
                 quantity=quantity,
+                entry_time=datetime.now(timezone.utc).isoformat(),
             )
         )
 

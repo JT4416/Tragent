@@ -64,11 +64,8 @@ class SchwabClient:
 
         if action == "buy":
             order = equity_buy_market(symbol, quantity)
-        elif action in ("sell", "cover"):
+        elif action == "sell":
             order = equity_sell_market(symbol, quantity)
-        elif action == "short":
-            from schwab.orders.equities import equity_sell_short_market
-            order = equity_sell_short_market(symbol, quantity)
         else:
             raise ValueError(f"Unsupported action: {action}")
 
