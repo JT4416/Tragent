@@ -97,6 +97,12 @@ class Agent:
                 if price > 0:
                     self.close_position(decision.symbol, price,
                                         reason="agent_decision")
+                else:
+                    self._logger.log({
+                        "event": "sell_skipped",
+                        "reason": "no_quote",
+                        "symbol": decision.symbol,
+                    })
             return
 
         # ACT: risk gate
@@ -185,8 +191,11 @@ class Agent:
             return
 
         pnl = round((exit_price - pos.entry_price) * pos.quantity, 2)
-        pnl_pct = round(
-            (exit_price - pos.entry_price) / pos.entry_price * 100, 2)
+        if pos.entry_price:
+            pnl_pct = round(
+                (exit_price - pos.entry_price) / pos.entry_price * 100, 2)
+        else:
+            pnl_pct = 0.0
 
         # Duration
         if pos.entry_time:
@@ -199,13 +208,13 @@ class Agent:
         else:
             duration = "unknown"
 
-        # Close order
-        self._schwab.place_order(
-            symbol=symbol, action="sell", quantity=pos.quantity)
-
-        # Update round P&L
+        # Remove position from store FIRST to prevent double-sell if order raises
         self._store.update_round_pnl(self._store.get_round_pnl() + pnl)
         self._store.remove_position(symbol)
+
+        # Place closing order
+        self._schwab.place_order(
+            symbol=symbol, action="sell", quantity=pos.quantity)
 
         self._logger.log({
             "event": "position_closed",
@@ -220,7 +229,7 @@ class Agent:
 
         # LEARN: self-improve with real outcome
         trade_record = {
-            "trade_id": f"close_{self._cfg.agent_id}_{symbol}",
+            "trade_id": f"close_{self._cfg.agent_id}_{int(time.time())}",
             "symbol": symbol,
             "direction": pos.direction,
             "entry": pos.entry_price,
