@@ -47,6 +47,14 @@ def test_does_not_trigger_when_price_above_stops():
     agent.close_position.assert_not_called()
 
 
+def test_stop_loss_wins_when_price_below_both():
+    agent = _mock_agent(stop_loss=95.0, trailing_stop=98.0)
+    broker = _mock_broker(price=93.0)   # below both stops
+    enforcer = StopEnforcer([agent], broker, interval_seconds=1)
+    enforcer._check_all()
+    agent.close_position.assert_called_once_with("AAPL", 93.0, reason="stop_loss")
+
+
 def test_skips_position_when_quote_unavailable():
     agent = _mock_agent()
     broker = MagicMock()

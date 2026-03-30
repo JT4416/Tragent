@@ -5,8 +5,11 @@ agent.close_position() when a stop is triggered.
 
 Runs as a daemon thread in main.py.
 """
+import logging
 import threading
 import time
+
+_log = logging.getLogger(__name__)
 
 
 class StopEnforcer:
@@ -20,7 +23,7 @@ class StopEnforcer:
             try:
                 self._check_all()
             except Exception:
-                pass  # log externally if needed; don't crash the thread
+                _log.exception("StopEnforcer._check_all() raised unexpectedly")
             time.sleep(self._interval)
 
     def _check_all(self) -> None:
@@ -35,6 +38,7 @@ class StopEnforcer:
                     if reason:
                         agent.close_position(pos.symbol, price, reason=reason)
                 except Exception:
+                    _log.warning("Failed to check stop for %s", pos.symbol, exc_info=True)
                     continue
 
     @staticmethod
