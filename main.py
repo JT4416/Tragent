@@ -107,14 +107,6 @@ def main():
     agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
                     claude_b, schwab, data_queue=queue_b)
 
-    enforcer = StopEnforcer(
-        agents=[agent_a, agent_b],
-        broker=schwab,   # only needs get_quote(); same price feed for both agents
-        interval_seconds=30,
-    )
-    enforcer_thread = threading.Thread(
-        target=enforcer.run, args=(stop,), daemon=True)
-
     scorer_a = CompetitionScorer("agent_a", base_capital)
     scorer_b = CompetitionScorer("agent_b", base_capital)
     reporter = DailyReporter(scorer_a, scorer_b)
@@ -125,6 +117,14 @@ def main():
 
     stop = threading.Event()
     kill_switch = KillSwitch(stop)
+
+    enforcer = StopEnforcer(
+        agents=[agent_a, agent_b],
+        broker=schwab,   # only needs get_quote(); same price feed for both agents
+        interval_seconds=30,
+    )
+    enforcer_thread = threading.Thread(
+        target=enforcer.run, args=(stop,), daemon=True)
     kill_switch.arm()
     regular_interval = settings.get("trading", "cycle_interval_regular_min")
 
