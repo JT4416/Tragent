@@ -21,6 +21,7 @@ from competition.eliminator import RoundEliminator
 from core.data.schwab_client import SchwabClient
 from core.decision.claude_client import ClaudeClient
 from config import settings
+from core.kill_switch import KillSwitch
 
 
 def _session() -> str:
@@ -114,6 +115,8 @@ def main():
         schedule.every().day.at("16:01").do(reporter.auto_commit)
 
     stop = threading.Event()
+    kill_switch = KillSwitch(stop)
+    kill_switch.arm()
     regular_interval = settings.get("trading", "cycle_interval_regular_min")
 
     feed = MarketFeed([queue_a, queue_b])
@@ -128,20 +131,21 @@ def main():
         target=run_agent, args=(agent_b, regular_interval, stop), daemon=True)
 
     print("Starting Tragent — Agent A and Agent B")
+    print("To kill: create a KILL file in project root, or press Ctrl+C")
     feed_thread.start()
     thread_a.start()
     thread_b.start()
 
-    try:
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Shutting down...")
-        stop.set()
-        feed_thread.join(timeout=5)
-        thread_a.join(timeout=5)
-        thread_b.join(timeout=5)
+    while not stop.is_set():
+        schedule.run_pending()
+        kill_switch.poll()
+        time.sleep(1)
+
+    print("Shutdown signal received — waiting for threads to finish...")
+    feed_thread.join(timeout=5)
+    thread_a.join(timeout=5)
+    thread_b.join(timeout=5)
+    print("Tragent stopped.")
 
 
 if __name__ == "__main__":
