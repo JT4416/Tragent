@@ -3,14 +3,14 @@ from core.analysis.technical import BreakoutSignal
 
 
 class SignalAggregator:
-    def __init__(self, allow_short: bool = False):
-        self._allow_short = allow_short
-
     def rank(self, signals: list[BreakoutSignal]) -> list[dict]:
-        """Combine per-signal list into ranked per-symbol list."""
-        if not self._allow_short:
-            signals = [s for s in signals if s.direction == "bullish"]
+        """Combine per-signal list into ranked per-symbol list.
 
+        All signals (bullish and bearish) are passed through so Claude can
+        make informed decisions — including buying inverse ETFs on bearish
+        signals. Short-sell blocking is enforced at the execution layer by
+        RiskGate, not here.
+        """
         by_symbol: dict[str, list[BreakoutSignal]] = defaultdict(list)
         for s in signals:
             by_symbol[s.symbol].append(s)

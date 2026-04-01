@@ -16,12 +16,27 @@ def test_aggregates_and_deduplicates():
     assert len(result) == 2  # one entry per symbol
 
 
-def test_filters_bearish_if_long_only():
-    agg = SignalAggregator(allow_short=False)
+def test_bearish_signals_pass_through():
+    """Bearish signals reach Claude so it can decide to buy inverse ETFs.
+    Short-sell blocking happens in RiskGate, not here."""
+    agg = SignalAggregator()
     signals = [
         BreakoutSignal("AAPL", "vwap_cross", "bearish", 0.8, "cross below"),
         BreakoutSignal("MSFT", "volume_spike", "bullish", 0.7, "vol 2x"),
     ]
     result = agg.rank(signals)
-    assert len(result) == 1
-    assert result[0]["symbol"] == "MSFT"
+    assert len(result) == 2
+    symbols = [s["symbol"] for s in result]
+    assert "AAPL" in symbols
+    assert "MSFT" in symbols
+
+
+def test_bearish_direction_label():
+    """Symbol with majority bearish signals is labeled bearish in output."""
+    agg = SignalAggregator()
+    signals = [
+        BreakoutSignal("NVDA", "vwap_cross", "bearish", 0.8, "cross below"),
+        BreakoutSignal("NVDA", "volume_spike", "bearish", 0.7, "high vol down"),
+    ]
+    result = agg.rank(signals)
+    assert result[0]["direction"] == "bearish"
