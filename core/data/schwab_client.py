@@ -83,7 +83,7 @@ class SchwabClient:
         }
         idx = _index_map.get(index, _C.Movers.Index.SPX)
         try:
-            resp = self._client.get_movers(idx)
+            resp = self._client.get_movers(idx, sort_order=_C.Movers.SortOrder.PERCENT_CHANGE_UP)
             resp.raise_for_status()
             screeners = resp.json().get("screeners", [])
             gainers = [
@@ -100,7 +100,9 @@ class SchwabClient:
             ]
             gainers.sort(key=lambda x: x["netPercentChange"], reverse=True)
             return gainers[:top_n]
-        except Exception:
+        except Exception as e:
+            import logging as _logging
+            _logging.getLogger(__name__).warning("get_movers failed: %s", e)
             return []
 
 
