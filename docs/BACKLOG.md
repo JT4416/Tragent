@@ -113,3 +113,84 @@ Schwab refresh tokens expire after 7 days of inactivity:
 - If expired or within 24 hours of expiry, alert the owner (log + webhook notification)
 - Agents pause new trade entries; existing positions held with broker-side stops active
 - Owner re-authorizes via `python -m core.data.schwab_client auth`
+
+---
+
+## Backtesting Framework
+**Status:** Placeholder — not yet spec'd
+
+Replay historical market data through the full agent decision pipeline to evaluate strategy performance before deploying changes to paper trading:
+- Run both agents against historical OHLCV + news data
+- Measure P&L, win rate, Sharpe, max drawdown across date ranges
+- Useful for validating prompt changes, signal tweaks, and risk parameter updates before they go live
+- Candidate libraries: `backtrader`, `vectorbt`, or a custom replay harness using existing `YFinanceClient`
+
+---
+
+## Alphalens Signal Validation
+**Status:** Placeholder — not yet spec'd
+
+Use [Alphalens](https://github.com/quantopian/alphalens) to measure the predictive power of individual signals (VWAP cross, volume spike, movers momentum, etc.) before trusting them in live decisions:
+- Forward returns analysis per signal
+- Information coefficient (IC) and IC decay
+- Turnover and sector breakdown
+- Identifies which signals are genuinely alpha-generative vs noise
+- Feeds findings back into `market_expertise.yaml` confidence calibration
+
+---
+
+## Multi-Timeframe Alignment (5m / 15m / 1h)
+**Status:** Placeholder — not yet spec'd
+
+Require signals to align across multiple timeframes before Claude acts on them — reduces false positives from single-timeframe noise:
+- 5-minute: entry timing and momentum confirmation
+- 15-minute: current cycle interval (primary)
+- 1-hour: trend direction and context
+- A signal only reaches Claude if it's visible on at least 2 of 3 timeframes
+- Requires extending `TechnicalAnalyzer` and `YFinanceClient` to fetch multi-period OHLCV
+
+---
+
+## FRED Macro Context Layer
+**Status:** Placeholder — under consideration
+
+Inject Federal Reserve Economic Data (FRED) macro indicators into the decision prompt as background context:
+- Candidates: Fed Funds Rate, 10Y/2Y yield spread (recession indicator), CPI, unemployment, VIX
+- Updated daily or on scheduled intervals (not real-time)
+- Gives Claude awareness of the macro regime (risk-on vs risk-off, tightening vs easing)
+- Free API via `fredapi` Python library
+- Marked "maybe" — assess value after first paper trading round
+
+---
+
+## Empyrical Risk-Adjusted Returns in Learn Phase
+**Status:** Placeholder — not yet spec'd
+
+Replace raw win rate as the primary optimization signal in the LEARN phase with risk-adjusted return metrics from [Empyrical](https://github.com/quantopian/empyrical):
+- Sharpe ratio, Sortino ratio, Calmar ratio, max drawdown
+- Currently `trade_expertise.yaml` tracks win rate and avg P&L — agents optimize for wins, not quality of wins
+- Empyrical metrics computed on rolling trade history and fed into the self-improve prompt
+- Agent learns to prefer high-Sharpe setups over raw win count
+
+---
+
+## Institutional Options Flow as a Signal
+**Status:** Placeholder — not yet spec'd
+
+Add unusual options activity from institutional players as a signal source:
+- Large call/put sweeps, unusual open interest changes, dark pool prints tied to options
+- Data candidates: Unusual Whales, Market Chameleon, Tradier options API
+- Particularly useful for detecting directional conviction before price moves
+- Complements existing insider buying signals in `institutional_expertise.yaml`
+
+---
+
+## Kelly Criterion Position Sizing
+**Status:** Placeholder — not yet spec'd
+
+Replace fixed `position_size_pct` with Kelly Criterion-based sizing that adapts to each agent's observed win rate and avg win/loss ratio:
+- Full Kelly: `f* = (bp - q) / b` where b = avg win/loss ratio, p = win rate, q = 1-p
+- Use fractional Kelly (e.g., half-Kelly) to reduce volatility
+- Size computed per trade from rolling `trade_expertise.yaml` stats
+- Replaces the current static 20% cap with a dynamically earned allocation
+- RiskGate still enforces a hard ceiling as a safety backstop
