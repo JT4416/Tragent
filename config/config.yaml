@@ -14,7 +14,7 @@ risk:
 
 competition:
   round_duration_days: 28
-  base_capital: 50000.0
+  base_capital: 500.0
   capital_advantage_pct: 10.0
 
 api_cost:
