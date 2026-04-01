@@ -154,7 +154,7 @@ def main():
     kill_switch.arm()
     regular_interval = settings.get("trading", "cycle_interval_regular_min")
 
-    feed = MarketFeed([queue_a, queue_b])
+    feed = MarketFeed([queue_a, queue_b], schwab_client=schwab)
     feed_thread = threading.Thread(
         target=feed.run,
         args=(regular_interval * 60, stop),
