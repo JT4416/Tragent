@@ -21,6 +21,7 @@ def test_puts_packet_into_all_queues():
     assert not q2.empty()
     pkt = q1.get_nowait()
     assert "signals" in pkt
+    assert "movers" in pkt
     assert pkt["session"] == "regular"
 
 def test_packet_includes_movers():
@@ -46,3 +47,4 @@ def test_packet_includes_movers():
     pkt = q.get_nowait()
     assert "movers" in pkt
     assert pkt["movers"][0]["symbol"] == "NVDA"
+    assert set(pkt.keys()) >= {"session", "movers", "signals", "news", "institutional"}
