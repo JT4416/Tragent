@@ -139,7 +139,7 @@ def _format_movers(movers: list[dict]) -> str:
     lines = []
     for m in movers:
         lines.append(
-            f"  - {m['symbol']:6s}  +{m['netPercentChange']:.2f}%"
+            f"  - {m['symbol']:6s}  {m['netPercentChange']:+.2f}%"
             f"  ${m['lastPrice']:.2f}"
             f"  vol {m['volume']:,}"
         )

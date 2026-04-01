@@ -32,11 +32,29 @@ def test_movers_rendered_in_prompt():
     ]
     prompt = build_decision_prompt(**_base_kwargs(movers=movers))
     assert "NVDA" in prompt
-    assert "4.81%" in prompt
+    assert "+4.81%" in prompt
 
 
 def test_empty_movers_shows_none():
     prompt = build_decision_prompt(**_base_kwargs(movers=[]))
+    assert "(none)" in prompt
+
+
+def test_default_movers_none_shows_none():
+    """Calling without movers kwarg (None default) renders (none) section."""
+    prompt = build_decision_prompt(
+        session="regular",
+        expertise={},
+        signals=[],
+        news=[],
+        institutional=[],
+        open_positions=[],
+        cash=500.0,
+        daily_pnl=0.0,
+        daily_pnl_pct=0.0,
+        daily_loss_remaining=30.0,
+        # movers intentionally omitted — tests the None default
+    )
     assert "(none)" in prompt
 
 
