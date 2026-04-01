@@ -80,6 +80,7 @@ class Agent:
             daily_loss_remaining=(self._cfg.base_capital *
                                    settings.get("risk", "daily_loss_limit_pct") / 100
                                    + round_pnl),
+            movers=market_data.get("movers", []),
         )
 
         decision = self._claude.decide("", prompt)

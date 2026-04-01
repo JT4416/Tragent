@@ -30,7 +30,10 @@ def build_decision_prompt(
     daily_pnl: float,
     daily_pnl_pct: float,
     daily_loss_remaining: float,
+    movers: list[dict] | None = None,
 ) -> str:
+    if movers is None:
+        movers = []
     now = datetime.now(timezone.utc)
     return f"""## Current Market Context
 Date: {now.strftime('%Y-%m-%d')} | Time: {now.strftime('%H:%M')} UTC | Session: {session}
@@ -47,6 +50,9 @@ Date: {now.strftime('%Y-%m-%d')} | Time: {now.strftime('%H:%M')} UTC | Session: 
 
 ### Trade History
 {_yaml_summary(expertise.get('trade', {}))}
+
+## Top Market Movers (S&P 500 — sorted by % gain)
+{_format_movers(movers)}
 
 ## Live Signals
 ### Breakout Candidates
@@ -67,9 +73,13 @@ Daily P&L: ${daily_pnl:,.2f} ({daily_pnl_pct:.1f}%)
 Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 
 ## Task
-Analyze the signals above. You may only trade during regular market hours (09:30–16:00 ET).
-Long positions only — no short selling. To express bearish conviction, buy an inverse ETF
-(SH, SDS, QID, or DOG) instead.
+Start by reviewing the top market movers. These are stocks the market has already
+validated with real volume and price action today. Cross-reference with the breakout
+signals and news below. Only enter a position when you see alignment — a mover that
+also has technical confirmation and/or news support. Patience is a valid strategy.
+If nothing meets that bar, hold. A missed opportunity is better than a bad trade.
+Long positions only — no short selling. To express bearish conviction, buy an inverse
+ETF (SH, SDS, QID, or DOG) instead.
 
 ## Response Format (JSON only)
 {{
@@ -121,3 +131,16 @@ def _format_list(items: list) -> str:
     if not items:
         return "  (none)"
     return "\n".join(f"  - {item}" for item in items)
+
+
+def _format_movers(movers: list[dict]) -> str:
+    if not movers:
+        return "  (none)"
+    lines = []
+    for m in movers:
+        lines.append(
+            f"  - {m['symbol']:6s}  +{m['netPercentChange']:.2f}%"
+            f"  ${m['lastPrice']:.2f}"
+            f"  vol {m['volume']:,}"
+        )
+    return "\n".join(lines)
