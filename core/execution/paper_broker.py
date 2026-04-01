@@ -42,6 +42,7 @@ class PaperBroker:
             "cash": base_capital,
             "positions": {},       # symbol → {quantity, entry_price}
             "trading_days": [],    # list of ISO date strings
+            "paper_start_date": date.today().isoformat(),
         }
 
     def _save(self) -> None:

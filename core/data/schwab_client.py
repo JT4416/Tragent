@@ -74,6 +74,37 @@ class SchwabClient:
         return {"status": "placed", "symbol": symbol,
                 "action": action, "quantity": quantity}
 
+    def get_movers(self, index: str = "SPX", top_n: int = 10) -> list[dict]:
+        from schwab.client import Client as _C
+        _index_map = {
+            "SPX": _C.Movers.Index.SPX,
+            "COMPX": _C.Movers.Index.COMPX,
+            "DJI": _C.Movers.Index.DJI,
+        }
+        idx = _index_map.get(index, _C.Movers.Index.SPX)
+        try:
+            resp = self._client.get_movers(idx, sort_order=_C.Movers.SortOrder.PERCENT_CHANGE_UP)
+            resp.raise_for_status()
+            screeners = resp.json().get("screeners", [])
+            gainers = [
+                {
+                    "symbol": s["symbol"],
+                    "description": s.get("description", ""),
+                    "lastPrice": s.get("lastPrice", 0.0),
+                    "netChange": s.get("netChange", 0.0),
+                    "netPercentChange": round(s.get("netPercentChange", 0.0) * 100, 2),
+                    "volume": s.get("volume", 0),
+                }
+                for s in screeners
+                if s.get("netChange", 0.0) > 0
+            ]
+            gainers.sort(key=lambda x: x["netPercentChange"], reverse=True)
+            return gainers[:top_n]
+        except Exception as e:
+            import logging as _logging
+            _logging.getLogger(__name__).warning("get_movers failed: %s", e)
+            return []
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "auth":

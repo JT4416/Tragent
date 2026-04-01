@@ -43,9 +43,11 @@ def _get_session() -> str:
 
 class MarketFeed:
     def __init__(self, agent_queues: list[queue.Queue],
-                 watchlist: list[str] = DEFAULT_WATCHLIST):
+                 watchlist: list[str] = DEFAULT_WATCHLIST,
+                 schwab_client=None):
         self._queues = agent_queues
         self._watchlist = watchlist
+        self._schwab = schwab_client
         self._tech = TechnicalAnalyzer()
         self._agg = SignalAggregator()
         self._news = NewsFeed()
@@ -81,8 +83,17 @@ class MarketFeed:
             except Exception:
                 continue
 
+        # Top market movers (Schwab real-time)
+        movers = []
+        if self._schwab is not None:
+            try:
+                movers = self._schwab.get_movers()
+            except Exception:
+                movers = []
+
         packet = {
             "session": session,
+            "movers": movers,
             "signals": ranked[:10],   # top 10 breakout candidates
             "news": [{"title": a["title"], "source": a.get("source", {}).get("name")}
                      for a in news[:10]],
