@@ -194,3 +194,19 @@ Replace fixed `position_size_pct` with Kelly Criterion-based sizing that adapts 
 - Size computed per trade from rolling `trade_expertise.yaml` stats
 - Replaces the current static 20% cap with a dynamically earned allocation
 - RiskGate still enforces a hard ceiling as a safety backstop
+
+---
+
+## Karpathy Autoresearch (Proactive Self-Learning)
+**Status:** Placeholder — assess after Round 1 paper trading data exists
+
+Inspired by Andrej Karpathy's autoresearch concept: rather than passively updating expertise from trade outcomes (reactive), agents actively generate research questions, investigate them, and synthesize findings back into their knowledge base (proactive).
+
+How it would work in Tragent:
+- After each round (or on a scheduled interval), each agent reviews its own trade history and expertise files to identify gaps and failures
+- Agent generates a list of specific research questions (e.g., "Why did VWAP cross signals fail on high-volatility days?", "What does literature say about breakout failure rates in choppy markets?")
+- A lightweight research sub-agent searches for answers (via web search, financial literature, or structured prompting)
+- Findings are synthesized and merged back into the relevant expertise YAML files with source attribution
+- Complements the existing reactive `self_improve.py` — this runs between rounds, not after each trade
+
+**Why defer:** Most valuable when agents have real failure data to interrogate. Before 15+ paper trading days, research questions will be too generic to be actionable. Revisit after Round 1 completes with meaningful P&L history.
