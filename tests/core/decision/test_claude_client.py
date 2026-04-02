@@ -51,3 +51,32 @@ def test_spend_limit_raises(monkeypatch):
         import pytest as _pytest
         with _pytest.raises(RuntimeError, match="spend limit"):
             client.decide("system", "prompt")
+
+
+def test_parse_decision_includes_bull_bear_cases():
+    raw = json.dumps({
+        "bull_case": "Strong volume breakout above 52W high",
+        "bear_case": "Broader market in downtrend",
+        "action": "buy",
+        "symbol": "NVDA",
+        "confidence": 0.75,
+        "position_size_pct": 5.0,
+        "reasoning": "Bull case wins — institutional accumulation confirms",
+        "signals_used": ["volume_spike"],
+        "skip_reason": None,
+    })
+    decision = ClaudeClient._parse_response(raw)
+    assert decision.bull_case == "Strong volume breakout above 52W high"
+    assert decision.bear_case == "Broader market in downtrend"
+
+
+def test_parse_decision_defaults_bull_bear_to_empty_string():
+    """Responses without bull_case/bear_case should still parse cleanly."""
+    raw = json.dumps({
+        "action": "hold", "symbol": None, "confidence": 0.4,
+        "position_size_pct": 0, "reasoning": "no signal",
+        "signals_used": [], "skip_reason": "nothing compelling",
+    })
+    decision = ClaudeClient._parse_response(raw)
+    assert decision.bull_case == ""
+    assert decision.bear_case == ""
