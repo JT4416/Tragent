@@ -43,12 +43,18 @@ def _session() -> str:
 
 
 def run_agent(agent: Agent, interval_minutes: int, stop_event: threading.Event):
+    import logging
+    _log = logging.getLogger(__name__)
     while not stop_event.is_set():
         sess = _session()
         if sess == "closed":
             time.sleep(60)
             continue
-        agent.run_cycle()
+        try:
+            agent.run_cycle()
+        except Exception:
+            _log.exception("run_cycle raised for %s — skipping cycle",
+                           agent._cfg.agent_id)
         time.sleep(interval_minutes * 60)
 
 
