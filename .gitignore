@@ -11,3 +11,4 @@ build/
 state/*.db
 logs/**/*.json
 .worktrees/
+.claude/
