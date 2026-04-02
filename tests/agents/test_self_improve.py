@@ -32,3 +32,36 @@ def test_updates_market_expertise(tmp_dir):
     loaded = mgr.load("market")
     assert len(loaded["breakout_patterns"]) == 1
     assert mock_claude.self_improve.called
+
+
+def test_run_peer_learning_updates_trade_expertise(tmp_dir):
+    mgr = ExpertiseManager("agent_b", expertise_dir=tmp_dir)
+    mgr.load("trade")  # seeds file
+
+    mock_claude = MagicMock()
+    updated_yaml = yaml.dump({
+        "overview": {"last_updated": "2026-04-02", "total_patterns_tracked": 1},
+        "lessons_learned": [
+            {"pattern": "peer: volume spike worked for competitor",
+             "confidence": 0.65}
+        ],
+    })
+    mock_claude.self_improve.return_value = updated_yaml
+
+    orchestrator = SelfImproveOrchestrator(mgr, mock_claude)
+    insight = {
+        "from_agent": "agent_a", "event": "close",
+        "trade_record": {
+            "symbol": "AAPL", "direction": "long",
+            "signals_used": ["volume_spike"],
+        },
+        "reasoning": "volume confirmation",
+        "bull_case": "strong accumulation",
+        "bear_case": "overbought RSI",
+        "outcome": "win", "pnl_pct": 2.8, "duration": "1h30m",
+    }
+    orchestrator.run_peer_learning(insight)
+
+    assert mock_claude.self_improve.called
+    loaded = mgr.load("trade")
+    assert loaded is not None
