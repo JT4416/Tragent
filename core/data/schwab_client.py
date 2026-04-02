@@ -105,6 +105,16 @@ class SchwabClient:
             _logging.getLogger(__name__).warning("get_movers failed: %s", e)
             return []
 
+    def get_quotes_bulk(self, symbols: list[str]) -> dict:
+        resp = self._client.get_quotes(symbols)
+        resp.raise_for_status()
+        return resp.json()
+
+    def get_instrument_fundamental(self, symbol: str) -> dict:
+        resp = self._client.get_instruments(symbol, projection="fundamental")
+        resp.raise_for_status()
+        return resp.json()
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "auth":
