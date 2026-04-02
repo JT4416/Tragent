@@ -26,6 +26,9 @@ from core.kill_switch import KillSwitch
 from core.risk.stop_enforcer import StopEnforcer
 from core.monitor.alerter import Alerter
 from agents.peer_exchange import PeerExchange
+from core.state.persistence import StateStore
+from core.data.market_feed import MarketFeed, DEFAULT_WATCHLIST
+from core.data.schwab_feed import SchwabFeed
 
 
 def _session() -> str:
@@ -103,9 +106,6 @@ def main():
     queue_a: queue.Queue = queue.Queue()
     queue_b: queue.Queue = queue.Queue()
 
-    from core.state.persistence import StateStore
-    from core.data.market_feed import MarketFeed, DEFAULT_WATCHLIST
-    from core.data.schwab_feed import SchwabFeed
     store_a = StateStore("agent_a")
     store_b = StateStore("agent_b")
 
