@@ -18,7 +18,7 @@ Minimum viable scope (to be defined):
 ---
 
 ## Debate + Peer Exchange
-**Status:** Spec and plan written — not yet implemented
+**Status:** Implemented ✅
 **Spec:** `docs/superpowers/specs/2026-03-28-debate-peer-exchange-design.md`
 **Plan:** `docs/superpowers/plans/2026-03-28-debate-peer-exchange.md`
 
