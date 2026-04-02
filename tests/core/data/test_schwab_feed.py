@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, patch
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -172,3 +172,22 @@ def test_fetch_returns_empty_on_bulk_quote_failure():
         result = feed.fetch()
 
     assert result == {}
+
+
+def test_fund_slot_not_updated_when_all_fundamentals_fail():
+    feed, mock_schwab = _make_feed(["AAPL"])
+    mock_schwab.get_instrument_fundamental.side_effect = Exception("rate limit")
+    mock_schwab.get_quotes_bulk.return_value = {
+        "AAPL": {"quote": {"lastPrice": 172.5, "totalVolume": 45000000,
+                           "bidPrice": 172.48, "askPrice": 172.52,
+                           "netPercentChangeInDouble": 1.2}}
+    }
+    with patch("core.data.schwab_feed.datetime") as mock_dt:
+        mock_dt.now.return_value = _dt(10, 0)
+        feed.fetch()
+        # _fund_slot should still be None — retry should happen on next call
+        assert feed._fund_slot is None
+        # second call in same slot retries fundamentals
+        feed.fetch()
+
+    assert mock_schwab.get_instrument_fundamental.call_count == 2

@@ -35,6 +35,9 @@ class SchwabFeed:
             try:
                 raw = self._schwab.get_instrument_fundamental(symbol)
                 fund = raw.get(symbol, {}).get("fundamental", {})
+                if not fund:
+                    _log.warning("no fundamental data for %s — skipping", symbol)
+                    continue
                 self._fundamentals[symbol] = {
                     "pe":         fund.get("peRatio"),
                     "eps":        fund.get("eps"),
