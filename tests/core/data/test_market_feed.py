@@ -104,3 +104,52 @@ def test_packet_prices_empty_when_all_fetches_fail():
     packet = q.get_nowait()
     assert "prices" in packet
     assert packet["prices"] == {}
+
+
+def test_packet_includes_schwab_data_when_feed_provided():
+    q = queue.Queue()
+    mock_schwab_feed = MagicMock()
+    mock_schwab_feed.fetch.return_value = {
+        "AAPL": {"last": 172.5, "volume": 45000000, "bid": 172.48,
+                 "ask": 172.52, "net_pct": 1.2, "pe": 28.1}
+    }
+    feed = MarketFeed([q], watchlist=["AAPL"], schwab_feed=mock_schwab_feed)
+    feed._yf = MagicMock()
+    feed._yf.fetch_ohlcv.return_value = _make_ohlcv()
+    feed._tech = MagicMock()
+    feed._tech.analyze.return_value = []
+    feed._agg = MagicMock()
+    feed._agg.rank.return_value = []
+    feed._news = MagicMock()
+    feed._news.fetch.return_value = []
+    feed._inst = MagicMock()
+    feed._inst.fetch_insider_trades.return_value = []
+
+    with patch("core.data.market_feed._get_session", return_value="regular"):
+        feed.fetch_and_dispatch()
+
+    pkt = q.get_nowait()
+    assert "schwab_data" in pkt
+    assert pkt["schwab_data"]["AAPL"]["last"] == 172.5
+    assert pkt["schwab_data"]["AAPL"]["pe"] == 28.1
+
+
+def test_packet_excludes_schwab_data_when_no_feed():
+    q = queue.Queue()
+    feed = MarketFeed([q], watchlist=["AAPL"])
+    feed._yf = MagicMock()
+    feed._yf.fetch_ohlcv.return_value = _make_ohlcv()
+    feed._tech = MagicMock()
+    feed._tech.analyze.return_value = []
+    feed._agg = MagicMock()
+    feed._agg.rank.return_value = []
+    feed._news = MagicMock()
+    feed._news.fetch.return_value = []
+    feed._inst = MagicMock()
+    feed._inst.fetch_insider_trades.return_value = []
+
+    with patch("core.data.market_feed._get_session", return_value="regular"):
+        feed.fetch_and_dispatch()
+
+    pkt = q.get_nowait()
+    assert "schwab_data" not in pkt
