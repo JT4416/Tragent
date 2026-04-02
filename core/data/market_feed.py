@@ -59,11 +59,14 @@ class MarketFeed:
         if session == "closed":
             return
 
-        # Technical signals
+        # Technical signals + prices — reuse OHLCV, no extra network calls
         raw_signals = []
+        prices = {}
         for symbol in self._watchlist:
             try:
                 df = self._yf.fetch_ohlcv(symbol, period="3mo")
+                if not df.empty:
+                    prices[symbol] = float(df["close"].iloc[-1])
                 raw_signals.extend(self._tech.analyze(df, symbol))
             except Exception:
                 continue
@@ -94,7 +97,8 @@ class MarketFeed:
         packet = {
             "session": session,
             "movers": movers,
-            "signals": ranked[:10],   # top 10 breakout candidates
+            "prices": prices,
+            "signals": ranked[:10],
             "news": [{"title": a["title"], "source": a.get("source", {}).get("name")}
                      for a in news[:10]],
             "institutional": inst_signals[:10],

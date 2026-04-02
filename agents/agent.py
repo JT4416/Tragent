@@ -8,6 +8,7 @@ from agents.expertise_manager import ExpertiseManager
 from agents.self_improve import SelfImproveOrchestrator
 from core.decision.prompt_builder import build_decision_prompt
 from core.execution.risk_gate import RiskGate, RiskConfig
+from core.risk.position_tracker import PositionTracker
 from core.state.persistence import StateStore, Position
 from core.logger import get_logger
 from config import settings
@@ -25,15 +26,22 @@ class Agent:
                  data_queue: queue.Queue,
                  expertise_dir: Path | None = None,
                  db_dir: Path | None = None,
-                 log_dir: Path | None = None):
+                 log_dir: Path | None = None,
+                 peer_exchange=None):
         self._cfg = config
         self._claude = claude_client
         self._schwab = schwab_client
         self._queue = data_queue
+        self._exchange = peer_exchange
         self._mgr = ExpertiseManager(config.agent_id, expertise_dir)
         self._store = StateStore(config.agent_id, db_dir) if db_dir \
             else StateStore(config.agent_id)
         self._improve = SelfImproveOrchestrator(self._mgr, claude_client)
+        self._tracker = PositionTracker(
+            trailing_pct=settings.get("risk", "trailing_stop_pct"),
+            agent_id=config.agent_id,
+            store=self._store,
+        )
         self._logger = get_logger(config.agent_id, "trades", log_dir) \
             if log_dir else get_logger(config.agent_id, "trades")
         self._risk = RiskGate(RiskConfig(
@@ -45,21 +53,33 @@ class Agent:
             open_blackout_minutes=settings.get("risk", "open_blackout_minutes"),
         ))
 
-    # --- REUSE → ACT ---
     def run_cycle(self) -> None:
         try:
             market_data = self._queue.get_nowait()
         except queue.Empty:
             return
 
-        # REUSE: load all expertise
+        prices = market_data.get("prices", {})
+
+        # Drain and process peer insights BEFORE loading expertise
+        if self._exchange:
+            for insight in self._exchange.drain(self._cfg.agent_id):
+                self._improve.run_peer_learning(insight)
+
+        # REUSE: load all expertise (after peer learning so files are current)
         expertise = self._mgr.load_all()
 
-        # Build evolved risk params from trade expertise
+        # Check stops and close any triggered positions
+        triggered = self._tracker.check_stops(prices)
+        for symbol, info in triggered.items():
+            self.close_position(symbol, info["trigger_price"], info["reason"])
+
+        # Advance trailing stops
+        self._tracker.update_stops(prices)
+
         evolved = expertise.get("trade", {}).get("evolved_parameters", {})
         session = market_data.get("session", "regular")
 
-        # Gather portfolio state from Schwab
         account = self._schwab.get_account_info()
         cash = account.get("cash", self._cfg.base_capital)
         open_positions = self._store.get_positions()
@@ -90,7 +110,6 @@ class Agent:
                                "confidence": decision.confidence})
             return
 
-        # Voluntary exit: agent decided to close an existing long
         if decision.action == "sell":
             if decision.symbol:
                 quote = self._schwab.get_quote(decision.symbol)
@@ -106,7 +125,6 @@ class Agent:
                     })
             return
 
-        # ACT: risk gate
         risk_result = self._risk.check(
             action=decision.action,
             confidence=decision.confidence,
@@ -129,7 +147,6 @@ class Agent:
         size_pct = min(decision.position_size_pct,
                        evolved.get("max_position_size_pct", 5.0))
 
-        # Get real-time quote for accurate position sizing
         quote = self._schwab.get_quote(decision.symbol)
         price = quote.get("lastPrice") or quote.get("mark") or 1.0
         quantity = max(1, int((cash * size_pct / 100) / price))
@@ -139,13 +156,12 @@ class Agent:
         stop_price = round(price * (1 - stop_pct / 100), 2)
         direction = "long"
 
-        order = self._schwab.place_order(
+        self._schwab.place_order(
             symbol=decision.symbol,
             action=decision.action,
             quantity=quantity,
         )
 
-        # Persist position with broker-side stop levels
         self._store.save_position(
             Position(
                 symbol=decision.symbol,
@@ -168,6 +184,8 @@ class Agent:
             "signals_used": decision.signals_used,
             "outcome": None,
             "claude_confidence": decision.confidence,
+            "bull_case": decision.bull_case,
+            "bear_case": decision.bear_case,
         }
 
         self._logger.log({
@@ -175,7 +193,6 @@ class Agent:
             "reasoning": decision.reasoning,
         })
 
-        # LEARN: trigger self-improve immediately after placing trade
         self._improve.run(
             trade_record=trade_record,
             original_reasoning=decision.reasoning,
@@ -183,6 +200,19 @@ class Agent:
             pnl_pct=0.0,
             duration="0m",
         )
+
+        if self._exchange:
+            self._exchange.publish(self._cfg.agent_id, {
+                "from_agent": self._cfg.agent_id,
+                "event": "entry",
+                "trade_record": trade_record,
+                "reasoning": decision.reasoning,
+                "bull_case": decision.bull_case,
+                "bear_case": decision.bear_case,
+                "outcome": "open",
+                "pnl_pct": 0.0,
+                "duration": "0m",
+            })
 
     def close_position(self, symbol: str, exit_price: float,
                        reason: str = "stop") -> None:
@@ -192,53 +222,40 @@ class Agent:
             return
 
         pnl = round((exit_price - pos.entry_price) * pos.quantity, 2)
-        if pos.entry_price:
-            pnl_pct = round(
-                (exit_price - pos.entry_price) / pos.entry_price * 100, 2)
-        else:
-            pnl_pct = 0.0
+        pnl_pct = round(
+            (exit_price - pos.entry_price) / pos.entry_price * 100, 2
+        ) if pos.entry_price else 0.0
 
-        # Duration
         if pos.entry_time:
             entry_dt = datetime.fromisoformat(pos.entry_time)
-            now = datetime.now(timezone.utc)
-            secs = int((now - entry_dt).total_seconds())
+            secs = int((datetime.now(timezone.utc) - entry_dt).total_seconds())
             hours, rem = divmod(secs, 3600)
             mins = rem // 60
             duration = f"{hours}h{mins}m" if hours else f"{mins}m"
         else:
             duration = "unknown"
 
-        # Remove position from store FIRST to prevent double-sell if order raises
+        # Remove from store FIRST to prevent double-sell if order raises
         self._store.update_round_pnl(self._store.get_round_pnl() + pnl)
         self._store.remove_position(symbol)
 
-        # Place closing order
         self._schwab.place_order(
             symbol=symbol, action="sell", quantity=pos.quantity)
 
         self._logger.log({
-            "event": "position_closed",
-            "symbol": symbol,
-            "reason": reason,
-            "entry": pos.entry_price,
-            "exit": exit_price,
-            "pnl": pnl,
-            "pnl_pct": pnl_pct,
-            "duration": duration,
+            "event": "position_closed", "symbol": symbol, "reason": reason,
+            "entry": pos.entry_price, "exit": exit_price,
+            "pnl": pnl, "pnl_pct": pnl_pct, "duration": duration,
         })
 
-        # LEARN: self-improve with real outcome
         trade_record = {
             "trade_id": f"close_{self._cfg.agent_id}_{int(time.time())}",
-            "symbol": symbol,
-            "direction": pos.direction,
-            "entry": pos.entry_price,
-            "exit": exit_price,
-            "pnl_pct": pnl_pct,
-            "signals_used": [],
+            "symbol": symbol, "direction": pos.direction,
+            "entry": pos.entry_price, "exit": exit_price,
+            "pnl_pct": pnl_pct, "signals_used": [],
             "outcome": "win" if pnl > 0 else "loss",
             "claude_confidence": None,
+            "bull_case": "", "bear_case": "",
         }
         self._improve.run(
             trade_record=trade_record,
@@ -247,3 +264,15 @@ class Agent:
             pnl_pct=pnl_pct,
             duration=duration,
         )
+
+        if self._exchange:
+            self._exchange.publish(self._cfg.agent_id, {
+                "from_agent": self._cfg.agent_id,
+                "event": "close",
+                "trade_record": trade_record,
+                "reasoning": f"Position closed: {reason}",
+                "bull_case": "", "bear_case": "",
+                "outcome": "win" if pnl > 0 else "loss",
+                "pnl_pct": pnl_pct,
+                "duration": duration,
+            })

@@ -1,5 +1,5 @@
 import yaml
-from core.decision.prompt_builder import build_self_improve_prompt
+from core.decision.prompt_builder import build_self_improve_prompt, build_peer_learning_prompt
 from agents.expertise_manager import ExpertiseManager
 
 _SIGNAL_TO_EXPERTISE = {
@@ -24,7 +24,6 @@ class SelfImproveOrchestrator:
     def run(self, trade_record: dict, original_reasoning: str,
             outcome: str, pnl_pct: float, duration: str) -> None:
         files_to_update = self._determine_files(trade_record)
-        # Always update trade expertise
         files_to_update.add("trade")
 
         for file_name in files_to_update:
@@ -46,6 +45,23 @@ class SelfImproveOrchestrator:
                     self._mgr.save(file_name, updated_data)
             except yaml.YAMLError:
                 pass  # keep existing file if Claude returns invalid YAML
+
+    def run_peer_learning(self, insight: dict) -> None:
+        """Update expertise based on a trade insight from the competing agent."""
+        files_to_update = self._determine_files(insight["trade_record"])
+        files_to_update.add("trade")
+
+        for file_name in files_to_update:
+            current_data = self._mgr.load(file_name)
+            current_yaml = yaml.dump(current_data, default_flow_style=False)
+            prompt = build_peer_learning_prompt(insight, current_yaml)
+            updated_yaml = self._claude.self_improve(prompt)
+            try:
+                updated_data = yaml.safe_load(updated_yaml)
+                if updated_data:
+                    self._mgr.save(file_name, updated_data)
+            except yaml.YAMLError:
+                pass
 
     def _determine_files(self, trade_record: dict) -> set[str]:
         files = set()

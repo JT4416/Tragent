@@ -22,6 +22,8 @@ class TradeDecision:
     reasoning: str
     signals_used: list[str]
     skip_reason: str | None
+    bull_case: str = ""
+    bear_case: str = ""
 
 
 class ClaudeClient:
@@ -42,7 +44,7 @@ class ClaudeClient:
 
         response = self._client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=512,
+            max_tokens=768,
             system=DECISION_SYSTEM + "\n\n" + system_context,
             messages=[{"role": "user", "content": user_prompt}],
         )
@@ -82,6 +84,8 @@ class ClaudeClient:
             reasoning=data.get("reasoning", ""),
             signals_used=data.get("signals_used", []),
             skip_reason=data.get("skip_reason"),
+            bull_case=data.get("bull_case", ""),
+            bear_case=data.get("bear_case", ""),
         )
 
     def _track_cost(self, usage) -> None:

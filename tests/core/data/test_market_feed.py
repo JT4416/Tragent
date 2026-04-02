@@ -48,3 +48,59 @@ def test_packet_includes_movers():
     assert "movers" in pkt
     assert pkt["movers"][0]["symbol"] == "NVDA"
     assert set(pkt.keys()) >= {"session", "movers", "signals", "news", "institutional"}
+
+
+import pandas as pd
+
+
+def _make_ohlcv():
+    return pd.DataFrame({
+        "open": [100.0], "high": [105.0], "low": [99.0],
+        "close": [103.5], "volume": [1_000_000],
+    })
+
+
+def test_packet_contains_prices_for_fetched_symbols():
+    q = queue.Queue()
+    feed = MarketFeed([q])
+    feed._yf = MagicMock()
+    feed._yf.fetch_ohlcv.return_value = _make_ohlcv()
+    feed._tech = MagicMock()
+    feed._tech.analyze.return_value = []
+    feed._agg = MagicMock()
+    feed._agg.rank.return_value = []
+    feed._news = MagicMock()
+    feed._news.fetch.return_value = []
+    feed._inst = MagicMock()
+    feed._inst.fetch_insider_trades.return_value = []
+
+    with patch("core.data.market_feed._get_session", return_value="regular"):
+        feed.fetch_and_dispatch()
+
+    packet = q.get_nowait()
+    assert "prices" in packet
+    assert len(packet["prices"]) > 0
+    for price in packet["prices"].values():
+        assert isinstance(price, float)
+        assert price > 0
+
+
+def test_packet_prices_empty_when_all_fetches_fail():
+    q = queue.Queue()
+    feed = MarketFeed([q])
+    feed._yf = MagicMock()
+    feed._yf.fetch_ohlcv.side_effect = Exception("network error")
+    feed._tech = MagicMock()
+    feed._agg = MagicMock()
+    feed._agg.rank.return_value = []
+    feed._news = MagicMock()
+    feed._news.fetch.return_value = []
+    feed._inst = MagicMock()
+    feed._inst.fetch_insider_trades.return_value = []
+
+    with patch("core.data.market_feed._get_session", return_value="regular"):
+        feed.fetch_and_dispatch()
+
+    packet = q.get_nowait()
+    assert "prices" in packet
+    assert packet["prices"] == {}
