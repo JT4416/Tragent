@@ -1,6 +1,7 @@
 from pathlib import Path
 from core.risk.position_tracker import PositionTracker
 from core.state.persistence import Position
+from core.state.persistence import StateStore
 
 
 def test_trailing_stop_advances_with_price(tmp_path):
@@ -27,8 +28,6 @@ def test_stop_triggered_returns_close_signal(tmp_path):
     assert "AAPL" in triggered
     assert triggered["AAPL"]["reason"] == "trailing_stop"
 
-
-from core.state.persistence import StateStore
 
 def test_shared_store_is_used_directly(tmp_path):
     """PositionTracker should use a provided store, not create a new one."""
