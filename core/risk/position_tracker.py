@@ -4,10 +4,11 @@ from core.state.persistence import StateStore
 
 class PositionTracker:
     def __init__(self, trailing_pct: float, agent_id: str,
-                 db_dir: Path | None = None):
+                 db_dir: Path | None = None, store=None):
         self._trailing_pct = trailing_pct
-        self.store = StateStore(agent_id, db_dir) if db_dir \
-            else StateStore(agent_id)
+        self.store = store if store is not None else (
+            StateStore(agent_id, db_dir) if db_dir else StateStore(agent_id)
+        )
 
     def update_stops(self, prices: dict[str, float]) -> dict:
         """Advance trailing stops as price moves up. Returns updated levels."""
