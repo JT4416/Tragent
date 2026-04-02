@@ -36,6 +36,7 @@ class Agent:
         self._queue = data_queue
         self._exchange = peer_exchange
         self._scorer = scorer
+        self.last_trade_time: datetime | None = None
         self._mgr = ExpertiseManager(config.agent_id, expertise_dir)
         self._store = StateStore(config.agent_id, db_dir) if db_dir \
             else StateStore(config.agent_id)
@@ -165,6 +166,7 @@ class Agent:
             quantity=quantity,
         )
 
+        self.last_trade_time = datetime.now(timezone.utc)
         self._store.save_position(
             Position(
                 symbol=decision.symbol,
@@ -242,6 +244,7 @@ class Agent:
         self._store.update_round_pnl(self._store.get_round_pnl() + pnl)
         self._store.remove_position(symbol)
 
+        self.last_trade_time = datetime.now(timezone.utc)
         self._schwab.place_order(
             symbol=symbol, action="sell", quantity=pos.quantity)
 

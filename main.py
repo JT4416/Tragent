@@ -209,6 +209,10 @@ def main():
                 "claude_b", claude_b.api_error_count,
                 threshold=settings.get("monitoring", "api_error_threshold"),
             )
+            alerter.check_idle("agent_a", agent_a.last_trade_time,
+                               idle_threshold)
+            alerter.check_idle("agent_b", agent_b.last_trade_time,
+                               idle_threshold)
 
         time.sleep(60)   # alert check cadence: once per minute
 
