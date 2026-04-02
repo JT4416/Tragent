@@ -34,6 +34,7 @@ class ClaudeClient:
             api_key=settings.ANTHROPIC_API_KEY())
         self._limit = daily_limit_usd
         self.daily_spend_usd: float = 0.0
+        self.api_error_count: int = 0
         self._logger = get_logger(agent_id, "decisions", log_dir) \
             if log_dir else None
 
@@ -42,12 +43,16 @@ class ClaudeClient:
             raise RuntimeError(
                 f"Daily Claude spend limit ${self._limit} reached. Pausing.")
 
-        response = self._client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=768,
-            system=DECISION_SYSTEM + "\n\n" + system_context,
-            messages=[{"role": "user", "content": user_prompt}],
-        )
+        try:
+            response = self._client.messages.create(
+                model="claude-sonnet-4-6",
+                max_tokens=768,
+                system=DECISION_SYSTEM + "\n\n" + system_context,
+                messages=[{"role": "user", "content": user_prompt}],
+            )
+        except Exception:
+            self.api_error_count += 1
+            raise
         self._track_cost(response.usage)
         raw = response.content[0].text
 
@@ -58,12 +63,16 @@ class ClaudeClient:
         return self._parse_response(raw)
 
     def self_improve(self, user_prompt: str) -> str:
-        response = self._client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=4096,
-            system=SELF_IMPROVE_SYSTEM,
-            messages=[{"role": "user", "content": user_prompt}],
-        )
+        try:
+            response = self._client.messages.create(
+                model="claude-sonnet-4-6",
+                max_tokens=4096,
+                system=SELF_IMPROVE_SYSTEM,
+                messages=[{"role": "user", "content": user_prompt}],
+            )
+        except Exception:
+            self.api_error_count += 1
+            raise
         self._track_cost(response.usage)
         return response.content[0].text
 

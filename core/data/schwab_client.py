@@ -111,7 +111,8 @@ class SchwabClient:
         return resp.json()
 
     def get_instrument_fundamental(self, symbol: str) -> dict:
-        resp = self._client.get_instruments(symbol, projection="fundamental")
+        resp = self._client.get_instruments(
+            symbol, projection=client.Client.Instrument.Projection.FUNDAMENTAL)
         resp.raise_for_status()
         return resp.json()
 

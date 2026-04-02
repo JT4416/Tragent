@@ -1,11 +1,12 @@
 import queue
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, date, timezone
 from pathlib import Path
 
 from agents.expertise_manager import ExpertiseManager
 from agents.self_improve import SelfImproveOrchestrator
+from competition.scorer import CompetitionScorer, TradeRecord
 from core.decision.prompt_builder import build_decision_prompt
 from core.execution.risk_gate import RiskGate, RiskConfig
 from core.risk.position_tracker import PositionTracker
@@ -27,12 +28,14 @@ class Agent:
                  expertise_dir: Path | None = None,
                  db_dir: Path | None = None,
                  log_dir: Path | None = None,
-                 peer_exchange=None):
+                 peer_exchange=None,
+                 scorer: CompetitionScorer | None = None):
         self._cfg = config
         self._claude = claude_client
         self._schwab = schwab_client
         self._queue = data_queue
         self._exchange = peer_exchange
+        self._scorer = scorer
         self._mgr = ExpertiseManager(config.agent_id, expertise_dir)
         self._store = StateStore(config.agent_id, db_dir) if db_dir \
             else StateStore(config.agent_id)
@@ -264,6 +267,18 @@ class Agent:
             pnl_pct=pnl_pct,
             duration=duration,
         )
+
+        if self._scorer:
+            self._scorer.record_trade(TradeRecord(
+                date=date.today(),
+                symbol=symbol,
+                direction=pos.direction,
+                entry=pos.entry_price,
+                exit=exit_price,
+                quantity=pos.quantity,
+                pnl=pnl,
+                pnl_pct=pnl_pct,
+            ))
 
         if self._exchange:
             self._exchange.publish(self._cfg.agent_id, {

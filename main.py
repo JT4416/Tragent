@@ -13,6 +13,7 @@ import threading
 import time
 import schedule
 from datetime import datetime, timezone
+from pathlib import Path
 
 from agents.agent import Agent, AgentConfig
 from competition.scorer import CompetitionScorer
@@ -96,10 +97,10 @@ def main():
     schwab = SchwabClient()
     claude_a = ClaudeClient(
         daily_limit_usd=settings.get("api_cost", "daily_claude_spend_limit_usd"),
-        agent_id="agent_a")
+        agent_id="agent_a", log_dir=Path("logs"))
     claude_b = ClaudeClient(
         daily_limit_usd=settings.get("api_cost", "daily_claude_spend_limit_usd"),
-        agent_id="agent_b")
+        agent_id="agent_b", log_dir=Path("logs"))
 
     base_capital = settings.get("competition", "base_capital")
 
@@ -114,7 +115,6 @@ def main():
 
     paper_mode = settings.get("paper_trading", "enabled")
     if paper_mode:
-        from pathlib import Path
         state_dir = Path("state")
         broker_a = PaperBroker(schwab, base_capital,
                                 agent_id="agent_a", state_dir=state_dir)
@@ -136,15 +136,16 @@ def main():
     exchange.register("agent_a")
     exchange.register("agent_b")
 
-    agent_a = Agent(AgentConfig("agent_a", "regular", base_capital),
-                    claude_a, broker_a, data_queue=queue_a,
-                    peer_exchange=exchange)
-    agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
-                    claude_b, broker_b, data_queue=queue_b,
-                    peer_exchange=exchange)
-
     scorer_a = CompetitionScorer("agent_a", base_capital)
     scorer_b = CompetitionScorer("agent_b", base_capital)
+
+    agent_a = Agent(AgentConfig("agent_a", "regular", base_capital),
+                    claude_a, broker_a, data_queue=queue_a,
+                    peer_exchange=exchange, scorer=scorer_a)
+    agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
+                    claude_b, broker_b, data_queue=queue_b,
+                    peer_exchange=exchange, scorer=scorer_b)
+
     reporter = DailyReporter(scorer_a, scorer_b)
 
     schedule.every().day.at("16:00").do(reporter.generate)
@@ -201,8 +202,11 @@ def main():
             alerter.check_drawdown("agent_b", pnl_b_pct, drawdown_threshold)
 
             alerter.check_api_errors(
-                "claude_a", claude_a.daily_spend_usd >= settings.get(
-                    "api_cost", "daily_claude_spend_limit_usd") and 999 or 0,
+                "claude_a", claude_a.api_error_count,
+                threshold=settings.get("monitoring", "api_error_threshold"),
+            )
+            alerter.check_api_errors(
+                "claude_b", claude_b.api_error_count,
                 threshold=settings.get("monitoring", "api_error_threshold"),
             )
 

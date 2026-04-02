@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock, patch
+from schwab import client as schwab_client
 
 
 def _make_client(mock_inner):
@@ -50,5 +51,5 @@ def test_get_instrument_fundamental_returns_dict():
     result = sc.get_instrument_fundamental("AAPL")
 
     mock_inner.get_instruments.assert_called_once_with(
-        "AAPL", projection="fundamental")
+        "AAPL", projection=schwab_client.Client.Instrument.Projection.FUNDAMENTAL)
     assert result == mock_resp.json.return_value

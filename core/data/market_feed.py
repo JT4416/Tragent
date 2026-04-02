@@ -68,7 +68,7 @@ class MarketFeed:
         prices = {}
         for symbol in self._watchlist:
             try:
-                df = self._yf.fetch_ohlcv(symbol, period="3mo")
+                df = self._yf.fetch_ohlcv(symbol, period="1y")
                 if not df.empty:
                     prices[symbol] = float(df["close"].iloc[-1])
                 raw_signals.extend(self._tech.analyze(df, symbol))
