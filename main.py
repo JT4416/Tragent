@@ -104,7 +104,8 @@ def main():
     queue_b: queue.Queue = queue.Queue()
 
     from core.state.persistence import StateStore
-    from core.data.market_feed import MarketFeed
+    from core.data.market_feed import MarketFeed, DEFAULT_WATCHLIST
+    from core.data.schwab_feed import SchwabFeed
     store_a = StateStore("agent_a")
     store_b = StateStore("agent_b")
 
@@ -167,7 +168,9 @@ def main():
     kill_switch.arm()
     regular_interval = settings.get("trading", "cycle_interval_regular_min")
 
-    feed = MarketFeed([queue_a, queue_b], schwab_client=schwab)
+    schwab_feed = SchwabFeed(schwab, DEFAULT_WATCHLIST)
+    feed = MarketFeed([queue_a, queue_b], schwab_client=schwab,
+                      schwab_feed=schwab_feed)
     feed_thread = threading.Thread(
         target=feed.run,
         args=(regular_interval * 60, stop),
