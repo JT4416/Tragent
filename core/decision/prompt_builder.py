@@ -80,14 +80,18 @@ also has technical confirmation and/or news support. Patience is a valid strateg
 If nothing meets that bar, hold. A missed opportunity is better than a bad trade.
 Long positions only — no short selling. To express bearish conviction, buy an inverse
 ETF (SH, SDS, QID, or DOG) instead.
+Before deciding, articulate the strongest bull and bear case for the leading candidate.
+Let the better argument win.
 
 ## Response Format (JSON only)
 {{
+  "bull_case": "strongest argument FOR this trade",
+  "bear_case": "strongest argument AGAINST this trade",
   "action": "buy|sell|hold",
   "symbol": "TICKER or null",
   "confidence": 0.0,
   "position_size_pct": 0.0,
-  "reasoning": "brief explanation",
+  "reasoning": "which case won and why",
   "signals_used": [],
   "skip_reason": "if hold, why"
 }}"""
@@ -121,6 +125,31 @@ Update the expertise file to reflect what was learned from this trade.
 - Add new lessons_learned entries if a new pattern was identified
 - Update evolved_parameters if thresholds should shift
 - Return the complete updated YAML file only, no prose"""
+
+
+def build_peer_learning_prompt(
+    insight: dict,
+    current_yaml: str,
+    max_lines: int = 1000,
+) -> str:
+    return f"""## Peer Trade Insight (your competitor — do not copy blindly)
+From: {insight['from_agent']} | Event: {insight['event']}
+They traded: {insight['trade_record'].get('symbol', 'unknown')} {insight['trade_record'].get('direction', '')}
+Their bull case: {insight['bull_case']}
+Their bear case: {insight['bear_case']}
+Their reasoning: {insight['reasoning']}
+Outcome: {insight['outcome']} | P&L: {insight['pnl_pct']:.2f}% | Duration: {insight['duration']}
+
+## Your Current Expertise File (max {max_lines} lines)
+{current_yaml}
+
+## Task
+What can you learn from your competitor's trade?
+- If they identified a pattern you have missed, add it with confidence 0.1 lower than theirs
+- If their outcome confirms your existing beliefs, increase confidence by 0.05
+- If their outcome contradicts your existing beliefs, decrease confidence by 0.05
+- Do NOT copy their position sizing or stop levels — evolve your own parameters
+- Return the complete updated YAML only, no prose"""
 
 
 def _yaml_summary(data: dict) -> str:
