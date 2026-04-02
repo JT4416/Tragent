@@ -28,7 +28,9 @@ class SchwabFeed:
             return "midday"
         return None
 
-    def _refresh_fundamentals(self) -> None:
+    def _refresh_fundamentals(self) -> bool:
+        """Returns True if at least one symbol was fetched successfully."""
+        any_ok = False
         for symbol in self._watchlist:
             try:
                 raw = self._schwab.get_instrument_fundamental(symbol)
@@ -41,14 +43,16 @@ class SchwabFeed:
                     "52wk_low":   fund.get("low52"),
                     "div_yield":  fund.get("dividendYield"),
                 }
+                any_ok = True
             except Exception:
                 _log.warning("fundamental fetch failed for %s — skipping", symbol)
+        return any_ok
 
     def fetch(self) -> dict[str, dict]:
         slot = self._current_slot()
         if slot != self._fund_slot:
-            self._refresh_fundamentals()
-            self._fund_slot = slot
+            if self._refresh_fundamentals():
+                self._fund_slot = slot
 
         try:
             raw_quotes = self._schwab.get_quotes_bulk(self._watchlist)
