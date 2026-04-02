@@ -1,4 +1,5 @@
 from core.decision.prompt_builder import build_decision_prompt
+from core.decision.prompt_builder import build_peer_learning_prompt
 
 
 def _base_kwargs(**overrides):
@@ -61,9 +62,6 @@ def test_default_movers_none_shows_none():
 def test_patience_instruction_in_task():
     prompt = build_decision_prompt(**_base_kwargs())
     assert "Patience is a valid strategy" in prompt
-
-
-from core.decision.prompt_builder import build_peer_learning_prompt
 
 
 def test_decision_prompt_includes_debate_instruction():
