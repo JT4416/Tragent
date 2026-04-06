@@ -114,7 +114,10 @@ class SchwabClient:
         resp = self._client.get_instruments(
             symbol, projection=client.Client.Instrument.Projection.FUNDAMENTAL)
         resp.raise_for_status()
-        return resp.json()
+        data = resp.json()
+        # Schwab wraps in {"instruments": [...]}, re-key by symbol for callers
+        instruments = data.get("instruments", [])
+        return {inst["symbol"]: inst for inst in instruments if "symbol" in inst}
 
 
 if __name__ == "__main__":

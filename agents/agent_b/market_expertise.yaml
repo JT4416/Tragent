@@ -1,6 +1,9 @@
 overview:
-  last_updated: '2026-03-23'
+  last_updated: '2026-04-06'
   total_patterns_tracked: 0
 breakout_patterns: []
+momentum_patterns: []
+trend_patterns: []
+mean_reversion_patterns: []
 volume_signals: []
 known_false_signals: []

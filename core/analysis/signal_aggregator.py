@@ -1,9 +1,9 @@
 from collections import defaultdict
-from core.analysis.technical import BreakoutSignal
+from core.analysis.technical import TradingSignal
 
 
 class SignalAggregator:
-    def rank(self, signals: list[BreakoutSignal]) -> list[dict]:
+    def rank(self, signals: list[TradingSignal]) -> list[dict]:
         """Combine per-signal list into ranked per-symbol list.
 
         All signals (bullish and bearish) are passed through so Claude can
@@ -11,7 +11,7 @@ class SignalAggregator:
         signals. Short-sell blocking is enforced at the execution layer by
         RiskGate, not here.
         """
-        by_symbol: dict[str, list[BreakoutSignal]] = defaultdict(list)
+        by_symbol: dict[str, list[TradingSignal]] = defaultdict(list)
         for s in signals:
             by_symbol[s.symbol].append(s)
 

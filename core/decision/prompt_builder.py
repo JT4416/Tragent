@@ -54,8 +54,8 @@ Date: {now.strftime('%Y-%m-%d')} | Time: {now.strftime('%H:%M')} UTC | Session: 
 ## Top Market Movers (S&P 500 — sorted by % gain)
 {_format_movers(movers)}
 
-## Live Signals
-### Breakout Candidates
+## Live Signals (breakout, momentum, trend, mean-reversion)
+### Trading Candidates
 {_format_list(signals)}
 
 ### News Sentiment
@@ -73,13 +73,14 @@ Daily P&L: ${daily_pnl:,.2f} ({daily_pnl_pct:.1f}%)
 Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 
 ## Task
-Start by reviewing the top market movers. These are stocks the market has already
-validated with real volume and price action today. Cross-reference with the breakout
-signals and news below. Only enter a position when you see alignment — a mover that
-also has technical confirmation and/or news support. Patience is a valid strategy.
-If nothing meets that bar, hold. A missed opportunity is better than a bad trade.
-Long positions only — no short selling. To express bearish conviction, buy an inverse
-ETF (SH, SDS, QID, or DOG) instead.
+PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC — evaluate these first every
+cycle. If any show technical confirmation, news support, or strong momentum, they
+should be leading candidates. Then review the top market movers.
+Cross-reference with the breakout signals and news below. Only enter a position when
+you see alignment — technical confirmation and/or news support. Patience is a valid
+strategy. If nothing meets that bar, hold. A missed opportunity is better than a bad
+trade. Long positions only — no short selling. To express bearish conviction, buy an
+inverse ETF (SH, SDS, QID, or DOG) instead.
 Before deciding, articulate the strongest bull and bear case for the leading candidate.
 Let the better argument win.
 

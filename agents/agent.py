@@ -59,7 +59,7 @@ class Agent:
 
     def run_cycle(self) -> None:
         try:
-            market_data = self._queue.get_nowait()
+            market_data = self._queue.get(timeout=120)
         except queue.Empty:
             return
 

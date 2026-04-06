@@ -27,7 +27,7 @@ DEFAULT_WATCHLIST = [
     "QID",  # ProShares UltraShort QQQ (2x inverse) — short-duration hold only (leveraged decay)
     "DOG",  # ProShares Short Dow30 (1x inverse)
     # User-specified watchlist additions
-    "RKLB", "BPTRX", "DXYZ", "SATS",
+    "RKLB", "BPTRX", "DXYZ", "SATS", "JOBY", "ACHR", "FCUV", "SMX", "MLEC",
 ]
 
 

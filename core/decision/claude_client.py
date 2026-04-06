@@ -46,7 +46,7 @@ class ClaudeClient:
         try:
             response = self._client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=768,
+                max_tokens=1536,
                 system=DECISION_SYSTEM + "\n\n" + system_context,
                 messages=[{"role": "user", "content": user_prompt}],
             )

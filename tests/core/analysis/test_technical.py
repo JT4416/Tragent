@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from core.analysis.technical import TechnicalAnalyzer, BreakoutSignal
+from core.analysis.technical import TechnicalAnalyzer, TradingSignal
 
 def _make_ohlcv(n=60):
     idx = pd.date_range("2026-01-01", periods=n, freq="D")
