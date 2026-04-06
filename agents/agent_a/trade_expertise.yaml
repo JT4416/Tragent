@@ -1,5 +1,5 @@
 overview:
-  last_updated: '2026-03-23'
+  last_updated: '2026-04-06'
   total_trades: 0
   win_rate: 0.0
   avg_gain_pct: 0.0
@@ -7,7 +7,17 @@ overview:
 evolved_parameters:
   stop_loss_pct: 2.0
   trailing_stop_pct: 1.5
-  max_position_size_pct: 5.0
-  confidence_threshold: 0.65
-lessons_learned: []
+  max_position_size_pct: 10.0
+  confidence_threshold: 0.45
+lessons_learned:
+  - lesson: "Paper trading is for learning — take more trades at lower confidence to build data"
+    confidence: 0.9
+  - lesson: "Multi-signal confirmation (2+ signals on same symbol) dramatically improves win rate"
+    confidence: 0.7
+  - lesson: "Position sizing matters more than entry timing — never risk more than 2% on a single trade"
+    confidence: 0.9
+  - lesson: "Cut losses fast (respect stop losses), let winners run (trail stops upward)"
+    confidence: 0.85
+  - lesson: "Avoid chasing — if a stock has already moved 5%+ today, the easy money is gone"
+    confidence: 0.6
 recent_trades: []

@@ -1,4 +1,32 @@
 overview:
-  last_updated: '2026-03-23'
-catalysts: []
-ignored_sources: []
+  last_updated: '2026-04-06'
+catalysts:
+  - type: "earnings_beat"
+    typical_impact: "+3-8% on beat with raised guidance"
+    confidence: 0.7
+    note: "Post-earnings drift is real — stocks that beat tend to continue higher for days"
+  - type: "earnings_miss"
+    typical_impact: "-5-15% on miss with lowered guidance"
+    confidence: 0.7
+    note: "Earnings misses often overshoot on downside — can be bounce opportunities next day"
+  - type: "fda_approval"
+    typical_impact: "+10-50% for biotech/pharma"
+    confidence: 0.6
+    note: "Binary event — massive moves but unpredictable; avoid pre-announcement gambles"
+  - type: "analyst_upgrade"
+    typical_impact: "+2-5% on major firm upgrade"
+    confidence: 0.5
+    note: "Upgrades from top-tier firms (Goldman, Morgan Stanley) move stocks more than boutiques"
+  - type: "contract_win"
+    typical_impact: "+5-20% for defense/space companies"
+    confidence: 0.65
+    note: "Government contract wins especially impactful for RKLB, SATS, JOBY-class companies"
+  - type: "sector_rotation"
+    typical_impact: "Gradual multi-day moves"
+    confidence: 0.4
+    note: "Money flowing out of tech into value (or vice versa) creates multi-day trends"
+ignored_sources:
+  - source: "unnamed_social_media"
+    reason: "Pump-and-dump risk from anonymous social media posts"
+  - source: "penny_stock_newsletters"
+    reason: "Paid promotion, not legitimate analysis"

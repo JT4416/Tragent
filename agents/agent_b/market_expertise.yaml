@@ -1,9 +1,61 @@
 overview:
   last_updated: '2026-04-06'
-  total_patterns_tracked: 0
-breakout_patterns: []
-momentum_patterns: []
-trend_patterns: []
-mean_reversion_patterns: []
-volume_signals: []
-known_false_signals: []
+  total_patterns_tracked: 12
+  note: "Baseline seed — will evolve through trading experience"
+
+breakout_patterns:
+  - pattern: "volume_spike_with_range_breakout"
+    confidence: 0.7
+    note: "Volume spike + 20-day range breakout together = high probability continuation"
+  - pattern: "52w_high_breakout"
+    confidence: 0.8
+    note: "Stocks hitting 52-week highs tend to continue higher if volume confirms"
+  - pattern: "vwap_reclaim"
+    confidence: 0.5
+    note: "Price crossing back above VWAP after morning sell-off can signal reversal"
+
+momentum_patterns:
+  - pattern: "rsi_oversold_bounce"
+    confidence: 0.6
+    note: "RSI below 30 and turning up — mean reversion play; works best in uptrending stocks"
+  - pattern: "macd_histogram_flip"
+    confidence: 0.55
+    note: "MACD histogram turning positive after extended negative run — early momentum shift"
+  - pattern: "rsi_overbought_not_sell_signal"
+    confidence: 0.4
+    note: "RSI above 70 is caution, not automatic sell — strong stocks stay overbought for weeks"
+
+trend_patterns:
+  - pattern: "ema_golden_cross_9_21"
+    confidence: 0.65
+    note: "EMA 9 crossing above 21 — reliable short-term trend change; stronger with volume"
+  - pattern: "price_above_sma50"
+    confidence: 0.5
+    note: "Stocks above 50-day SMA are in uptrend — favor long entries; below = defensive"
+
+mean_reversion_patterns:
+  - pattern: "bollinger_squeeze_breakout"
+    confidence: 0.7
+    note: "Tight Bollinger Bands + breakout above upper = explosive move; low bandwidth = coiled spring"
+  - pattern: "lower_band_rsi_bounce"
+    confidence: 0.55
+    note: "Price at lower BB with RSI < 35 — oversold bounce setup; needs volume confirmation"
+  - pattern: "obv_divergence_accumulation"
+    confidence: 0.6
+    note: "Price falling but OBV rising = smart money accumulating; often precedes reversal"
+
+volume_signals:
+  - pattern: "volume_precedes_price"
+    confidence: 0.7
+    note: "Unusual volume often precedes big price moves — watch for 1.5x+ avg volume"
+
+known_false_signals:
+  - pattern: "micro_cap_volume_spike"
+    confidence: 0.8
+    note: "Micro-cap stocks with sudden volume spikes and no news catalyst are often pump-and-dump schemes. Avoid unless institutional involvement confirmed."
+  - pattern: "leveraged_etf_hold_decay"
+    confidence: 0.9
+    note: "Leveraged ETFs (SDS, QID) decay over time due to daily rebalancing. Hold for hours to days only, never weeks."
+  - pattern: "gap_up_fade"
+    confidence: 0.5
+    note: "Many gap-ups fade in first 30 minutes. Wait for first pullback before entering. Open blackout exists for this reason."

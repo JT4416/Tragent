@@ -141,10 +141,12 @@ def main():
 
     agent_a = Agent(AgentConfig("agent_a", "regular", base_capital),
                     claude_a, broker_a, data_queue=queue_a,
-                    peer_exchange=exchange, scorer=scorer_a)
+                    peer_exchange=exchange, scorer=scorer_a,
+                    paper_mode=paper_mode)
     agent_b = Agent(AgentConfig("agent_b", "regular", base_capital),
                     claude_b, broker_b, data_queue=queue_b,
-                    peer_exchange=exchange, scorer=scorer_b)
+                    peer_exchange=exchange, scorer=scorer_b,
+                    paper_mode=paper_mode)
 
     reporter = DailyReporter(scorer_a, scorer_b)
 

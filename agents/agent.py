@@ -29,7 +29,8 @@ class Agent:
                  db_dir: Path | None = None,
                  log_dir: Path | None = None,
                  peer_exchange=None,
-                 scorer: CompetitionScorer | None = None):
+                 scorer: CompetitionScorer | None = None,
+                 paper_mode: bool = False):
         self._cfg = config
         self._claude = claude_client
         self._schwab = schwab_client
@@ -48,12 +49,13 @@ class Agent:
         )
         self._logger = get_logger(config.agent_id, "trades", log_dir) \
             if log_dir else get_logger(config.agent_id, "trades")
+        threshold = settings.get("risk", "confidence_threshold_paper") \
+            if paper_mode else settings.get("risk", "confidence_threshold_regular")
         self._risk = RiskGate(RiskConfig(
             max_position_size_pct=settings.get("risk", "max_position_size_pct"),
             daily_loss_limit_pct=settings.get("risk", "daily_loss_limit_pct"),
             max_concurrent_positions=settings.get("risk", "max_concurrent_positions"),
-            confidence_threshold_regular=settings.get(
-                "risk", "confidence_threshold_regular"),
+            confidence_threshold_regular=threshold,
             open_blackout_minutes=settings.get("risk", "open_blackout_minutes"),
         ))
 
