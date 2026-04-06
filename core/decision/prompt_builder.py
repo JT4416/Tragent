@@ -31,13 +31,15 @@ def build_decision_prompt(
     daily_pnl_pct: float,
     daily_loss_remaining: float,
     movers: list[dict] | None = None,
+    daily_prep: dict | None = None,
 ) -> str:
     if movers is None:
         movers = []
     now = datetime.now(timezone.utc)
+    prep_section = _format_daily_prep(daily_prep) if daily_prep else ""
     return f"""## Current Market Context
 Date: {now.strftime('%Y-%m-%d')} | Time: {now.strftime('%H:%M')} UTC | Session: {session}
-
+{prep_section}
 ## Agent Expertise (Mental Model)
 ### Market
 {_yaml_summary(expertise.get('market', {}))}
@@ -151,6 +153,121 @@ What can you learn from your competitor's trade?
 - If their outcome contradicts your existing beliefs, decrease confidence by 0.05
 - Do NOT copy their position sizing or stop levels — evolve your own parameters
 - Return the complete updated YAML only, no prose"""
+
+
+def build_homework_prompt(
+    signals: list[dict],
+    news: list[dict],
+    institutional: list[dict],
+    movers: list[dict],
+    expertise: dict[str, dict],
+    today_decisions: list[dict],
+    open_positions: list[dict],
+    watchlist: list[str],
+) -> str:
+    return f"""## Post-Market Homework — Prepare for Tomorrow's Open
+
+You are reviewing today's market action after the close. Your job is to do your
+homework so you walk into tomorrow's 9:30 AM open with a clear plan.
+
+## Today's Signals (what the market showed you)
+{_format_list(signals)}
+
+## Today's Market Movers
+{_format_movers(movers)}
+
+## News Headlines
+{_format_list(news)}
+
+## Institutional Activity
+{_format_list(institutional)}
+
+## Your Decisions Today
+{_format_decisions(today_decisions)}
+
+## Current Positions
+{_format_list(open_positions)}
+
+## Your Expertise (current mental model)
+### Market
+{_yaml_summary(expertise.get('market', {}))}
+### Trade
+{_yaml_summary(expertise.get('trade', {}))}
+
+## Priority Watchlist
+{', '.join(watchlist)}
+
+## Task
+Analyze today's action and prepare a briefing for tomorrow's open. Return valid
+YAML only (no markdown fences, no prose) with this structure:
+
+top_picks:
+  - symbol: "TICKER"
+    setup: "description of the setup developing"
+    entry_trigger: "what needs to happen to enter"
+    target_price: estimated target or null
+    stop_price: where you'd place the stop
+    confidence: 0.0-1.0
+    signals: ["signal_type_1", "signal_type_2"]
+
+market_outlook:
+  bias: "bullish|bearish|neutral"
+  reasoning: "1-2 sentence thesis"
+  key_levels:
+    - "SPY support/resistance level to watch"
+
+avoid_list:
+  - symbol: "TICKER"
+    reason: "why to avoid tomorrow"
+
+lessons_from_today:
+  - "what you learned from today's action that changes your approach"
+
+Focus on your priority watchlist. Identify 2-4 actionable setups with specific
+entry triggers. Be concrete — not 'watch for strength' but 'buy above $X.XX
+on volume > Y with stop at $Z.ZZ'. A good prep separates tomorrow's noise from
+tomorrow's signals."""
+
+
+def _format_daily_prep(prep: dict) -> str:
+    if not prep:
+        return ""
+    lines = ["\n## Yesterday's Homework (your pre-market prep)"]
+    outlook = prep.get("market_outlook", {})
+    if outlook:
+        lines.append(f"Market bias: {outlook.get('bias', '?')} — {outlook.get('reasoning', '')}")
+    picks = prep.get("top_picks", [])
+    if picks:
+        lines.append("### Top Picks for Today")
+        for p in picks:
+            lines.append(
+                f"  - {p.get('symbol', '?')}: {p.get('setup', '')} | "
+                f"Entry: {p.get('entry_trigger', '?')} | "
+                f"Stop: {p.get('stop_price', '?')} | "
+                f"Conf: {p.get('confidence', '?')}")
+    avoid = prep.get("avoid_list", [])
+    if avoid:
+        lines.append("### Avoid")
+        for a in avoid:
+            lines.append(f"  - {a.get('symbol', '?')}: {a.get('reason', '')}")
+    lessons = prep.get("lessons_from_today", [])
+    if lessons:
+        lines.append("### Lessons")
+        for l in lessons:
+            lines.append(f"  - {l}")
+    return "\n".join(lines) + "\n"
+
+
+def _format_decisions(decisions: list[dict]) -> str:
+    if not decisions:
+        return "  (no decisions today)"
+    lines = []
+    for d in decisions[-10:]:
+        conf = d.get("confidence", "?")
+        event = d.get("event", "?")
+        reason = d.get("reason", "")[:150]
+        lines.append(f"  - {event} (conf={conf}): {reason}")
+    return "\n".join(lines)
 
 
 def _yaml_summary(data: dict) -> str:

@@ -1,0 +1,117 @@
+top_picks:
+- symbol: FCUV
+  setup: Extreme volume spike (1232x avg) with 20-day range breakout above 5.72 and
+    SMA cross. Pattern matches volume_spike_with_range_breakout. Micro-cap pump risk
+    is real but breakout is textbook. Watch premarket for continuation vs. fade.
+  entry_trigger: Buy above 5.85 on volume > 5,000,000 in first 30 min with price holding
+    above 5.72 breakout level. Must NOT open gap-up > 10% (chasing risk). Premarket
+    must show sustained bid, not spike-and-fade.
+  target_price: 7.2
+  stop_price: 5.55
+  confidence: 0.52
+  signals:
+  - volume_spike
+  - range_breakout
+  - sma_trend
+- symbol: TSLA
+  setup: "At lower Bollinger Band with RSI 34.9 \u2014 oversold bounce setup. Price\
+    \ below VWAP and 13.6% below 50-day SMA so trend is against, but BB+RSI combination\
+    \ signals mean reversion potential. QID bullish signal confirms broader Nasdaq\
+    \ weakness which could reverse."
+  entry_trigger: Buy above 353.87 (VWAP reclaim) on volume > 15,000,000 with RSI turning
+    up. Stop below today's low. Do not enter if Nasdaq futures are down > 0.5% premarket.
+  target_price: 368.0
+  stop_price: 347.0
+  confidence: 0.42
+  signals:
+  - bb_bounce
+  - vwap_cross
+  - sma_trend
+- symbol: RKLB
+  setup: MACD histogram flipped positive with OBV divergence showing accumulation
+    despite price down 6.5% below 50-day SMA. Hidden buying pattern. Space/AI sector
+    tailwind from news cycle. Low confidence but multi-signal alignment present.
+  entry_trigger: Buy above yesterday's close on volume > 2x average in first 45 min.
+    MACD must remain positive at open. Stop at 2% below entry.
+  target_price: null
+  stop_price: null
+  confidence: 0.38
+  signals:
+  - macd_crossover
+  - obv_divergence
+- symbol: ACHR
+  setup: VWAP cross + MACD histogram flip positive. eVTOL/air taxi sector peer to
+    JOBY. Both showing momentum shift. ACHR at 5.55 VWAP with MACD confirming. Sector
+    momentum could carry both names.
+  entry_trigger: Buy above 5.65 (above VWAP + buffer) on volume > 1.5x average. Both
+    ACHR and JOBY must show green premarket to confirm sector bid. Stop at 5.40.
+  target_price: 6.1
+  stop_price: 5.4
+  confidence: 0.37
+  signals:
+  - vwap_cross
+  - macd_crossover
+market_outlook:
+  bias: bearish
+  reasoning: "QID (inverse Nasdaq 2x) showing bullish signal with price 5.3% above\
+    \ 50-day SMA \u2014 smart money is hedging Nasdaq exposure. MSFT and TSLA both\
+    \ below VWAP and in confirmed downtrends, and AAPL insider selling 30,000 shares\
+    \ at $255 adds institutional distribution pressure. Near-term risk is to the downside\
+    \ until macro clarity emerges."
+  key_levels:
+  - "SPY: Watch 540 as near-term support \u2014 break below confirms continuation\
+    \ of downtrend"
+  - "QQQ: 460 is key level \u2014 QID bullish signal suggests test of this level likely"
+  - "TSLA: 347.94 lower Bollinger Band is line in sand \u2014 close below = accelerating\
+    \ breakdown"
+avoid_list:
+- symbol: SMX
+  reason: "41x volume spike but price 61.3% below 50-day SMA \u2014 deeply broken\
+    \ chart with no news catalyst. Classic micro-cap pump pattern with extreme reversal\
+    \ risk."
+- symbol: MLEC
+  reason: 199x volume spike with no identifiable news catalyst on priority watchlist
+    scan. Micro-cap pump-and-dump risk at 0.8 confidence. Avoid entirely.
+- symbol: MSFT
+  reason: Bearish signal, 7.6% below 50-day SMA, below VWAP. No technical reason for
+    long entry. Short setup not confirmed enough with only 0.583 combined strength.
+- symbol: QID
+  reason: "Leveraged ETF decay risk (0.9 confidence false signal). If used as hedge,\
+    \ intraday only \u2014 no overnight hold. MACD histogram flipped negative contradicts\
+    \ bullish label, adding confusion."
+- symbol: SATS
+  reason: "Bullish signal but price crossed BELOW VWAP \u2014 contradicts direction\
+    \ label. Signal conflict makes this untradeable until price action clarifies."
+- symbol: AAPL
+  reason: "Insider selling 30,000 shares by SVP at $255 on April 2nd \u2014 distribution\
+    \ signal from senior officer. Avoid long entries until selling pressure subsides."
+lessons_from_today:
+- "All 10 decisions today were HOLD \u2014 system is over-filtering. Paper trading\
+  \ requires MORE trades at lower confidence to generate learning data. Loosen entry\
+  \ bar to 0.40 combined_strength minimum when 2+ signals align on priority watchlist\
+  \ names."
+- "FCUV printed a near-perfect volume_spike_with_range_breakout setup (0.9 combined\
+  \ strength) but was avoided due to micro-cap pump risk. Lesson: establish a tiered\
+  \ micro-cap rule \u2014 extreme volume (> 500x) WITH confirmed range breakout earns\
+  \ a small position (5% of portfolio max) rather than automatic disqualification."
+- "QID and TSLA show opposing forces \u2014 market internals are mixed. When inverse\
+  \ ETFs trend up alongside individual stock oversold signals, it indicates sector\
+  \ rotation not broad collapse. Weight sector context before directional bias."
+- "AAPL insider selling filed after close is actionable intelligence for tomorrow.\
+  \ Build a habit of checking Form 4 filings every evening \u2014 institutional and\
+  \ insider flow often leads price by 1-2 sessions."
+- "ACHR and JOBY both showed bullish MACD flips in the same sector on the same day\
+  \ \u2014 correlated sector signals are stronger than single-stock signals. Sector\
+  \ confirmation should be a named pattern in the mental model."
+Updated mental model additions:
+  new_pattern_candidate:
+    pattern: sector_correlated_macd_flip
+    note: "Two or more stocks in same sector showing simultaneous MACD histogram flips\
+      \ \u2014 sector momentum shift more reliable than single-stock signal"
+    confidence: 0.55
+  rule_refinement:
+    pattern: micro_cap_volume_spike
+    update: If volume spike > 500x AND confirmed range breakout AND combined_strength
+      > 0.85, allow small position (max 5% portfolio) rather than full disqualification.
+      Pump risk remains but asymmetric reward justifies small bet.
+    confidence: 0.65

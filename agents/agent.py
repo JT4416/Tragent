@@ -7,7 +7,7 @@ from pathlib import Path
 from agents.expertise_manager import ExpertiseManager
 from agents.self_improve import SelfImproveOrchestrator
 from competition.scorer import CompetitionScorer, TradeRecord
-from core.decision.prompt_builder import build_decision_prompt
+from core.decision.prompt_builder import build_decision_prompt, build_homework_prompt
 from core.execution.risk_gate import RiskGate, RiskConfig
 from core.risk.position_tracker import PositionTracker
 from core.state.persistence import StateStore, Position
@@ -92,9 +92,21 @@ class Agent:
         round_pnl = self._store.get_round_pnl()
         daily_pnl_pct = (round_pnl / self._cfg.base_capital) * 100
 
+        # Load yesterday's homework prep if available
+        prep_path = Path(f"agents/{self._cfg.agent_id}/daily_prep.yaml")
+        daily_prep = {}
+        if prep_path.exists():
+            import yaml as _yaml
+            try:
+                with open(prep_path) as f:
+                    daily_prep = _yaml.safe_load(f) or {}
+            except Exception:
+                pass
+
         prompt = build_decision_prompt(
             session=session,
             expertise=expertise,
+            daily_prep=daily_prep,
             signals=market_data.get("signals", []),
             news=market_data.get("news", []),
             institutional=market_data.get("institutional", []),
@@ -296,3 +308,47 @@ class Agent:
                 "pnl_pct": pnl_pct,
                 "duration": duration,
             })
+
+    def run_homework(self, market_data: dict, today_decisions: list[dict],
+                     watchlist: list[str]) -> None:
+        """Post-market homework: analyze today, prepare for tomorrow's open."""
+        import yaml as _yaml
+        expertise = self._mgr.load_all()
+        open_positions = [{"symbol": p.symbol, "direction": p.direction,
+                           "entry": p.entry_price}
+                          for p in self._store.get_positions()]
+
+        prompt = build_homework_prompt(
+            signals=market_data.get("signals", []),
+            news=market_data.get("news", []),
+            institutional=market_data.get("institutional", []),
+            movers=market_data.get("movers", []),
+            expertise=expertise,
+            today_decisions=today_decisions,
+            open_positions=open_positions,
+            watchlist=watchlist,
+        )
+
+        response = self._claude.self_improve(prompt)
+
+        # Parse and save the daily prep
+        text = response.strip()
+        if text.startswith("```"):
+            text = text.split("```")[1]
+            if text.startswith("yaml"):
+                text = text[4:]
+        try:
+            prep = _yaml.safe_load(text.strip())
+        except Exception:
+            prep = {"raw": text[:2000]}
+
+        prep_path = Path(f"agents/{self._cfg.agent_id}/daily_prep.yaml")
+        prep_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(prep_path, "w") as f:
+            _yaml.dump(prep, f, default_flow_style=False, sort_keys=False)
+
+        self._logger.log({
+            "event": "homework_complete",
+            "top_picks": [p.get("symbol") for p in prep.get("top_picks", [])],
+            "market_bias": prep.get("market_outlook", {}).get("bias", "unknown"),
+        })

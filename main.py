@@ -154,6 +154,31 @@ def main():
     if settings.get("auto_commit", "enabled"):
         schedule.every().day.at("16:01").do(reporter.auto_commit)
 
+    def _run_homework():
+        """Post-market homework for both agents — runs at 4:05 PM ET."""
+        import json, logging
+        _log = logging.getLogger(__name__)
+        # Grab the last market data packet for context
+        feed.fetch_and_dispatch()
+        for ag, q in [(agent_a, queue_a), (agent_b, queue_b)]:
+            try:
+                market_data = q.get(timeout=120)
+            except Exception:
+                market_data = {}
+            try:
+                log_path = Path(f"logs/{ag._cfg.agent_id}/trades/"
+                                f"{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.json")
+                today_decisions = json.loads(log_path.read_text()) if log_path.exists() else []
+            except Exception:
+                today_decisions = []
+            try:
+                ag.run_homework(market_data, today_decisions, DEFAULT_WATCHLIST)
+                _log.info("Homework complete for %s", ag._cfg.agent_id)
+            except Exception:
+                _log.exception("Homework failed for %s", ag._cfg.agent_id)
+
+    schedule.every().day.at("16:05").do(_run_homework)
+
     stop = threading.Event()
     kill_switch = KillSwitch(stop)
     alerter = Alerter()

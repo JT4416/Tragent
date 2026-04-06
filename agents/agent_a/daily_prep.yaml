@@ -1,0 +1,99 @@
+top_picks:
+- symbol: TSLA
+  setup: "At lower Bollinger Band with RSI 34.9 \u2014 oversold bounce setup. Price\
+    \ below VWAP at 353.87, 13.6% below 50-day SMA. Downtrend but mean-reversion bounce\
+    \ conditions present. QID bullish signal (inverse QQQ) suggests Nasdaq weakness,\
+    \ but oversold extremes can snap back hard."
+  entry_trigger: Buy above 356.50 on volume >12M in first 30 min confirming reclaim
+    of prior close; stop below lower BB at 347.00
+  target_price: 371.0
+  stop_price: 347.0
+  confidence: 0.48
+  signals:
+  - bb_bounce
+  - rsi_oversold_bounce
+  - vwap_reclaim
+- symbol: RKLB
+  setup: MACD histogram flipped positive with OBV divergence showing accumulation
+    despite price being 6.5% below 50-day SMA. Two confirming signals pointing to
+    hidden buying and early momentum shift. Aerospace/space sector has news tailwind
+    from AI/satellite coverage.
+  entry_trigger: Buy above prior day close +0.5% on volume >2x average daily; stop
+    at 2% below entry
+  target_price: null
+  stop_price: null
+  confidence: 0.44
+  signals:
+  - macd_histogram_flip
+  - obv_divergence_accumulation
+- symbol: ACHR
+  setup: "VWAP reclaim at 5.55 plus MACD histogram flip positive. eVTOL sector peer\
+    \ JOBY also showing MACD flip \u2014 sector-wide momentum shift possible. Both\
+    \ 13-16% below 50-day SMA so any continuation needs volume."
+  entry_trigger: Buy above 5.65 with volume >1.5M in first 15 min; stop at 5.40 (below
+    VWAP)
+  target_price: 6.1
+  stop_price: 5.4
+  confidence: 0.4
+  signals:
+  - vwap_cross
+  - macd_histogram_flip
+- symbol: MSFT
+  setup: "Bearish signal: broke below VWAP 371.43, 7.6% below 50-day SMA, downtrend\
+    \ confirmed. QID (inverse Nasdaq 2x) showing bullish signal with SMA uptrend \u2014\
+    \ macro backdrop supports large-cap tech weakness. AAPL SVP sold ~30K shares at\
+    \ ~255 this week \u2014 insider distribution in mega-cap tech adds weight."
+  entry_trigger: Short (or buy SDS/QID as hedge) if MSFT fails to reclaim 371.50 in
+    first 30 min on weak volume; stop above 374.00
+  target_price: 362.0
+  stop_price: 374.0
+  confidence: 0.45
+  signals:
+  - vwap_cross
+  - sma_trend
+  - institutional_distribution_proxy
+market_outlook:
+  bias: bearish
+  reasoning: QID in uptrend above 50-day SMA while MSFT and TSLA both print VWAP failures
+    and extended SMA downtrends. AAPL insider selling ~30K shares near $255 adds distribution
+    pressure on mega-cap tech. Mixed signals (MU +3%, SNAP +12%, APLD +15%) suggest
+    rotation into select names but broad Nasdaq index remains under pressure.
+  key_levels:
+  - 'SPY: watch 540 as near-term support; break below triggers acceleration lower'
+  - "QQQ: 460 is key level \u2014 QID bull signal confirms QQQ weakness above 460\
+    \ resistance"
+  - "TSLA: 347.94 lower Bollinger Band is line in sand \u2014 close below invalidates\
+    \ bounce thesis"
+avoid_list:
+- symbol: FCUV
+  reason: "1232x average volume with no news catalyst \u2014 textbook micro-cap pump\
+    \ pattern at 0.8 false-signal confidence. Extreme gap risk on open."
+- symbol: SMX
+  reason: 41x volume spike, 61% below 50-day SMA, no news catalyst. Pump-and-dump
+    profile confirmed across multiple sessions.
+- symbol: MLEC
+  reason: 199x volume spike, micro-cap, no institutional or news confirmation. High
+    dump probability on open.
+- symbol: QID
+  reason: "Leveraged ETF \u2014 only hold intraday. MACD histogram signal was negative\
+    \ (bearish for QID) despite bullish label in data; verify direction before entry.\
+    \ Decay risk on overnight hold."
+- symbol: SATS
+  reason: "Crossed below VWAP despite bullish label \u2014 signal conflict. 11.6%\
+    \ above 50-day SMA means extended; chasing at highs with VWAP failure is poor\
+    \ risk/reward."
+lessons_from_today:
+- "FCUV/SMX/MLEC triggered the micro_cap_volume_spike false signal for the 10th consecutive\
+  \ session \u2014 this pattern is now extremely well-confirmed. Zero exceptions until\
+  \ institutional confirmation or named catalyst appears."
+- "Holding cash all day with 0 trades while valid setups existed in TSLA, RKLB, and\
+  \ ACHR suggests confidence threshold of 0.45 may be too high for paper trading \u2014\
+  \ consider lowering to 0.38 to begin generating trade data."
+- "AAPL insider selling (~30K shares, SVP level) is a meaningful distribution signal\
+  \ \u2014 factor insider filings as a negative modifier for mega-cap tech longs in\
+  \ current environment."
+- "Sector correlation: ACHR and JOBY both showed MACD flips on same day \u2014 when\
+  \ two peers in a niche sector align, treat as stronger signal than single-stock\
+  \ alone."
+- "QID bullish signal alongside MSFT/TSLA VWAP failures creates a coherent macro short\
+  \ thesis \u2014 align individual signals into a market narrative before sizing positions."
