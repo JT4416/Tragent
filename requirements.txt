@@ -2,7 +2,6 @@ anthropic>=0.40.0
 schwab-py>=1.4.0
 yfinance>=0.2.40
 pandas>=2.2.0
-pandas-ta>=0.3.14b
 pyyaml>=6.0.2
 requests>=2.32.0
 python-dotenv>=1.0.1

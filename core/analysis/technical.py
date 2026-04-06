@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 import pandas as pd
-import pandas_ta as ta
 
 
 @dataclass
@@ -48,7 +47,8 @@ class TechnicalAnalyzer:
                     symbol: str) -> list[BreakoutSignal]:
         if "VWAP_D" not in df.columns:
             df = df.copy()
-            df.ta.vwap(append=True)
+            tp = (df["high"] + df["low"] + df["close"]) / 3
+            df["VWAP_D"] = (tp * df["volume"]).cumsum() / df["volume"].cumsum()
         if "VWAP_D" not in df.columns:
             return []
         prev_close = df["close"].iloc[-2]
