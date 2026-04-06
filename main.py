@@ -48,7 +48,9 @@ def _session() -> str:
 
 def run_agent(agent: Agent, interval_minutes: int, stop_event: threading.Event):
     import logging
+    from zoneinfo import ZoneInfo
     _log = logging.getLogger(__name__)
+    _ET = ZoneInfo("America/New_York")
     while not stop_event.is_set():
         sess = _session()
         if sess == "closed":
@@ -59,7 +61,13 @@ def run_agent(agent: Agent, interval_minutes: int, stop_event: threading.Event):
         except Exception:
             _log.exception("run_cycle raised for %s — skipping cycle",
                            agent._cfg.agent_id)
-        time.sleep(interval_minutes * 60)
+        # Cycle every 5 min in first 30 min of session, then normal interval
+        et_now = datetime.now(_ET)
+        minutes_since_open = (et_now.hour - 9) * 60 + (et_now.minute - 30)
+        if 0 <= minutes_since_open < 30:
+            time.sleep(5 * 60)  # 5-minute cycles at the open
+        else:
+            time.sleep(interval_minutes * 60)
 
 
 def reconcile(schwab: SchwabClient, store_a, store_b) -> None:

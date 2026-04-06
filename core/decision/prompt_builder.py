@@ -75,14 +75,22 @@ Daily P&L: ${daily_pnl:,.2f} ({daily_pnl_pct:.1f}%)
 Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 
 ## Task
-PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC — evaluate these first every
-cycle. If any show technical confirmation, news support, or strong momentum, they
-should be leading candidates. Then review the top market movers.
-Cross-reference with the breakout signals and news below. Only enter a position when
-you see alignment — technical confirmation and/or news support. Patience is a valid
-strategy. If nothing meets that bar, hold. A missed opportunity is better than a bad
-trade. Long positions only — no short selling. To express bearish conviction, buy an
-inverse ETF (SH, SDS, QID, or DOG) instead.
+PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC, SPCE, FUBO,
+CLIR, SIDU, BVC — evaluate these first every cycle.
+
+OPEN MOMENTUM STRATEGY (first 30 minutes of session):
+When the market first opens, look for top movers already showing strong upward momentum
+with real volume confirmation. These are stocks the market is validating RIGHT NOW.
+Jump in and ride the wave — but with a tight 1.5% trailing stop. The first 30 minutes
+often set the tone for the day. Don't overthink it: if a mover is up 2%+ on 2x+ average
+volume with multiple signals firing, that's your entry. Speed matters more than
+perfection at the open.
+
+After the first 30 minutes, revert to normal analysis: require technical confirmation
+and/or news support. Patience is a valid strategy mid-day.
+
+Long positions only — no short selling. To express bearish conviction, buy an inverse
+ETF (SH, SDS, QID, or DOG) instead.
 Before deciding, articulate the strongest bull and bear case for the leading candidate.
 Let the better argument win.
 

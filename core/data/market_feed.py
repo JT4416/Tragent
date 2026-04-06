@@ -28,6 +28,7 @@ DEFAULT_WATCHLIST = [
     "DOG",  # ProShares Short Dow30 (1x inverse)
     # User-specified watchlist additions
     "RKLB", "BPTRX", "DXYZ", "SATS", "JOBY", "ACHR", "FCUV", "SMX", "MLEC",
+    "SPCE", "FUBO", "CLIR", "SIDU", "BVC",
 ]
 
 
@@ -126,4 +127,11 @@ class MarketFeed:
                 self.fetch_and_dispatch()
             except Exception:
                 pass
-            time.sleep(interval_seconds)
+            # Feed every 4 min in first 30 min of session, then normal interval
+            from zoneinfo import ZoneInfo
+            et_now = datetime.now(ZoneInfo("America/New_York"))
+            minutes_since_open = (et_now.hour - 9) * 60 + (et_now.minute - 30)
+            if 0 <= minutes_since_open < 30:
+                time.sleep(4 * 60)  # 4-min feed at open (ahead of 5-min agent cycle)
+            else:
+                time.sleep(interval_seconds)
