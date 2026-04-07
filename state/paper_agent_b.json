@@ -1,5 +1,5 @@
 {
-  "cash": 685.28,
+  "cash": 637.27,
   "positions": {
     "SH": {
       "quantity": 5,
@@ -13,6 +13,11 @@
     "CETX": {
       "quantity": 45,
       "entry_price": 1.32,
+      "direction": "long"
+    },
+    "GBX": {
+      "quantity": 1,
+      "entry_price": 48.01,
       "direction": "long"
     }
   },

@@ -1,5 +1,5 @@
 {
-  "cash": 708.64,
+  "cash": 660.63,
   "positions": {
     "QID": {
       "quantity": 8,
@@ -12,6 +12,11 @@
     "SDS": {
       "quantity": 1,
       "entry_price": 74.04,
+      "direction": "long"
+    },
+    "GBX": {
+      "quantity": 1,
+      "entry_price": 48.01,
       "direction": "long"
     }
   },
