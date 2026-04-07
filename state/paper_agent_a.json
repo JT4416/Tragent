@@ -1,5 +1,5 @@
 {
-  "cash": 653.44,
+  "cash": 708.64,
   "positions": {
     "QID": {
       "quantity": 8,
@@ -12,11 +12,6 @@
     "SDS": {
       "quantity": 1,
       "entry_price": 74.04,
-      "direction": "long"
-    },
-    "SIDU": {
-      "quantity": 15,
-      "entry_price": 3.79,
       "direction": "long"
     }
   },

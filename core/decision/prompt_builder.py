@@ -138,6 +138,23 @@ plays. Do NOT keep re-evaluating failed longs cycle after cycle. Instead:
 No short SELLING — but you CAN buy short positions (action: "buy_short") on individual
 stocks to profit from price declines. You can also buy inverse ETFs (SH, SDS, QID, DOG)
 for broad market bearish conviction.
+
+EARNINGS PLAYS — CHECK BEFORE CLOSE:
+These stocks report earnings AFTER market close today (April 7):
+- KRUS (Kura Sushi) — most volatile, rallied 16.7% last quarter on a miss
+- GBX (Greenbrier) — history of massive earnings surprises (128%, 34%, 45% beats)
+- LEVI (Levi Strauss) — $0.37 EPS est, safest/most liquid
+- AEHR (Aehr Test Systems) — small cap, -$0.10 EPS est
+Before buying to capture an earnings move, do your homework:
+1. EPS estimates vs trailing EPS — is the company trending up or down?
+2. Revenue growth trajectory — expanding or contracting?
+3. Market sentiment — is the stock running into earnings (priced in) or beaten down (room to pop)?
+4. Institutional activity — are insiders buying or selling ahead of the report?
+5. Sector momentum — is the broader sector strong or weak today?
+6. Historical earnings reactions — does this stock tend to move big after reports?
+If the data supports a positive surprise, BUY BEFORE CLOSE to capture the after-hours
+move. This is time-sensitive — evaluate in the final 30-60 minutes of the session.
+
 Before deciding, articulate the strongest bull and bear case for the leading candidate.
 Let the better argument win.
 

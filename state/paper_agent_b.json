@@ -1,5 +1,5 @@
 {
-  "cash": 633.62,
+  "cash": 685.28,
   "positions": {
     "SH": {
       "quantity": 5,
@@ -13,11 +13,6 @@
     "CETX": {
       "quantity": 45,
       "entry_price": 1.32,
-      "direction": "long"
-    },
-    "SIDU": {
-      "quantity": 14,
-      "entry_price": 3.79,
       "direction": "long"
     }
   },
