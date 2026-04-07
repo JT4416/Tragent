@@ -83,8 +83,8 @@ class ExpertiseManager:
                              "total_trades": 0, "win_rate": 0.0,
                              "avg_gain_pct": 0.0, "avg_loss_pct": 0.0},
                 "evolved_parameters": {
-                    "stop_loss_pct": 2.0,
-                    "trailing_stop_pct": 1.5,
+                    "stop_loss_pct": 5.0,
+                    "trailing_stop_pct": 5.0,
                     "max_position_size_pct": 5.0,
                     "confidence_threshold": 0.65,
                 },

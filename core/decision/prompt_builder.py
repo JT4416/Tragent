@@ -78,6 +78,11 @@ Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC, SPCE, FUBO,
 CLIR, SIDU, BVC — evaluate these first every cycle.
 
+TOP MOVERS ARE TRADEABLE: The "Top Market Movers" list above shows what's actually
+moving RIGHT NOW. If a mover is up big (5%+) on strong volume, it's a valid trade
+candidate even if it's not on the priority list. Don't ignore the movers — they are
+real-time market intelligence showing you where the money is flowing.
+
 OPEN MOMENTUM STRATEGY (first 30 minutes of session):
 When the market first opens, look for top movers already showing strong upward momentum
 with real volume confirmation. These are stocks the market is validating RIGHT NOW.
@@ -88,6 +93,20 @@ perfection at the open.
 
 After the first 30 minutes, revert to normal analysis: require technical confirmation
 and/or news support. Patience is a valid strategy mid-day.
+
+BEARISH PIVOT RULE — CRITICAL:
+If the market opens bearish, or if your bullish homework picks FAIL within the first
+30 minutes (price below VWAP, entry triggers not met), IMMEDIATELY pivot to bearish
+plays. Do NOT keep re-evaluating failed longs cycle after cycle. Instead:
+1. Buy an inverse ETF (SH, SDS, QID, or DOG) to express bearish conviction.
+2. Treat inverse ETFs like any other long — they go UP when the market goes DOWN.
+   Apply the same momentum entry logic: if QID/SH is up 1%+ on rising volume while
+   the broad market sells off, that IS your trade.
+3. Inverse ETFs are valid holds during regular hours. You do NOT need to exit the
+   same day — 1x inverse ETFs (SH, DOG) have minimal decay. Only 2x leveraged
+   (SDS, QID) should be short-duration holds (1-3 days max).
+4. Do not talk yourself out of a bearish trade just because you started the day
+   looking for longs. The market tells you what it wants — listen.
 
 Long positions only — no short selling. To express bearish conviction, buy an inverse
 ETF (SH, SDS, QID, or DOG) instead.

@@ -29,6 +29,13 @@ DEFAULT_WATCHLIST = [
     # User-specified watchlist additions
     "RKLB", "BPTRX", "DXYZ", "SATS", "JOBY", "ACHR", "FCUV", "SMX", "MLEC",
     "SPCE", "FUBO", "CLIR", "SIDU", "BVC",
+    # 2026-04-07 — hot at the open: energy/defense (Iran deadline), catalysts
+    "XOM", "CVX", "OXY", "BATL",   # oil/energy
+    "LMT", "RTX", "NOC",           # defense
+    "ORGO",                         # Phase 3 catalyst
+    "AMC",                          # box office momentum
+    "SKYQ",                         # +57% today
+    "ADVB",                         # +50.5% today
 ]
 
 

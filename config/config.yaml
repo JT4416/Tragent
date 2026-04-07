@@ -5,8 +5,8 @@ trading:
 
 risk:
   max_position_size_pct: 20.0
-  stop_loss_pct: 2.0
-  trailing_stop_pct: 1.5
+  stop_loss_pct: 5.0
+  trailing_stop_pct: 5.0
   max_concurrent_positions: 4
   daily_loss_limit_pct: 6.0
   confidence_threshold_regular: 0.65

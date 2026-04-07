@@ -1,9 +1,15 @@
 {
-  "cash": 1000.0,
-  "positions": {},
+  "cash": 866.17,
+  "positions": {
+    "QID": {
+      "quantity": 6,
+      "entry_price": 22.33
+    }
+  },
   "trading_days": [
     "2026-04-02",
-    "2026-04-06"
+    "2026-04-06",
+    "2026-04-07"
   ],
   "paper_start_date": "2026-04-02"
 }
