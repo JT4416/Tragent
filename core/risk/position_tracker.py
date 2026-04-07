@@ -11,17 +11,26 @@ class PositionTracker:
         )
 
     def update_stops(self, prices: dict[str, float]) -> dict:
-        """Advance trailing stops as price moves up. Returns updated levels."""
+        """Advance trailing stops as price moves favorably. Returns updated levels."""
         updates = {}
         for pos in self.store.get_positions():
             price = prices.get(pos.symbol)
             if price is None:
                 continue
-            new_trail = round(price * (1 - self._trailing_pct / 100), 2)
-            if new_trail > pos.trailing_stop:
-                pos.trailing_stop = new_trail
-                self.store.save_position(pos)
-                updates[pos.symbol] = {"new_trailing_stop": new_trail}
+            if pos.direction == "short":
+                # Short: trailing stop moves DOWN as price falls
+                new_trail = round(price * (1 + self._trailing_pct / 100), 2)
+                if new_trail < pos.trailing_stop:
+                    pos.trailing_stop = new_trail
+                    self.store.save_position(pos)
+                    updates[pos.symbol] = {"new_trailing_stop": new_trail}
+            else:
+                # Long: trailing stop moves UP as price rises
+                new_trail = round(price * (1 - self._trailing_pct / 100), 2)
+                if new_trail > pos.trailing_stop:
+                    pos.trailing_stop = new_trail
+                    self.store.save_position(pos)
+                    updates[pos.symbol] = {"new_trailing_stop": new_trail}
         return updates
 
     def check_stops(self, prices: dict[str, float]) -> dict:
@@ -31,10 +40,20 @@ class PositionTracker:
             price = prices.get(pos.symbol)
             if price is None:
                 continue
-            if price <= pos.stop_loss:
-                triggered[pos.symbol] = {"reason": "stop_loss",
-                                          "trigger_price": pos.stop_loss}
-            elif price <= pos.trailing_stop:
-                triggered[pos.symbol] = {"reason": "trailing_stop",
-                                          "trigger_price": pos.trailing_stop}
+            if pos.direction == "short":
+                # Short: stopped out when price goes UP
+                if price >= pos.stop_loss:
+                    triggered[pos.symbol] = {"reason": "stop_loss",
+                                              "trigger_price": pos.stop_loss}
+                elif price >= pos.trailing_stop:
+                    triggered[pos.symbol] = {"reason": "trailing_stop",
+                                              "trigger_price": pos.trailing_stop}
+            else:
+                # Long: stopped out when price goes DOWN
+                if price <= pos.stop_loss:
+                    triggered[pos.symbol] = {"reason": "stop_loss",
+                                              "trigger_price": pos.stop_loss}
+                elif price <= pos.trailing_stop:
+                    triggered[pos.symbol] = {"reason": "trailing_stop",
+                                              "trigger_price": pos.trailing_stop}
         return triggered

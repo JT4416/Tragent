@@ -1,9 +1,23 @@
 {
-  "cash": 866.17,
+  "cash": 653.44,
   "positions": {
     "QID": {
-      "quantity": 6,
+      "quantity": 8,
       "entry_price": 22.33
+    },
+    "SH": {
+      "quantity": 1,
+      "entry_price": 37.62
+    },
+    "SDS": {
+      "quantity": 1,
+      "entry_price": 74.04,
+      "direction": "long"
+    },
+    "SIDU": {
+      "quantity": 15,
+      "entry_price": 3.79,
+      "direction": "long"
     }
   },
   "trading_days": [

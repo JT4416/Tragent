@@ -35,10 +35,13 @@ def build_decision_prompt(
 ) -> str:
     if movers is None:
         movers = []
+    from zoneinfo import ZoneInfo
     now = datetime.now(timezone.utc)
+    et_now = datetime.now(ZoneInfo("America/New_York"))
     prep_section = _format_daily_prep(daily_prep) if daily_prep else ""
     return f"""## Current Market Context
-Date: {now.strftime('%Y-%m-%d')} | Time: {now.strftime('%H:%M')} UTC | Session: {session}
+Date: {now.strftime('%Y-%m-%d')} | Time: {et_now.strftime('%H:%M')} ET ({now.strftime('%H:%M')} UTC) | Session: {session}
+NOTE: US market hours are 9:30 AM - 4:00 PM Eastern Time. Use the ET time above for all session timing decisions.
 {prep_section}
 ## Agent Expertise (Mental Model)
 ### Market
@@ -83,16 +86,40 @@ moving RIGHT NOW. If a mover is up big (5%+) on strong volume, it's a valid trad
 candidate even if it's not on the priority list. Don't ignore the movers — they are
 real-time market intelligence showing you where the money is flowing.
 
-OPEN MOMENTUM STRATEGY (first 30 minutes of session):
-When the market first opens, look for top movers already showing strong upward momentum
-with real volume confirmation. These are stocks the market is validating RIGHT NOW.
-Jump in and ride the wave — but with a tight 1.5% trailing stop. The first 30 minutes
-often set the tone for the day. Don't overthink it: if a mover is up 2%+ on 2x+ average
-volume with multiple signals firing, that's your entry. Speed matters more than
-perfection at the open.
+MOMENTUM RIDE STRATEGY — APPLIES ALL SESSION:
+If a stock has strong upward momentum with real volume (2x+ average), RIDE IT.
+Do NOT filter out volatile stocks just because they are micro-caps or have large
+volume spikes. A stock up 20%+ on huge volume is an opportunity, not a warning.
+- Enter LONG with a 2.5% trailing stop. You are here to capture a fast move.
+- 5% gain is 5% gain regardless of the stock's market cap or "pump" risk.
+- You do NOT need a named news catalyst to trade momentum. Price and volume ARE
+  the signal. If millions of shares are trading and the price is running, that's real.
+- The only micro-cap filter that matters: if the bid-ask spread is wider than 2%,
+  skip it (illiquid). Otherwise, trade it.
 
-After the first 30 minutes, revert to normal analysis: require technical confirmation
-and/or news support. Patience is a valid strategy mid-day.
+FLIP STRATEGY — RIDE BOTH DIRECTIONS:
+When riding a volatile momentum stock:
+1. Buy LONG with a 2.5% trailing stop.
+2. If the stock reverses direction — SELL the long position and immediately BUY A
+   SHORT POSITION (action: "buy_short") on the SAME stock with a 2.5% trailing stop.
+   You profit as the price falls.
+3. If the short position reverses (stock goes back up) — close the short and buy
+   long again.
+4. Ride the up making money, ride the down making money. Keep flipping as long as
+   there is volume and volatility.
+Buying a short position is NOT short selling. It is a BUY transaction on Schwab.
+You are buying a position that profits when the price drops.
+
+OPEN MOMENTUM STRATEGY:
+The first 30 minutes of the session are prime time for spotting momentum. Look for
+top movers showing strong upward momentum with real volume confirmation — these are
+stocks the market is validating RIGHT NOW. Jump in and ride the wave with a 2.5%
+trailing stop. Speed matters more than perfection at the open.
+IMPORTANT: Open momentum can last HOURS, not just 30 minutes. A stock that gaps up
+at 9:30 and keeps running at 11:00 is still an open momentum trade. Do NOT exit or
+stop looking just because 30 minutes have passed. Ride the move as long as the
+trailing stop holds. Continue looking for new momentum setups ALL SESSION using
+the Momentum Ride Strategy above.
 
 BEARISH PIVOT RULE — CRITICAL:
 If the market opens bearish, or if your bullish homework picks FAIL within the first
@@ -108,8 +135,9 @@ plays. Do NOT keep re-evaluating failed longs cycle after cycle. Instead:
 4. Do not talk yourself out of a bearish trade just because you started the day
    looking for longs. The market tells you what it wants — listen.
 
-Long positions only — no short selling. To express bearish conviction, buy an inverse
-ETF (SH, SDS, QID, or DOG) instead.
+No short SELLING — but you CAN buy short positions (action: "buy_short") on individual
+stocks to profit from price declines. You can also buy inverse ETFs (SH, SDS, QID, DOG)
+for broad market bearish conviction.
 Before deciding, articulate the strongest bull and bear case for the leading candidate.
 Let the better argument win.
 
@@ -117,14 +145,18 @@ Let the better argument win.
 {{
   "bull_case": "strongest argument FOR this trade",
   "bear_case": "strongest argument AGAINST this trade",
-  "action": "buy|sell|hold",
+  "action": "buy|sell|buy_short|hold",
   "symbol": "TICKER or null",
   "confidence": 0.0,
   "position_size_pct": 0.0,
+  "trade_type": "momentum_ride|normal",
   "reasoning": "which case won and why",
   "signals_used": [],
   "skip_reason": "if hold, why"
-}}"""
+}}
+trade_type: use "momentum_ride" for volatile stocks you are riding for a quick gain
+(uses tight 2.5% trailing stop). Use "normal" for standard conviction trades (uses
+default 5% trailing stop)."""
 
 
 def build_self_improve_prompt(

@@ -169,14 +169,28 @@ class Agent:
         price = quote.get("lastPrice") or quote.get("mark") or 1.0
         quantity = max(1, int((cash * size_pct / 100) / price))
 
-        stop_pct = evolved.get("stop_loss_pct", 2.0)
-        trailing_pct = evolved.get("trailing_stop_pct", 1.5)
-        stop_price = round(price * (1 - stop_pct / 100), 2)
-        direction = "long"
+        if decision.trade_type == "momentum_ride":
+            stop_pct = 2.5
+            trailing_pct = 2.5
+        else:
+            stop_pct = evolved.get("stop_loss_pct", 5.0)
+            trailing_pct = evolved.get("trailing_stop_pct", 5.0)
+
+        # Determine direction from action
+        if decision.action == "buy_short":
+            direction = "short"
+            action = "buy_short"
+            stop_price = round(price * (1 + stop_pct / 100), 2)
+            trailing_stop = round(price * (1 + trailing_pct / 100), 2)
+        else:
+            direction = "long"
+            action = "buy"
+            stop_price = round(price * (1 - stop_pct / 100), 2)
+            trailing_stop = round(price * (1 - trailing_pct / 100), 2)
 
         self._schwab.place_order(
             symbol=decision.symbol,
-            action=decision.action,
+            action=action,
             quantity=quantity,
         )
 
@@ -187,7 +201,7 @@ class Agent:
                 direction=direction,
                 entry_price=price,
                 stop_loss=stop_price,
-                trailing_stop=round(price * (1 - trailing_pct / 100), 2),
+                trailing_stop=trailing_stop,
                 quantity=quantity,
                 entry_time=datetime.now(timezone.utc).isoformat(),
             )
@@ -240,10 +254,17 @@ class Agent:
         if pos is None:
             return
 
-        pnl = round((exit_price - pos.entry_price) * pos.quantity, 2)
-        pnl_pct = round(
-            (exit_price - pos.entry_price) / pos.entry_price * 100, 2
-        ) if pos.entry_price else 0.0
+        if pos.direction == "short":
+            # Short: profit when price goes down
+            pnl = round((pos.entry_price - exit_price) * pos.quantity, 2)
+            pnl_pct = round(
+                (pos.entry_price - exit_price) / pos.entry_price * 100, 2
+            ) if pos.entry_price else 0.0
+        else:
+            pnl = round((exit_price - pos.entry_price) * pos.quantity, 2)
+            pnl_pct = round(
+                (exit_price - pos.entry_price) / pos.entry_price * 100, 2
+            ) if pos.entry_price else 0.0
 
         if pos.entry_time:
             entry_dt = datetime.fromisoformat(pos.entry_time)
@@ -259,8 +280,9 @@ class Agent:
         self._store.remove_position(symbol)
 
         self.last_trade_time = datetime.now(timezone.utc)
+        close_action = "sell_to_close" if pos.direction == "short" else "sell"
         self._schwab.place_order(
-            symbol=symbol, action="sell", quantity=pos.quantity)
+            symbol=symbol, action=close_action, quantity=pos.quantity)
 
         self._logger.log({
             "event": "position_closed", "symbol": symbol, "reason": reason,

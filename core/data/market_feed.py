@@ -36,6 +36,15 @@ DEFAULT_WATCHLIST = [
     "AMC",                          # box office momentum
     "SKYQ",                         # +57% today
     "ADVB",                         # +50.5% today
+    # 2026-04-07 midday — sub-$7 momentum + earnings plays
+    "AIXI",                         # +98%, patent win vs Apple
+    "CETX",                         # +58%, Navy defense contract
+    "LNAI",                         # +42%, first revenue contract
+    "KRUS",                         # earnings after close, high volatility
+    "GBX",                          # earnings after close, big surprise history
+    "LEVI",                         # earnings after close
+    "AEHR",                         # earnings after close
+    "MGRT",                         # +40% today
 ]
 
 

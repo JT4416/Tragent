@@ -1,9 +1,24 @@
 {
-  "cash": 884.96,
+  "cash": 633.62,
   "positions": {
     "SH": {
-      "quantity": 3,
+      "quantity": 5,
       "entry_price": 37.77
+    },
+    "ADVB": {
+      "quantity": 10,
+      "entry_price": 6.36,
+      "direction": "long"
+    },
+    "CETX": {
+      "quantity": 45,
+      "entry_price": 1.32,
+      "direction": "long"
+    },
+    "SIDU": {
+      "quantity": 14,
+      "entry_price": 3.79,
+      "direction": "long"
     }
   },
   "trading_days": [

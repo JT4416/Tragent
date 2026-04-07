@@ -82,11 +82,28 @@ class PaperBroker:
                 self._state["positions"][symbol] = {
                     "quantity": quantity,
                     "entry_price": fill_price,
+                    "direction": "long",
                 }
         elif action == "sell":
             fill_price = round(price * (1 - _SLIPPAGE_PCT), 2)
             proceeds = fill_price * quantity
             self._state["cash"] = round(self._state["cash"] + proceeds, 2)
+            self._state["positions"].pop(symbol, None)
+        elif action == "buy_short":
+            # Buy a short position: receive proceeds now, owe shares later
+            fill_price = round(price * (1 - _SLIPPAGE_PCT), 2)
+            proceeds = fill_price * quantity
+            self._state["cash"] = round(self._state["cash"] + proceeds, 2)
+            self._state["positions"][symbol] = {
+                "quantity": quantity,
+                "entry_price": fill_price,
+                "direction": "short",
+            }
+        elif action == "sell_to_close":
+            # Close a short position: pay current price to return shares
+            fill_price = round(price * (1 + _SLIPPAGE_PCT), 2)
+            cost = fill_price * quantity
+            self._state["cash"] = round(self._state["cash"] - cost, 2)
             self._state["positions"].pop(symbol, None)
 
         self._save()

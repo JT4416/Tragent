@@ -39,9 +39,9 @@ class RiskGate:
         if action == "hold":
             return RiskDecision(approved=False, reason="action is hold")
 
-        # 1. Short selling permanently disabled
+        # 1. Naked short selling disabled — buying short positions (buy_short) is allowed
         if action == "short":
-            return RiskDecision(approved=False, reason="short selling disabled")
+            return RiskDecision(approved=False, reason="naked short selling disabled")
 
         # 2. Pre/post-market trading disabled until agents have 3+ months experience
         if session in ("pre_market", "post_market"):

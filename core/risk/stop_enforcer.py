@@ -43,8 +43,16 @@ class StopEnforcer:
 
     @staticmethod
     def _stop_reason(pos, price: float) -> str | None:
-        if price <= pos.stop_loss:
-            return "stop_loss"
-        if price <= pos.trailing_stop:
-            return "trailing_stop"
+        if pos.direction == "short":
+            # Short positions: stop triggers when price goes UP
+            if price >= pos.stop_loss:
+                return "stop_loss"
+            if price >= pos.trailing_stop:
+                return "trailing_stop"
+        else:
+            # Long positions: stop triggers when price goes DOWN
+            if price <= pos.stop_loss:
+                return "stop_loss"
+            if price <= pos.trailing_stop:
+                return "trailing_stop"
         return None

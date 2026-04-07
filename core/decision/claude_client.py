@@ -24,6 +24,7 @@ class TradeDecision:
     skip_reason: str | None
     bull_case: str = ""
     bear_case: str = ""
+    trade_type: str = "normal"
 
 
 class ClaudeClient:
@@ -95,6 +96,7 @@ class ClaudeClient:
             skip_reason=data.get("skip_reason"),
             bull_case=data.get("bull_case", ""),
             bear_case=data.get("bear_case", ""),
+            trade_type=data.get("trade_type", "normal"),
         )
 
     def _track_cost(self, usage) -> None:
