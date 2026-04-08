@@ -32,13 +32,17 @@ def build_decision_prompt(
     daily_loss_remaining: float,
     movers: list[dict] | None = None,
     daily_prep: dict | None = None,
+    scanner: dict | None = None,
 ) -> str:
     if movers is None:
         movers = []
+    if scanner is None:
+        scanner = {}
     from zoneinfo import ZoneInfo
     now = datetime.now(timezone.utc)
     et_now = datetime.now(ZoneInfo("America/New_York"))
     prep_section = _format_daily_prep(daily_prep) if daily_prep else ""
+    scanner_section = _format_scanner(scanner)
     return f"""## Current Market Context
 Date: {now.strftime('%Y-%m-%d')} | Time: {et_now.strftime('%H:%M')} ET ({now.strftime('%H:%M')} UTC) | Session: {session}
 NOTE: US market hours are 9:30 AM - 4:00 PM Eastern Time. Use the ET time above for all session timing decisions.
@@ -58,6 +62,7 @@ NOTE: US market hours are 9:30 AM - 4:00 PM Eastern Time. Use the ET time above 
 
 ## Top Market Movers (S&P 500 — sorted by % gain)
 {_format_movers(movers)}
+{scanner_section}
 
 ## Live Signals (breakout, momentum, trend, mean-reversion)
 ### Trading Candidates
@@ -79,34 +84,40 @@ Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 
 ## Task
 PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC, SPCE, FUBO,
-CLIR, SIDU, BVC — evaluate these first every cycle.
+CLIR, SIDU, BVC, NVTS, INFQ — evaluate these first every cycle.
 
-TOP MOVERS ARE TRADEABLE: The "Top Market Movers" list above shows what's actually
-moving RIGHT NOW. If a mover is up big (5%+) on strong volume, it's a valid trade
-candidate even if it's not on the priority list. Don't ignore the movers — they are
-real-time market intelligence showing you where the money is flowing.
+TOP MOVERS ARE YOUR #1 PRIORITY: The "Top Market Movers" list above shows what's
+actually moving RIGHT NOW with real institutional volume. LOOK AT THEM FIRST every
+cycle. If a mover is up big (3%+) on strong volume, it's your BEST trade candidate —
+better than any watchlist stock sitting flat. The movers ARE the market telling you
+where to put your money. You MUST evaluate the top 3 movers every single cycle and
+explain why you are or aren't trading them. Do NOT skip over movers to trade a
+watchlist stock with weaker momentum.
 
 MOMENTUM RIDE STRATEGY — APPLIES ALL SESSION:
 If a stock has strong upward momentum with real volume (2x+ average), RIDE IT.
 Do NOT filter out volatile stocks just because they are micro-caps or have large
 volume spikes. A stock up 20%+ on huge volume is an opportunity, not a warning.
-- Enter LONG with a 2.5% trailing stop. You are here to capture a fast move.
+- Enter LONG with a 5% trailing stop. You are here to capture a fast move.
 - 5% gain is 5% gain regardless of the stock's market cap or "pump" risk.
 - You do NOT need a named news catalyst to trade momentum. Price and volume ARE
   the signal. If millions of shares are trading and the price is running, that's real.
 - The only micro-cap filter that matters: if the bid-ask spread is wider than 2%,
   skip it (illiquid). Otherwise, trade it.
 
-FLIP STRATEGY — RIDE BOTH DIRECTIONS:
-When riding a volatile momentum stock:
-1. Buy LONG with a 2.5% trailing stop.
-2. If the stock reverses direction — SELL the long position and immediately BUY A
-   SHORT POSITION (action: "buy_short") on the SAME stock with a 2.5% trailing stop.
-   You profit as the price falls.
-3. If the short position reverses (stock goes back up) — close the short and buy
-   long again.
-4. Ride the up making money, ride the down making money. Keep flipping as long as
-   there is volume and volatility.
+FLIP STRATEGY — MANDATORY ON STOP-OUTS:
+When your trailing stop triggers on a momentum stock, DO NOT just re-enter the same
+direction. The stop triggered because the stock REVERSED. Execute the flip:
+1. Buy LONG with a 5% trailing stop.
+2. When your long stop triggers (price dropped 5%) — the stock is going DOWN.
+   Immediately BUY A SHORT POSITION (action: "buy_short") on the SAME stock with
+   a 5% trailing stop. You profit as the price continues falling.
+3. When your short stop triggers (price rose 5%) — the stock is going back UP.
+   Close the short and buy long again.
+4. You make money on BOTH directions. Stop re-entering longs on a falling stock.
+THIS IS NOT OPTIONAL. If a trailing stop fires, your NEXT action on that stock
+should be the opposite direction, not the same direction again. Re-entering the
+same direction after a stop-out is the #1 mistake you are making today.
 Buying a short position is NOT short selling. It is a BUY transaction on Schwab.
 You are buying a position that profits when the price drops.
 
@@ -139,13 +150,14 @@ No short SELLING — but you CAN buy short positions (action: "buy_short") on in
 stocks to profit from price declines. You can also buy inverse ETFs (SH, SDS, QID, DOG)
 for broad market bearish conviction.
 
-EARNINGS PLAYS — CHECK BEFORE CLOSE:
-These stocks report earnings AFTER market close today (April 7):
+EARNINGS PLAYS — POST-MARKET REPORTS FROM YESTERDAY:
+These stocks reported earnings AFTER yesterday's close (April 7). Check for gaps:
 - KRUS (Kura Sushi) — most volatile, rallied 16.7% last quarter on a miss
 - GBX (Greenbrier) — history of massive earnings surprises (128%, 34%, 45% beats)
 - LEVI (Levi Strauss) — $0.37 EPS est, safest/most liquid
 - AEHR (Aehr Test Systems) — small cap, -$0.10 EPS est
-Before buying to capture an earnings move, do your homework:
+If any of these gapped up/down on their report, there may be a momentum trade at open.
+Before trading an earnings mover, quickly assess:
 1. EPS estimates vs trailing EPS — is the company trending up or down?
 2. Revenue growth trajectory — expanding or contracting?
 3. Market sentiment — is the stock running into earnings (priced in) or beaten down (room to pop)?
@@ -160,6 +172,7 @@ Let the better argument win.
 
 ## Response Format (JSON only)
 {{
+  "top_movers_eval": "REQUIRED: evaluate top 3 movers by name — why trading or not",
   "bull_case": "strongest argument FOR this trade",
   "bear_case": "strongest argument AGAINST this trade",
   "action": "buy|sell|buy_short|hold",
@@ -172,7 +185,7 @@ Let the better argument win.
   "skip_reason": "if hold, why"
 }}
 trade_type: use "momentum_ride" for volatile stocks you are riding for a quick gain
-(uses tight 2.5% trailing stop). Use "normal" for standard conviction trades (uses
+(uses tight 5% trailing stop). Use "normal" for standard conviction trades (uses
 default 5% trailing stop)."""
 
 
@@ -331,6 +344,17 @@ def _format_daily_prep(prep: dict) -> str:
         lines.append("### Lessons")
         for l in lessons:
             lines.append(f"  - {l}")
+    directive = prep.get("user_directive", {})
+    if directive:
+        lines.append("")
+        lines.append("## >>> USER DIRECTIVE FOR TODAY (HIGHEST PRIORITY) <<<")
+        for key, value in directive.items():
+            if isinstance(value, list):
+                lines.append(f"### {key.replace('_', ' ').title()}")
+                for item in value:
+                    lines.append(f"  - {item}")
+            else:
+                lines.append(f"**{key.replace('_', ' ').title()}:** {value}")
     return "\n".join(lines) + "\n"
 
 
@@ -354,6 +378,44 @@ def _format_list(items: list) -> str:
     if not items:
         return "  (none)"
     return "\n".join(f"  - {item}" for item in items)
+
+
+def _format_scanner(scanner: dict) -> str:
+    if not scanner:
+        return ""
+    sections = []
+
+    gainers = scanner.get("pct_gainers_all", [])
+    if gainers:
+        sections.append("## MARKET SCANNER — Top % Gainers (ALL EXCHANGES)")
+        sections.append("These are the hottest stocks RIGHT NOW across the entire market:")
+        for m in gainers:
+            sections.append(
+                f"  - {m['symbol']:6s}  {m['netPercentChange']:+.2f}%"
+                f"  ${m['lastPrice']:.2f}"
+                f"  vol {m['volume']:,}")
+
+    vol = scanner.get("volume_leaders", [])
+    if vol:
+        sections.append("\n## MARKET SCANNER — Volume Leaders (ALL EXCHANGES)")
+        sections.append("Highest trading volume right now — where the money is flowing:")
+        for m in vol:
+            sections.append(
+                f"  - {m['symbol']:6s}  {m['netPercentChange']:+.2f}%"
+                f"  ${m['lastPrice']:.2f}"
+                f"  vol {m['volume']:,}")
+
+    losers = scanner.get("pct_losers_all", [])
+    if losers:
+        sections.append("\n## MARKET SCANNER — Top % Losers (FLIP/SHORT candidates)")
+        sections.append("Biggest drops — potential buy_short or flip opportunities:")
+        for m in losers:
+            sections.append(
+                f"  - {m['symbol']:6s}  {m['netPercentChange']:+.2f}%"
+                f"  ${m['lastPrice']:.2f}"
+                f"  vol {m['volume']:,}")
+
+    return "\n".join(sections) + "\n" if sections else ""
 
 
 def _format_movers(movers: list[dict]) -> str:

@@ -1,29 +1,27 @@
 {
-  "cash": 660.63,
+  "cash": 2408.88,
   "positions": {
-    "QID": {
-      "quantity": 8,
-      "entry_price": 22.33
-    },
-    "SH": {
-      "quantity": 1,
-      "entry_price": 37.62
-    },
-    "SDS": {
-      "quantity": 1,
-      "entry_price": 74.04,
+    "LEVI": {
+      "quantity": 18,
+      "entry_price": 21.54,
       "direction": "long"
     },
-    "GBX": {
-      "quantity": 1,
-      "entry_price": 48.01,
+    "F": {
+      "quantity": 30,
+      "entry_price": 12.14,
+      "direction": "long"
+    },
+    "NVTS": {
+      "quantity": 189,
+      "entry_price": 9.51,
       "direction": "long"
     }
   },
   "trading_days": [
     "2026-04-02",
     "2026-04-06",
-    "2026-04-07"
+    "2026-04-07",
+    "2026-04-08"
   ],
   "paper_start_date": "2026-04-02"
 }

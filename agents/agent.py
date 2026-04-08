@@ -119,6 +119,7 @@ class Agent:
                                    settings.get("risk", "daily_loss_limit_pct") / 100
                                    + round_pnl),
             movers=market_data.get("movers", []),
+            scanner=market_data.get("scanner", {}),
         )
 
         decision = self._claude.decide("", prompt)

@@ -43,10 +43,8 @@ class RiskGate:
         if action == "short":
             return RiskDecision(approved=False, reason="naked short selling disabled")
 
-        # 2. Pre/post-market trading disabled until agents have 3+ months experience
-        if session in ("pre_market", "post_market"):
-            return RiskDecision(approved=False,
-                                reason="pre/post market trading disabled")
+        # 2. Pre/post-market trading — allowed (user override)
+        # Previously disabled; user enabled pre/post market trading on 2026-04-08
 
         # 3. Open blackout (first 5 min of regular session)
         if session == "regular" and self._in_open_blackout(current_time):

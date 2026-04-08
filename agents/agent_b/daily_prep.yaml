@@ -1,117 +1,127 @@
 top_picks:
-- symbol: FCUV
-  setup: Extreme volume spike (1232x avg) with 20-day range breakout above 5.72 and
-    SMA cross. Pattern matches volume_spike_with_range_breakout. Micro-cap pump risk
-    is real but breakout is textbook. Watch premarket for continuation vs. fade.
-  entry_trigger: Buy above 5.85 on volume > 5,000,000 in first 30 min with price holding
-    above 5.72 breakout level. Must NOT open gap-up > 10% (chasing risk). Premarket
-    must show sustained bid, not spike-and-fade.
-  target_price: 7.2
-  stop_price: 5.55
-  confidence: 0.52
+- symbol: CETX
+  setup: "Explosive 87x avg volume breakout above 20-day high at 0.96. EMA 9 crossed\
+    \ above EMA 21. Price crossed above 50-day SMA. Strongest combined signal of the\
+    \ day. Micro-cap risk applies \u2014 size accordingly."
+  entry_trigger: Buy above 0.98 with volume > 10M in first 15 min after open. Wait
+    for first 5-min candle to confirm direction before entering.
+  target_price: 1.2
+  stop_price: 0.88
+  confidence: 0.62
   signals:
   - volume_spike
   - range_breakout
+  - ema_crossover
   - sma_trend
-- symbol: TSLA
-  setup: "At lower Bollinger Band with RSI 34.9 \u2014 oversold bounce setup. Price\
-    \ below VWAP and 13.6% below 50-day SMA so trend is against, but BB+RSI combination\
-    \ signals mean reversion potential. QID bullish signal confirms broader Nasdaq\
-    \ weakness which could reverse."
-  entry_trigger: Buy above 353.87 (VWAP reclaim) on volume > 15,000,000 with RSI turning
-    up. Stop below today's low. Do not enter if Nasdaq futures are down > 0.5% premarket.
-  target_price: 368.0
-  stop_price: 347.0
-  confidence: 0.42
+- symbol: ADVB
+  setup: "Nearly 50x avg volume with 20-day range breakout and EMA 9 crossing above\
+    \ EMA 21. Price crossed above 50-day SMA. RSI at 72 \u2014 mildly overbought but\
+    \ not extreme. Cleaner setup than AIXI due to lower RSI."
+  entry_trigger: Buy above 5.70 (prior day high confirmation) on volume > 1M in first
+    30 min with stop at 5.20.
+  target_price: 6.5
+  stop_price: 5.2
+  confidence: 0.6
   signals:
-  - bb_bounce
-  - vwap_cross
+  - volume_spike
+  - range_breakout
+  - ema_crossover
   - sma_trend
-- symbol: RKLB
-  setup: MACD histogram flipped positive with OBV divergence showing accumulation
-    despite price down 6.5% below 50-day SMA. Hidden buying pattern. Space/AI sector
-    tailwind from news cycle. Low confidence but multi-signal alignment present.
-  entry_trigger: Buy above yesterday's close on volume > 2x average in first 45 min.
-    MACD must remain positive at open. Stop at 2% below entry.
-  target_price: null
-  stop_price: null
-  confidence: 0.38
+- symbol: ORGO
+  setup: "26x avg volume with RSI turning up from deeply oversold (24.2 to 26). OBV\
+    \ divergence shows hidden accumulation \u2014 price down but smart money buying.\
+    \ High-risk mean reversion candidate."
+  entry_trigger: Buy above 1.05 if it holds above prior-day close on volume > 2M.
+    Requires RSI confirmation above 30 at open.
+  target_price: 1.35
+  stop_price: 0.92
+  confidence: 0.52
   signals:
-  - macd_crossover
+  - volume_spike
+  - rsi_oversold
   - obv_divergence
-- symbol: ACHR
-  setup: VWAP cross + MACD histogram flip positive. eVTOL/air taxi sector peer to
-    JOBY. Both showing momentum shift. ACHR at 5.55 VWAP with MACD confirming. Sector
-    momentum could carry both names.
-  entry_trigger: Buy above 5.65 (above VWAP + buffer) on volume > 1.5x average. Both
-    ACHR and JOBY must show green premarket to confirm sector bid. Stop at 5.40.
-  target_price: 6.1
-  stop_price: 5.4
-  confidence: 0.37
+- symbol: GBX
+  setup: "Bearish day with 5.5x volume and price at lower Bollinger Band with RSI\
+    \ 29.1 \u2014 classic oversold bounce setup. Contrarian long opportunity if selling\
+    \ exhausts at open."
+  entry_trigger: Buy above 49.50 if it bounces off lower BB in first 30 min with RSI
+    turning up. Volume confirmation required. Do not chase if gap-up > 2% at open.
+  target_price: 53.0
+  stop_price: 47.8
+  confidence: 0.5
   signals:
-  - vwap_cross
-  - macd_crossover
+  - volume_spike
+  - bb_bounce
+  - sma_trend
 market_outlook:
-  bias: bearish
-  reasoning: "QID (inverse Nasdaq 2x) showing bullish signal with price 5.3% above\
-    \ 50-day SMA \u2014 smart money is hedging Nasdaq exposure. MSFT and TSLA both\
-    \ below VWAP and in confirmed downtrends, and AAPL insider selling 30,000 shares\
-    \ at $255 adds institutional distribution pressure. Near-term risk is to the downside\
-    \ until macro clarity emerges."
+  bias: bullish
+  reasoning: "Semis surged hard today \u2014 MU +12.4%, INTC +10.3%, NVDA +4.1% \u2014\
+    \ on strong sector rotation into AI/tech. Multiple breakout setups across watchlist\
+    \ on extreme volume confirm broad risk-on appetite. However, RSI readings are\
+    \ extreme on several names; expect some morning chop before continuation."
   key_levels:
-  - "SPY: Watch 540 as near-term support \u2014 break below confirms continuation\
-    \ of downtrend"
-  - "QQQ: 460 is key level \u2014 QID bullish signal suggests test of this level likely"
-  - "TSLA: 347.94 lower Bollinger Band is line in sand \u2014 close below = accelerating\
-    \ breakdown"
+  - 'SPY: Watch 540 as near-term support; 550 resistance is the level bulls need to
+    reclaim for sustained follow-through'
+  - 'QQQ: 460 support; failure below 455 would flip bias to neutral'
+  - "NVDA: Director sold 221K shares at ~$173 on March 20 \u2014 insider supply overhead;\
+    \ key resistance near $190"
 avoid_list:
+- symbol: AIXI
+  reason: RSI 94.4 is extreme overbought, price 679% above 50-day SMA. Any entry here
+    is chasing a parabolic. High dump risk after this kind of run.
+- symbol: MGRT
+  reason: "RSI 88.4 overbought with only 1.6x avg volume. Weak volume does not support\
+    \ the price extension. Price 247% above 50-day SMA \u2014 high reversal risk."
 - symbol: SMX
-  reason: "41x volume spike but price 61.3% below 50-day SMA \u2014 deeply broken\
-    \ chart with no news catalyst. Classic micro-cap pump pattern with extreme reversal\
-    \ risk."
-- symbol: MLEC
-  reason: 199x volume spike with no identifiable news catalyst on priority watchlist
-    scan. Micro-cap pump-and-dump risk at 0.8 confidence. Avoid entirely.
-- symbol: MSFT
-  reason: Bearish signal, 7.6% below 50-day SMA, below VWAP. No technical reason for
-    long entry. Short setup not confirmed enough with only 0.583 combined strength.
-- symbol: QID
-  reason: "Leveraged ETF decay risk (0.9 confidence false signal). If used as hedge,\
-    \ intraday only \u2014 no overnight hold. MACD histogram flipped negative contradicts\
-    \ bullish label, adding confusion."
-- symbol: SATS
-  reason: "Bullish signal but price crossed BELOW VWAP \u2014 contradicts direction\
-    \ label. Signal conflict makes this untradeable until price action clarifies."
-- symbol: AAPL
-  reason: "Insider selling 30,000 shares by SVP at $255 on April 2nd \u2014 distribution\
-    \ signal from senior officer. Avoid long entries until selling pressure subsides."
+  reason: Bearish signal but OBV divergence (hidden buying) creates conflicting reads.
+    Mixed signals with low combined strength (0.537). Avoid until direction resolves.
+- symbol: SKYQ
+  reason: "Bearish signal direction with RSI 74.3 and price 111% above 50-day SMA.\
+    \ Overbought on extended run \u2014 no clean short setup without a clear breakdown\
+    \ trigger."
+- symbol: SIDU
+  reason: Only 3 signals, modest volume (3.3x), price already 57% above 50-day SMA.
+    Easy money likely gone from today's move. Risk/reward unfavorable chasing here.
 lessons_from_today:
-- "All 10 decisions today were HOLD \u2014 system is over-filtering. Paper trading\
-  \ requires MORE trades at lower confidence to generate learning data. Loosen entry\
-  \ bar to 0.40 combined_strength minimum when 2+ signals align on priority watchlist\
-  \ names."
-- "FCUV printed a near-perfect volume_spike_with_range_breakout setup (0.9 combined\
-  \ strength) but was avoided due to micro-cap pump risk. Lesson: establish a tiered\
-  \ micro-cap rule \u2014 extreme volume (> 500x) WITH confirmed range breakout earns\
-  \ a small position (5% of portfolio max) rather than automatic disqualification."
-- "QID and TSLA show opposing forces \u2014 market internals are mixed. When inverse\
-  \ ETFs trend up alongside individual stock oversold signals, it indicates sector\
-  \ rotation not broad collapse. Weight sector context before directional bias."
-- "AAPL insider selling filed after close is actionable intelligence for tomorrow.\
-  \ Build a habit of checking Form 4 filings every evening \u2014 institutional and\
-  \ insider flow often leads price by 1-2 sessions."
-- "ACHR and JOBY both showed bullish MACD flips in the same sector on the same day\
-  \ \u2014 correlated sector signals are stronger than single-stock signals. Sector\
-  \ confirmation should be a named pattern in the mental model."
-Updated mental model additions:
-  new_pattern_candidate:
-    pattern: sector_correlated_macd_flip
-    note: "Two or more stocks in same sector showing simultaneous MACD histogram flips\
-      \ \u2014 sector momentum shift more reliable than single-stock signal"
-    confidence: 0.55
-  rule_refinement:
-    pattern: micro_cap_volume_spike
-    update: If volume spike > 500x AND confirmed range breakout AND combined_strength
-      > 0.85, allow small position (max 5% portfolio) rather than full disqualification.
-      Pump risk remains but asymmetric reward justifies small bet.
-    confidence: 0.65
+- "Semi sector confirmation matters: MU, INTC, NVDA all surging together validates\
+  \ AI/chip theme \u2014 when sector leaders move in unison, related setups on watchlist\
+  \ carry higher probability."
+- "Extreme RSI (>90) is a hard avoid for new entries regardless of other signal strength\
+  \ \u2014 AIXI at RSI 94.4 with price 679% above SMA is a trap for latecomers."
+- "OBV divergence on bearish-directed stocks (SMX, ORGO) creates ambiguity \u2014\
+  \ treat these as mean reversion candidates only, not trend follows."
+- "Insider selling overhead on NVDA (~$173 cost basis for 221K shares sold) creates\
+  \ resistance \u2014 note institutional activity as a price ceiling input, not just\
+  \ a signal."
+- "A stop_loss close with severe capital constraint ($682 / $54 headroom) means position\
+  \ sizing must be micro \u2014 max 1 share on anything above $50 until capital grows."
+user_directive:
+  todays_mission: >
+    TODAY IS ABOUT PROFIT. Your #1 job is to make money. Not hedge, not wait,
+    not analyze endlessly — TRADE and PROFIT.
+  price_range_focus: >
+    Pay extra attention to stocks in the $2.00 - $20.00 range — they have velocity
+    and percentage-move potential. BUT this is NOT a restriction. If INTC is ripping
+    14% on massive volume, trade INTC. If MU is the strongest mover, trade MU. The
+    best opportunity wins regardless of price. $2-$20 is a sweet spot to watch, not
+    a ceiling.
+  pre_bell_scan: >
+    Before the bell, scan for stocks in the $2-$20 range showing pre-market
+    momentum, volume spikes, or positive catalysts. These are your targets.
+    Look at post-market earnings movers — any stock that reported after yesterday's
+    close and beat/missed expectations could gap hard at open.
+  at_the_bell: >
+    When the bell rings at 9:30 ET, immediately look at TOP MARKET MOVERS.
+    Find what's moving with volume and RIDE THE WAVE. Do not overthink. Do not
+    wait for perfect setups. If something in the $2-$20 range is running on real
+    volume, get in with a 2.5% trailing stop and let it ride.
+  inverse_etf_warning: >
+    You are holding SH (inverse S&P). If the market opens bullish and your movers
+    are running, this hedge is COSTING you money. Dead weight in a bull market is
+    the opposite of profit. Consider dumping it to free up capital for winners.
+  mandate: PROFIT. Not safety. Not hedging. PROFIT.
+evolved_parameters:
+  confidence_threshold: 0.45
+  max_position_size_pct: 10.0
+  stop_loss_pct: 2.0
+  trailing_stop_pct: 1.5

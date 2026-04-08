@@ -28,7 +28,7 @@ DEFAULT_WATCHLIST = [
     "DOG",  # ProShares Short Dow30 (1x inverse)
     # User-specified watchlist additions
     "RKLB", "BPTRX", "DXYZ", "SATS", "JOBY", "ACHR", "FCUV", "SMX", "MLEC",
-    "SPCE", "FUBO", "CLIR", "SIDU", "BVC",
+    "SPCE", "FUBO", "CLIR", "SIDU", "BVC", "NVTS", "INFQ",
     # 2026-04-07 — hot at the open: energy/defense (Iran deadline), catalysts
     "XOM", "CVX", "OXY", "BATL",   # oil/energy
     "LMT", "RTX", "NOC",           # defense
@@ -109,11 +109,16 @@ class MarketFeed:
 
         # Top market movers (Schwab real-time)
         movers = []
+        scanner = {}
         if self._schwab is not None:
             try:
                 movers = self._schwab.get_movers()
             except Exception:
                 movers = []
+            try:
+                scanner = self._schwab.scan_market(top_n=10)
+            except Exception:
+                scanner = {}
 
         schwab_data = {}
         if self._schwab_feed is not None:
@@ -125,6 +130,7 @@ class MarketFeed:
         packet = {
             "session": session,
             "movers": movers,
+            "scanner": scanner,
             "prices": prices,
             "signals": ranked[:10],
             "news": [{"title": a["title"], "source": a.get("source", {}).get("name")}

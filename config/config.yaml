@@ -7,15 +7,15 @@ risk:
   max_position_size_pct: 20.0
   stop_loss_pct: 5.0
   trailing_stop_pct: 5.0
-  max_concurrent_positions: 4
-  daily_loss_limit_pct: 6.0
+  max_concurrent_positions: 8
+  daily_loss_limit_pct: 8.5
   confidence_threshold_regular: 0.65
   confidence_threshold_paper: 0.45
   open_blackout_minutes: 0
 
 competition:
   round_duration_days: 28
-  base_capital: 1000.0
+  base_capital: 5000.0
   capital_advantage_pct: 15.0
 
 api_cost:

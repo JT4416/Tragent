@@ -105,6 +105,72 @@ class SchwabClient:
             _logging.getLogger(__name__).warning("get_movers failed: %s", e)
             return []
 
+    def scan_market(self, top_n: int = 10) -> dict[str, list[dict]]:
+        """Broad market scanner — % gainers and volume leaders across ALL exchanges.
+
+        Returns dict with keys:
+          "pct_gainers_all"  — top % gainers across all equities
+          "pct_gainers_nasdaq" — top % gainers on Nasdaq
+          "pct_gainers_nyse" — top % gainers on NYSE
+          "volume_leaders"   — top volume across all equities
+          "pct_losers_all"   — top % losers (for flip/short opportunities)
+        """
+        from schwab.client import Client as _C
+        import logging as _logging
+        _log = _logging.getLogger(__name__)
+
+        def _fetch(index, sort_order, freq=None):
+            try:
+                kwargs = {"sort_order": sort_order}
+                if freq is not None:
+                    kwargs["frequency"] = freq
+                resp = self._client.get_movers(index, **kwargs)
+                resp.raise_for_status()
+                screeners = resp.json().get("screeners", [])
+                results = []
+                for s in screeners:
+                    results.append({
+                        "symbol": s["symbol"],
+                        "description": s.get("description", ""),
+                        "lastPrice": s.get("lastPrice", 0.0),
+                        "netChange": s.get("netChange", 0.0),
+                        "netPercentChange": round(
+                            s.get("netPercentChange", 0.0) * 100, 2),
+                        "volume": s.get("volume", 0),
+                    })
+                return results[:top_n]
+            except Exception as e:
+                _log.warning("scan_market %s/%s failed: %s",
+                             index, sort_order, e)
+                return []
+
+        return {
+            "pct_gainers_all": _fetch(
+                _C.Movers.Index.EQUITY_ALL,
+                _C.Movers.SortOrder.PERCENT_CHANGE_UP,
+                _C.Movers.Frequency.FIVE,   # only 5%+ movers
+            ),
+            "pct_gainers_nasdaq": _fetch(
+                _C.Movers.Index.NASDAQ,
+                _C.Movers.SortOrder.PERCENT_CHANGE_UP,
+                _C.Movers.Frequency.FIVE,
+            ),
+            "pct_gainers_nyse": _fetch(
+                _C.Movers.Index.NYSE,
+                _C.Movers.SortOrder.PERCENT_CHANGE_UP,
+                _C.Movers.Frequency.FIVE,
+            ),
+            "volume_leaders": _fetch(
+                _C.Movers.Index.EQUITY_ALL,
+                _C.Movers.SortOrder.VOLUME,
+            ),
+            "pct_losers_all": _fetch(
+                _C.Movers.Index.EQUITY_ALL,
+                _C.Movers.SortOrder.PERCENT_CHANGE_DOWN,
+                _C.Movers.Frequency.FIVE,
+            ),
+        }
+
     def get_quotes_bulk(self, symbols: list[str]) -> dict:
         resp = self._client.get_quotes(symbols)
         resp.raise_for_status()
