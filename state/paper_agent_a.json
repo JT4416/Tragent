@@ -1,19 +1,27 @@
 {
-  "cash": 2408.88,
+  "cash": 533.03,
   "positions": {
+    "QID": {
+      "quantity": 8,
+      "entry_price": 22.33
+    },
+    "SH": {
+      "quantity": 1,
+      "entry_price": 37.62
+    },
+    "SDS": {
+      "quantity": 1,
+      "entry_price": 74.04,
+      "direction": "long"
+    },
     "LEVI": {
-      "quantity": 18,
-      "entry_price": 21.54,
+      "quantity": 8,
+      "entry_price": 21.73,
       "direction": "long"
     },
-    "F": {
-      "quantity": 30,
-      "entry_price": 12.14,
-      "direction": "long"
-    },
-    "NVTS": {
-      "quantity": 189,
-      "entry_price": 9.51,
+    "INTC": {
+      "quantity": 1,
+      "entry_price": 58.78,
       "direction": "long"
     }
   },

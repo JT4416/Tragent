@@ -1,0 +1,394 @@
+{
+  "baseline": {
+    "date": "2026-04-08",
+    "time": "13:24 ET",
+    "prices": {
+      "OWL": 8.365,
+      "CRWV": 89.505,
+      "BWXT": 230.32,
+      "ON": 67.89,
+      "TER": 355.32,
+      "LRCX": 244.845,
+      "MPWR": 1308.0,
+      "KLAC": 1665.41,
+      "PWR": 575.97,
+      "EXLS": 30.55,
+      "NRG": 157.44,
+      "ALAB": 125.27,
+      "CRSP": 51.29,
+      "KEYS": 319.71,
+      "PLTR": 144.1699,
+      "WMB": 72.555,
+      "FSLY": 34.075,
+      "PRCT": 24.225,
+      "DMLP": 27.79,
+      "NN": 15.4,
+      "PHR": 8.97,
+      "NIQ": 11.745,
+      "ARM": 149.085,
+      "NET": 216.0025,
+      "ASML": 1418.5,
+      "SYM": 55.105,
+      "SNOW": 151.89,
+      "PATH": 10.725,
+      "TT": 448.73,
+      "GKOS": 120.58,
+      "LTH": 28.6,
+      "MRVL": 115.24,
+      "RXRX": 3.415
+    }
+  },
+  "latest": {
+    "timestamp": "2026-04-08T13:54:35.650706-04:00",
+    "date": "2026-04-08",
+    "time": "13:54 ET",
+    "session": "regular",
+    "positions": {
+      "OWL": {
+        "current_price": 8.325,
+        "baseline_price": 8.365,
+        "position_value": 832.5,
+        "baseline_value": 836.5,
+        "change_pct": -0.48,
+        "day_pct": 0.0,
+        "volume": 16506471
+      },
+      "CRWV": {
+        "current_price": 89.59,
+        "baseline_price": 89.505,
+        "position_value": 8959.0,
+        "baseline_value": 8950.5,
+        "change_pct": 0.09,
+        "day_pct": 0.0,
+        "volume": 13468360
+      },
+      "BWXT": {
+        "current_price": 230.87,
+        "baseline_price": 230.32,
+        "position_value": 23087.0,
+        "baseline_value": 23032.0,
+        "change_pct": 0.24,
+        "day_pct": 0.0,
+        "volume": 668992
+      },
+      "ON": {
+        "current_price": 68.03,
+        "baseline_price": 67.89,
+        "position_value": 6803.0,
+        "baseline_value": 6789.0,
+        "change_pct": 0.21,
+        "day_pct": 0.0,
+        "volume": 4735357
+      },
+      "TER": {
+        "current_price": 357.15,
+        "baseline_price": 355.32,
+        "position_value": 35715.0,
+        "baseline_value": 35532.0,
+        "change_pct": 0.52,
+        "day_pct": 0.0,
+        "volume": 2817874
+      },
+      "LRCX": {
+        "current_price": 245.02,
+        "baseline_price": 244.845,
+        "position_value": 24502.0,
+        "baseline_value": 24484.5,
+        "change_pct": 0.07,
+        "day_pct": 0.0,
+        "volume": 6346412
+      },
+      "MPWR": {
+        "current_price": 1313.435,
+        "baseline_price": 1308.0,
+        "position_value": 131343.5,
+        "baseline_value": 130800.0,
+        "change_pct": 0.42,
+        "day_pct": 0.0,
+        "volume": 438371
+      },
+      "KLAC": {
+        "current_price": 1664.33,
+        "baseline_price": 1665.41,
+        "position_value": 166433.0,
+        "baseline_value": 166541.0,
+        "change_pct": -0.06,
+        "day_pct": 0.0,
+        "volume": 493428
+      },
+      "PWR": {
+        "current_price": 578.02,
+        "baseline_price": 575.97,
+        "position_value": 57802.0,
+        "baseline_value": 57597.0,
+        "change_pct": 0.36,
+        "day_pct": 0.0,
+        "volume": 532504
+      },
+      "EXLS": {
+        "current_price": 30.59,
+        "baseline_price": 30.55,
+        "position_value": 3059.0,
+        "baseline_value": 3055.0,
+        "change_pct": 0.13,
+        "day_pct": 0.0,
+        "volume": 843870
+      },
+      "NRG": {
+        "current_price": 158.96,
+        "baseline_price": 157.44,
+        "position_value": 15896.0,
+        "baseline_value": 15744.0,
+        "change_pct": 0.97,
+        "day_pct": 0.0,
+        "volume": 1243077
+      },
+      "ALAB": {
+        "current_price": 125.64,
+        "baseline_price": 125.27,
+        "position_value": 12564.0,
+        "baseline_value": 12527.0,
+        "change_pct": 0.3,
+        "day_pct": 0.0,
+        "volume": 2173425
+      },
+      "CRSP": {
+        "current_price": 51.29,
+        "baseline_price": 51.29,
+        "position_value": 5129.0,
+        "baseline_value": 5129.0,
+        "change_pct": 0.0,
+        "day_pct": 0.0,
+        "volume": 874061
+      },
+      "KEYS": {
+        "current_price": 321.2,
+        "baseline_price": 319.71,
+        "position_value": 32120.0,
+        "baseline_value": 31971.0,
+        "change_pct": 0.47,
+        "day_pct": 0.0,
+        "volume": 654973
+      },
+      "PLTR": {
+        "current_price": 143.03,
+        "baseline_price": 144.1699,
+        "position_value": 14303.0,
+        "baseline_value": 14416.99,
+        "change_pct": -0.79,
+        "day_pct": 0.0,
+        "volume": 40314860
+      },
+      "WMB": {
+        "current_price": 72.36,
+        "baseline_price": 72.555,
+        "position_value": 7236.0,
+        "baseline_value": 7255.5,
+        "change_pct": -0.27,
+        "day_pct": 0.0,
+        "volume": 4526153
+      },
+      "FSLY": {
+        "current_price": 34.23,
+        "baseline_price": 34.075,
+        "position_value": 3423.0,
+        "baseline_value": 3407.5,
+        "change_pct": 0.45,
+        "day_pct": 0.0,
+        "volume": 7420962
+      },
+      "PRCT": {
+        "current_price": 24.31,
+        "baseline_price": 24.225,
+        "position_value": 2431.0,
+        "baseline_value": 2422.5,
+        "change_pct": 0.35,
+        "day_pct": 0.0,
+        "volume": 952923
+      },
+      "DMLP": {
+        "current_price": 27.88,
+        "baseline_price": 27.79,
+        "position_value": 2788.0,
+        "baseline_value": 2779.0,
+        "change_pct": 0.32,
+        "day_pct": 0.0,
+        "volume": 76238
+      },
+      "NN": {
+        "current_price": 15.28,
+        "baseline_price": 15.4,
+        "position_value": 1528.0,
+        "baseline_value": 1540.0,
+        "change_pct": -0.78,
+        "day_pct": 0.0,
+        "volume": 550669
+      },
+      "PHR": {
+        "current_price": 8.9,
+        "baseline_price": 8.97,
+        "position_value": 890.0,
+        "baseline_value": 897.0,
+        "change_pct": -0.78,
+        "day_pct": 0.0,
+        "volume": 758274
+      },
+      "NIQ": {
+        "current_price": 11.73,
+        "baseline_price": 11.745,
+        "position_value": 1173.0,
+        "baseline_value": 1174.5,
+        "change_pct": -0.13,
+        "day_pct": 0.0,
+        "volume": 263215
+      },
+      "ARM": {
+        "current_price": 150.0,
+        "baseline_price": 149.085,
+        "position_value": 15000.0,
+        "baseline_value": 14908.5,
+        "change_pct": 0.61,
+        "day_pct": 0.0,
+        "volume": 4392269
+      },
+      "NET": {
+        "current_price": 213.96,
+        "baseline_price": 216.0025,
+        "position_value": 21396.0,
+        "baseline_value": 21600.25,
+        "change_pct": -0.95,
+        "day_pct": 0.0,
+        "volume": 2649372
+      },
+      "ASML": {
+        "current_price": 1422.71,
+        "baseline_price": 1418.5,
+        "position_value": 142271.0,
+        "baseline_value": 141850.0,
+        "change_pct": 0.3,
+        "day_pct": 0.0,
+        "volume": 1767221
+      },
+      "SYM": {
+        "current_price": 55.34,
+        "baseline_price": 55.105,
+        "position_value": 5534.0,
+        "baseline_value": 5510.5,
+        "change_pct": 0.43,
+        "day_pct": 0.0,
+        "volume": 752549
+      },
+      "SNOW": {
+        "current_price": 151.255,
+        "baseline_price": 151.89,
+        "position_value": 15125.5,
+        "baseline_value": 15189.0,
+        "change_pct": -0.42,
+        "day_pct": 0.0,
+        "volume": 3202563
+      },
+      "PATH": {
+        "current_price": 10.615,
+        "baseline_price": 10.725,
+        "position_value": 1061.5,
+        "baseline_value": 1072.5,
+        "change_pct": -1.03,
+        "day_pct": 0.0,
+        "volume": 13539067
+      },
+      "TT": {
+        "current_price": 449.725,
+        "baseline_price": 448.73,
+        "position_value": 44972.5,
+        "baseline_value": 44873.0,
+        "change_pct": 0.22,
+        "day_pct": 0.0,
+        "volume": 614618
+      },
+      "GKOS": {
+        "current_price": 120.7,
+        "baseline_price": 120.58,
+        "position_value": 12070.0,
+        "baseline_value": 12058.0,
+        "change_pct": 0.1,
+        "day_pct": 0.0,
+        "volume": 433785
+      },
+      "LTH": {
+        "current_price": 28.61,
+        "baseline_price": 28.6,
+        "position_value": 2861.0,
+        "baseline_value": 2860.0,
+        "change_pct": 0.03,
+        "day_pct": 0.0,
+        "volume": 1003600
+      },
+      "MRVL": {
+        "current_price": 115.3899,
+        "baseline_price": 115.24,
+        "position_value": 11538.99,
+        "baseline_value": 11524.0,
+        "change_pct": 0.13,
+        "day_pct": 0.0,
+        "volume": 17583790
+      },
+      "RXRX": {
+        "current_price": 3.405,
+        "baseline_price": 3.415,
+        "position_value": 340.5,
+        "baseline_value": 341.5,
+        "change_pct": -0.29,
+        "day_pct": 0.0,
+        "volume": 10283231
+      }
+    },
+    "total_value": 830187.99,
+    "baseline_total": 828668.74,
+    "total_change_pct": 0.18,
+    "total_change_dollar": 1519.25
+  },
+  "history": {
+    "2026-04-08": [
+      {
+        "time": "13:24",
+        "total_value": 828668.74,
+        "total_change_pct": 0.0
+      },
+      {
+        "time": "13:24",
+        "total_value": 828483.36,
+        "total_change_pct": -0.02
+      },
+      {
+        "time": "13:29",
+        "total_value": 828716.48,
+        "total_change_pct": 0.01
+      },
+      {
+        "time": "13:34",
+        "total_value": 828627.43,
+        "total_change_pct": -0.0
+      },
+      {
+        "time": "13:39",
+        "total_value": 828708.59,
+        "total_change_pct": 0.0
+      },
+      {
+        "time": "13:44",
+        "total_value": 829878.39,
+        "total_change_pct": 0.15
+      },
+      {
+        "time": "13:49",
+        "total_value": 830175.15,
+        "total_change_pct": 0.18
+      },
+      {
+        "time": "13:54",
+        "total_value": 830187.99,
+        "total_change_pct": 0.18
+      }
+    ]
+  }
+}

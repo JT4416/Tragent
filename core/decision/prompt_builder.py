@@ -86,6 +86,12 @@ Daily loss limit remaining: ${daily_loss_remaining:,.2f}
 PRIORITY TICKERS: RKLB, SATS, DXYZ, BPTRX, JOBY, ACHR, FCUV, SMX, MLEC, SPCE, FUBO,
 CLIR, SIDU, BVC, NVTS, INFQ — evaluate these first every cycle.
 
+SHADOW PORTFOLIO WATCHLIST (user is tracking these — flag any big moves):
+OWL, CRWV, BWXT, ON, TER, LRCX, MPWR, KLAC, PWR, EXLS, NRG, ALAB, CRSP, KEYS, PLTR,
+WMB, FSLY, PRCT, DMLP, NN, PHR, NIQ, ARM, NET, ASML, SYM, SNOW, PATH, TT, GKOS, LTH,
+MRVL, RXRX — the user holds positions in these stocks. If any show strong momentum or
+breakout signals, they are VALID trade candidates. Flag any moves of 3%+ up or down.
+
 TOP MOVERS ARE YOUR #1 PRIORITY: The "Top Market Movers" list above shows what's
 actually moving RIGHT NOW with real institutional volume. LOOK AT THEM FIRST every
 cycle. If a mover is up big (3%+) on strong volume, it's your BEST trade candidate —

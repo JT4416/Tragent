@@ -45,6 +45,11 @@ DEFAULT_WATCHLIST = [
     "LEVI",                         # earnings after close
     "AEHR",                         # earnings after close
     "MGRT",                         # +40% today
+    # User shadow portfolio — 30-day monitoring (added 2026-04-08)
+    "OWL", "CRWV", "BWXT", "ON", "TER", "LRCX", "MPWR", "KLAC", "PWR", "EXLS",
+    "NRG", "ALAB", "CRSP", "KEYS", "PLTR", "WMB", "FSLY", "PRCT", "DMLP", "NN",
+    "PHR", "NIQ", "ARM", "NET", "ASML", "SYM", "SNOW", "PATH", "TT", "GKOS",
+    "LTH", "MRVL", "RXRX",
 ]
 
 

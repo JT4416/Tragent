@@ -1,9 +1,14 @@
 {
-  "cash": 2675.8,
+  "cash": 2559.66,
   "positions": {
     "NVTS": {
-      "quantity": 239,
+      "quantity": 209,
       "entry_price": 9.51,
+      "direction": "long"
+    },
+    "INTC": {
+      "quantity": 4,
+      "entry_price": 58.67,
       "direction": "long"
     }
   },
