@@ -96,22 +96,15 @@ avoid_list:
     \ Consumer discretionary under tariff pressure. Consider exiting to free capital\
     \ for better setups."
 user_directive:
+  CLOSE_ALL_NOW: "SELL EVERY POSITION IMMEDIATELY. Close all longs (sell) and all\
+    \ shorts (sell_to_close). Go to 100% cash before 4:00 PM close. No exceptions.\
+    \ This is a direct user order — highest priority. Do NOT open any new positions.\
+    \ Tomorrow's strategy: start fresh at 9:30 AM, use the market scanner top 20\
+    \ gainers/losers in the first hour, and ride morning momentum with tight stops."
   flip_strategy: "MANDATORY — when ANY trailing stop triggers on a position, do NOT\
-    \ just close and walk away. Execute the FLIP: if your LONG stop triggers (price\
-    \ dropping), immediately buy_short the SAME stock with a 5% trailing stop to\
-    \ profit from continued downside. If your SHORT stop triggers (price rising),\
-    \ immediately buy LONG the same stock with a 5% trailing stop. Use trade_type\
-    \ 'momentum_ride'. You have $425 daily loss budget — USE IT. Paper mode is for\
-    \ learning, and you learn nothing by sitting in cash after a stop-out."
-  active_trading: "Stop holding dead money. If a position hasn't moved 1%+ in 2 cycles,\
-    \ consider closing it and redeploying into a momentum name. F and CCL are prime\
-    \ candidates to exit and flip into LRCX or semi sector plays."
-  scan_for_opportunities: "EVERY CYCLE you MUST review the Market Scanner top 20\
-    \ gainers AND top 20 losers. The best trades come from these lists — not from\
-    \ stale watchlists. Top gainers = momentum_ride candidates (buy long with tight\
-    \ trailing stop). Top losers = buy_short candidates (flip/short with trailing stop).\
-    \ Pick the best 1-2 setups from the scanner and ACT on them. You have $3K cash\
-    \ sitting idle — deploy it. Stop ignoring the scanner data."
+    \ just close and walk away. Execute the FLIP."
+  scan_for_opportunities: "EVERY CYCLE review the Market Scanner top 20 gainers AND\
+    \ top 20 losers for momentum_ride and buy_short candidates."
   flip_candidates_today:
   - "CCL — down 4.2% from entry, no catalyst, tariff pressure on consumer discretionary.\
     \ If it breaks below $26.75, close the long and buy_short CCL."
