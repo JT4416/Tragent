@@ -67,10 +67,22 @@ class PaperBroker:
         return {"cash": self._state["cash"], "positions": positions}
 
     def get_quote(self, symbol: str) -> dict:
-        return self._schwab.get_quote(symbol)
+        try:
+            return self._schwab.get_quote(symbol)
+        except Exception:
+            # Fallback to yfinance when Schwab token is expired
+            return self._yfinance_quote(symbol)
+
+    @staticmethod
+    def _yfinance_quote(symbol: str) -> dict:
+        import yfinance as yf
+        tk = yf.Ticker(symbol)
+        info = tk.fast_info
+        price = info.last_price
+        return {"lastPrice": price, "mark": price}
 
     def place_order(self, symbol: str, action: str, quantity: int) -> dict:
-        quote = self._schwab.get_quote(symbol)
+        quote = self.get_quote(symbol)
         price = quote.get("lastPrice") or quote.get("mark") or 0.0
         if action == "buy":
             fill_price = round(price * (1 + _SLIPPAGE_PCT), 2)

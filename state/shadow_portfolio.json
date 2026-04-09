@@ -39,244 +39,244 @@
     }
   },
   "latest": {
-    "timestamp": "2026-04-08T13:54:35.650706-04:00",
+    "timestamp": "2026-04-08T14:04:36.380007-04:00",
     "date": "2026-04-08",
-    "time": "13:54 ET",
+    "time": "14:04 ET",
     "session": "regular",
     "positions": {
       "OWL": {
-        "current_price": 8.325,
+        "current_price": 8.35,
         "baseline_price": 8.365,
-        "position_value": 832.5,
+        "position_value": 835.0,
         "baseline_value": 836.5,
-        "change_pct": -0.48,
+        "change_pct": -0.18,
         "day_pct": 0.0,
-        "volume": 16506471
+        "volume": 16965535
       },
       "CRWV": {
-        "current_price": 89.59,
+        "current_price": 89.86,
         "baseline_price": 89.505,
-        "position_value": 8959.0,
+        "position_value": 8986.0,
         "baseline_value": 8950.5,
-        "change_pct": 0.09,
+        "change_pct": 0.4,
         "day_pct": 0.0,
-        "volume": 13468360
+        "volume": 13557523
       },
       "BWXT": {
-        "current_price": 230.87,
+        "current_price": 230.995,
         "baseline_price": 230.32,
-        "position_value": 23087.0,
+        "position_value": 23099.5,
         "baseline_value": 23032.0,
-        "change_pct": 0.24,
+        "change_pct": 0.29,
         "day_pct": 0.0,
-        "volume": 668992
+        "volume": 687339
       },
       "ON": {
-        "current_price": 68.03,
+        "current_price": 68.31,
         "baseline_price": 67.89,
-        "position_value": 6803.0,
+        "position_value": 6831.0,
         "baseline_value": 6789.0,
-        "change_pct": 0.21,
+        "change_pct": 0.62,
         "day_pct": 0.0,
-        "volume": 4735357
+        "volume": 4833101
       },
       "TER": {
-        "current_price": 357.15,
+        "current_price": 357.58,
         "baseline_price": 355.32,
-        "position_value": 35715.0,
+        "position_value": 35758.0,
         "baseline_value": 35532.0,
-        "change_pct": 0.52,
+        "change_pct": 0.64,
         "day_pct": 0.0,
-        "volume": 2817874
+        "volume": 2919164
       },
       "LRCX": {
-        "current_price": 245.02,
+        "current_price": 245.73,
         "baseline_price": 244.845,
-        "position_value": 24502.0,
+        "position_value": 24573.0,
         "baseline_value": 24484.5,
-        "change_pct": 0.07,
-        "day_pct": 0.0,
-        "volume": 6346412
-      },
-      "MPWR": {
-        "current_price": 1313.435,
-        "baseline_price": 1308.0,
-        "position_value": 131343.5,
-        "baseline_value": 130800.0,
-        "change_pct": 0.42,
-        "day_pct": 0.0,
-        "volume": 438371
-      },
-      "KLAC": {
-        "current_price": 1664.33,
-        "baseline_price": 1665.41,
-        "position_value": 166433.0,
-        "baseline_value": 166541.0,
-        "change_pct": -0.06,
-        "day_pct": 0.0,
-        "volume": 493428
-      },
-      "PWR": {
-        "current_price": 578.02,
-        "baseline_price": 575.97,
-        "position_value": 57802.0,
-        "baseline_value": 57597.0,
         "change_pct": 0.36,
         "day_pct": 0.0,
-        "volume": 532504
+        "volume": 6425372
+      },
+      "MPWR": {
+        "current_price": 1318.155,
+        "baseline_price": 1308.0,
+        "position_value": 131815.5,
+        "baseline_value": 130800.0,
+        "change_pct": 0.78,
+        "day_pct": 0.0,
+        "volume": 448490
+      },
+      "KLAC": {
+        "current_price": 1665.61,
+        "baseline_price": 1665.41,
+        "position_value": 166561.0,
+        "baseline_value": 166541.0,
+        "change_pct": 0.01,
+        "day_pct": 0.0,
+        "volume": 501782
+      },
+      "PWR": {
+        "current_price": 579.36,
+        "baseline_price": 575.97,
+        "position_value": 57936.0,
+        "baseline_value": 57597.0,
+        "change_pct": 0.59,
+        "day_pct": 0.0,
+        "volume": 571920
       },
       "EXLS": {
-        "current_price": 30.59,
+        "current_price": 30.61,
         "baseline_price": 30.55,
-        "position_value": 3059.0,
+        "position_value": 3061.0,
         "baseline_value": 3055.0,
-        "change_pct": 0.13,
+        "change_pct": 0.2,
         "day_pct": 0.0,
-        "volume": 843870
+        "volume": 862127
       },
       "NRG": {
-        "current_price": 158.96,
+        "current_price": 159.18,
         "baseline_price": 157.44,
-        "position_value": 15896.0,
+        "position_value": 15918.0,
         "baseline_value": 15744.0,
-        "change_pct": 0.97,
+        "change_pct": 1.11,
         "day_pct": 0.0,
-        "volume": 1243077
+        "volume": 1262484
       },
       "ALAB": {
-        "current_price": 125.64,
+        "current_price": 125.68,
         "baseline_price": 125.27,
-        "position_value": 12564.0,
+        "position_value": 12568.0,
         "baseline_value": 12527.0,
-        "change_pct": 0.3,
+        "change_pct": 0.33,
         "day_pct": 0.0,
-        "volume": 2173425
+        "volume": 2207114
       },
       "CRSP": {
-        "current_price": 51.29,
+        "current_price": 51.24,
         "baseline_price": 51.29,
-        "position_value": 5129.0,
+        "position_value": 5124.0,
         "baseline_value": 5129.0,
-        "change_pct": 0.0,
+        "change_pct": -0.1,
         "day_pct": 0.0,
-        "volume": 874061
+        "volume": 888843
       },
       "KEYS": {
-        "current_price": 321.2,
+        "current_price": 321.1,
         "baseline_price": 319.71,
-        "position_value": 32120.0,
+        "position_value": 32110.0,
         "baseline_value": 31971.0,
-        "change_pct": 0.47,
-        "day_pct": 0.0,
-        "volume": 654973
-      },
-      "PLTR": {
-        "current_price": 143.03,
-        "baseline_price": 144.1699,
-        "position_value": 14303.0,
-        "baseline_value": 14416.99,
-        "change_pct": -0.79,
-        "day_pct": 0.0,
-        "volume": 40314860
-      },
-      "WMB": {
-        "current_price": 72.36,
-        "baseline_price": 72.555,
-        "position_value": 7236.0,
-        "baseline_value": 7255.5,
-        "change_pct": -0.27,
-        "day_pct": 0.0,
-        "volume": 4526153
-      },
-      "FSLY": {
-        "current_price": 34.23,
-        "baseline_price": 34.075,
-        "position_value": 3423.0,
-        "baseline_value": 3407.5,
-        "change_pct": 0.45,
-        "day_pct": 0.0,
-        "volume": 7420962
-      },
-      "PRCT": {
-        "current_price": 24.31,
-        "baseline_price": 24.225,
-        "position_value": 2431.0,
-        "baseline_value": 2422.5,
-        "change_pct": 0.35,
-        "day_pct": 0.0,
-        "volume": 952923
-      },
-      "DMLP": {
-        "current_price": 27.88,
-        "baseline_price": 27.79,
-        "position_value": 2788.0,
-        "baseline_value": 2779.0,
-        "change_pct": 0.32,
-        "day_pct": 0.0,
-        "volume": 76238
-      },
-      "NN": {
-        "current_price": 15.28,
-        "baseline_price": 15.4,
-        "position_value": 1528.0,
-        "baseline_value": 1540.0,
-        "change_pct": -0.78,
-        "day_pct": 0.0,
-        "volume": 550669
-      },
-      "PHR": {
-        "current_price": 8.9,
-        "baseline_price": 8.97,
-        "position_value": 890.0,
-        "baseline_value": 897.0,
-        "change_pct": -0.78,
-        "day_pct": 0.0,
-        "volume": 758274
-      },
-      "NIQ": {
-        "current_price": 11.73,
-        "baseline_price": 11.745,
-        "position_value": 1173.0,
-        "baseline_value": 1174.5,
-        "change_pct": -0.13,
-        "day_pct": 0.0,
-        "volume": 263215
-      },
-      "ARM": {
-        "current_price": 150.0,
-        "baseline_price": 149.085,
-        "position_value": 15000.0,
-        "baseline_value": 14908.5,
-        "change_pct": 0.61,
-        "day_pct": 0.0,
-        "volume": 4392269
-      },
-      "NET": {
-        "current_price": 213.96,
-        "baseline_price": 216.0025,
-        "position_value": 21396.0,
-        "baseline_value": 21600.25,
-        "change_pct": -0.95,
-        "day_pct": 0.0,
-        "volume": 2649372
-      },
-      "ASML": {
-        "current_price": 1422.71,
-        "baseline_price": 1418.5,
-        "position_value": 142271.0,
-        "baseline_value": 141850.0,
-        "change_pct": 0.3,
-        "day_pct": 0.0,
-        "volume": 1767221
-      },
-      "SYM": {
-        "current_price": 55.34,
-        "baseline_price": 55.105,
-        "position_value": 5534.0,
-        "baseline_value": 5510.5,
         "change_pct": 0.43,
         "day_pct": 0.0,
-        "volume": 752549
+        "volume": 669200
+      },
+      "PLTR": {
+        "current_price": 142.95,
+        "baseline_price": 144.1699,
+        "position_value": 14295.0,
+        "baseline_value": 14416.99,
+        "change_pct": -0.85,
+        "day_pct": 0.0,
+        "volume": 41063090
+      },
+      "WMB": {
+        "current_price": 72.19,
+        "baseline_price": 72.555,
+        "position_value": 7219.0,
+        "baseline_value": 7255.5,
+        "change_pct": -0.5,
+        "day_pct": 0.0,
+        "volume": 4930221
+      },
+      "FSLY": {
+        "current_price": 34.305,
+        "baseline_price": 34.075,
+        "position_value": 3430.5,
+        "baseline_value": 3407.5,
+        "change_pct": 0.67,
+        "day_pct": 0.0,
+        "volume": 7594884
+      },
+      "PRCT": {
+        "current_price": 24.345,
+        "baseline_price": 24.225,
+        "position_value": 2434.5,
+        "baseline_value": 2422.5,
+        "change_pct": 0.5,
+        "day_pct": 0.0,
+        "volume": 960006
+      },
+      "DMLP": {
+        "current_price": 27.86,
+        "baseline_price": 27.79,
+        "position_value": 2786.0,
+        "baseline_value": 2779.0,
+        "change_pct": 0.25,
+        "day_pct": 0.0,
+        "volume": 76484
+      },
+      "NN": {
+        "current_price": 15.29,
+        "baseline_price": 15.4,
+        "position_value": 1529.0,
+        "baseline_value": 1540.0,
+        "change_pct": -0.71,
+        "day_pct": 0.0,
+        "volume": 565278
+      },
+      "PHR": {
+        "current_price": 8.93,
+        "baseline_price": 8.97,
+        "position_value": 893.0,
+        "baseline_value": 897.0,
+        "change_pct": -0.45,
+        "day_pct": 0.0,
+        "volume": 770272
+      },
+      "NIQ": {
+        "current_price": 11.77,
+        "baseline_price": 11.745,
+        "position_value": 1177.0,
+        "baseline_value": 1174.5,
+        "change_pct": 0.21,
+        "day_pct": 0.0,
+        "volume": 270822
+      },
+      "ARM": {
+        "current_price": 150.22,
+        "baseline_price": 149.085,
+        "position_value": 15022.0,
+        "baseline_value": 14908.5,
+        "change_pct": 0.76,
+        "day_pct": 0.0,
+        "volume": 4475413
+      },
+      "NET": {
+        "current_price": 213.8475,
+        "baseline_price": 216.0025,
+        "position_value": 21384.75,
+        "baseline_value": 21600.25,
+        "change_pct": -1.0,
+        "day_pct": 0.0,
+        "volume": 2764308
+      },
+      "ASML": {
+        "current_price": 1428.15,
+        "baseline_price": 1418.5,
+        "position_value": 142815.0,
+        "baseline_value": 141850.0,
+        "change_pct": 0.68,
+        "day_pct": 0.0,
+        "volume": 1800148
+      },
+      "SYM": {
+        "current_price": 55.63,
+        "baseline_price": 55.105,
+        "position_value": 5563.0,
+        "baseline_value": 5510.5,
+        "change_pct": 0.95,
+        "day_pct": 0.0,
+        "volume": 770482
       },
       "SNOW": {
         "current_price": 151.255,
@@ -285,67 +285,67 @@
         "baseline_value": 15189.0,
         "change_pct": -0.42,
         "day_pct": 0.0,
-        "volume": 3202563
+        "volume": 3250205
       },
       "PATH": {
-        "current_price": 10.615,
+        "current_price": 10.625,
         "baseline_price": 10.725,
-        "position_value": 1061.5,
+        "position_value": 1062.5,
         "baseline_value": 1072.5,
-        "change_pct": -1.03,
+        "change_pct": -0.93,
         "day_pct": 0.0,
-        "volume": 13539067
+        "volume": 13878189
       },
       "TT": {
-        "current_price": 449.725,
+        "current_price": 450.005,
         "baseline_price": 448.73,
-        "position_value": 44972.5,
+        "position_value": 45000.5,
         "baseline_value": 44873.0,
-        "change_pct": 0.22,
+        "change_pct": 0.28,
         "day_pct": 0.0,
-        "volume": 614618
+        "volume": 623267
       },
       "GKOS": {
-        "current_price": 120.7,
+        "current_price": 120.575,
         "baseline_price": 120.58,
-        "position_value": 12070.0,
+        "position_value": 12057.5,
         "baseline_value": 12058.0,
-        "change_pct": 0.1,
+        "change_pct": -0.0,
         "day_pct": 0.0,
-        "volume": 433785
+        "volume": 438910
       },
       "LTH": {
-        "current_price": 28.61,
+        "current_price": 28.6,
         "baseline_price": 28.6,
-        "position_value": 2861.0,
+        "position_value": 2860.0,
         "baseline_value": 2860.0,
-        "change_pct": 0.03,
+        "change_pct": 0.0,
         "day_pct": 0.0,
-        "volume": 1003600
+        "volume": 1031929
       },
       "MRVL": {
-        "current_price": 115.3899,
+        "current_price": 115.4154,
         "baseline_price": 115.24,
-        "position_value": 11538.99,
+        "position_value": 11541.54,
         "baseline_value": 11524.0,
-        "change_pct": 0.13,
+        "change_pct": 0.15,
         "day_pct": 0.0,
-        "volume": 17583790
+        "volume": 17828868
       },
       "RXRX": {
-        "current_price": 3.405,
+        "current_price": 3.395,
         "baseline_price": 3.415,
-        "position_value": 340.5,
+        "position_value": 339.5,
         "baseline_value": 341.5,
-        "change_pct": -0.29,
+        "change_pct": -0.59,
         "day_pct": 0.0,
-        "volume": 10283231
+        "volume": 10453764
       }
     },
-    "total_value": 830187.99,
+    "total_value": 831711.79,
     "baseline_total": 828668.74,
-    "total_change_pct": 0.18,
-    "total_change_dollar": 1519.25
+    "total_change_pct": 0.37,
+    "total_change_dollar": 3043.05
   },
   "history": {
     "2026-04-08": [
@@ -388,6 +388,16 @@
         "time": "13:54",
         "total_value": 830187.99,
         "total_change_pct": 0.18
+      },
+      {
+        "time": "13:59",
+        "total_value": 830747.01,
+        "total_change_pct": 0.25
+      },
+      {
+        "time": "14:04",
+        "total_value": 831711.79,
+        "total_change_pct": 0.37
       }
     ]
   }

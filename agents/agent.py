@@ -59,6 +59,35 @@ class Agent:
             open_blackout_minutes=settings.get("risk", "open_blackout_minutes"),
         ))
 
+    def _sync_positions_from_broker(self, account: dict) -> None:
+        """Sync paper broker positions into SQLite so stops and prompt stay consistent."""
+        broker_positions = {p["symbol"]: p for p in account.get("positions", [])}
+        store_positions = {p.symbol: p for p in self._store.get_positions()}
+
+        # Remove SQLite positions not in paper broker
+        for sym in store_positions:
+            if sym not in broker_positions:
+                self._store.remove_position(sym)
+
+        # Add/update paper broker positions missing from SQLite
+        default_stop_pct = settings.get("risk", "stop_loss_pct")
+        default_trail_pct = settings.get("risk", "trailing_stop_pct")
+        for sym, bp in broker_positions.items():
+            if sym not in store_positions:
+                entry = bp.get("entry_price", 0.0)
+                direction = bp.get("direction", "long")
+                if direction == "short":
+                    stop = round(entry * (1 + default_stop_pct / 100), 2)
+                    trail = round(entry * (1 + default_trail_pct / 100), 2)
+                else:
+                    stop = round(entry * (1 - default_stop_pct / 100), 2)
+                    trail = round(entry * (1 - default_trail_pct / 100), 2)
+                self._store.save_position(Position(
+                    symbol=sym, direction=direction, entry_price=entry,
+                    stop_loss=stop, trailing_stop=trail,
+                    quantity=bp.get("quantity", 0),
+                ))
+
     def run_cycle(self) -> None:
         try:
             market_data = self._queue.get(timeout=120)
@@ -88,9 +117,14 @@ class Agent:
 
         account = self._schwab.get_account_info()
         cash = account.get("cash", self._cfg.base_capital)
+
+        # Sync paper broker positions into SQLite so stops and prompt stay consistent
+        self._sync_positions_from_broker(account)
+
         open_positions = self._store.get_positions()
-        round_pnl = self._store.get_round_pnl()
-        daily_pnl_pct = (round_pnl / self._cfg.base_capital) * 100
+        today_str = date.today().isoformat()
+        daily_pnl = self._store.get_daily_pnl(today_str)
+        daily_pnl_pct = (daily_pnl / self._cfg.base_capital) * 100
 
         # Load yesterday's homework prep if available
         prep_path = Path(f"agents/{self._cfg.agent_id}/daily_prep.yaml")
@@ -113,11 +147,11 @@ class Agent:
             open_positions=[{"symbol": p.symbol, "direction": p.direction,
                               "entry": p.entry_price} for p in open_positions],
             cash=cash,
-            daily_pnl=round_pnl,
+            daily_pnl=daily_pnl,
             daily_pnl_pct=daily_pnl_pct,
             daily_loss_remaining=(self._cfg.base_capital *
                                    settings.get("risk", "daily_loss_limit_pct") / 100
-                                   + round_pnl),
+                                   + daily_pnl),
             movers=market_data.get("movers", []),
             scanner=market_data.get("scanner", {}),
         )
@@ -278,6 +312,7 @@ class Agent:
 
         # Remove from store FIRST to prevent double-sell if order raises
         self._store.update_round_pnl(self._store.get_round_pnl() + pnl)
+        self._store.update_daily_pnl(pnl, date.today().isoformat())
         self._store.remove_position(symbol)
 
         self.last_trade_time = datetime.now(timezone.utc)

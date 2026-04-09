@@ -1,127 +1,139 @@
+prepared_date: "2026-04-09"
+prepared_time: "08:31 ET"
+session: pre_market
 top_picks:
-- symbol: CETX
-  setup: "Explosive 87x avg volume breakout above 20-day high at 0.96. EMA 9 crossed\
-    \ above EMA 21. Price crossed above 50-day SMA. Strongest combined signal of the\
-    \ day. Micro-cap risk applies \u2014 size accordingly."
-  entry_trigger: Buy above 0.98 with volume > 10M in first 15 min after open. Wait
-    for first 5-min candle to confirm direction before entering.
-  target_price: 1.2
-  stop_price: 0.88
-  confidence: 0.62
+- symbol: LEVI
+  setup: "EARNINGS BEAT — Q1 EPS $0.42 vs $0.37 expected (+$0.05), revenue $1.74B\
+    \ vs $1.65B (+14% YoY). DTC +16%, now 52% of total. Raised FY26 guidance: rev\
+    \ growth 5.5-6.5% (from 5-6%), EPS $1.42-$1.48 (from $1.40-$1.46). Already\
+    \ long 52 shares from $21.84. Pre-market $21.81 — essentially breakeven. Earnings\
+    \ beat resolves the overnight risk flagged in yesterday's homework."
+  entry_trigger: "Hold current 52 shares. If opens above $22.00 on volume > 5M,\
+    \ hold for $23.50 target. If opens below $21.50, tighten stop to $21.00 and\
+    \ evaluate at first 30-min candle. Do NOT add — already overweight LEVI at 22%\
+    \ of invested capital."
+  target_price: 23.5
+  stop_price: 21.0
+  confidence: 0.70
   signals:
+  - earnings_beat
+  - guidance_raise
   - volume_spike
   - range_breakout
   - ema_crossover
-  - sma_trend
-- symbol: ADVB
-  setup: "Nearly 50x avg volume with 20-day range breakout and EMA 9 crossing above\
-    \ EMA 21. Price crossed above 50-day SMA. RSI at 72 \u2014 mildly overbought but\
-    \ not extreme. Cleaner setup than AIXI due to lower RSI."
-  entry_trigger: Buy above 5.70 (prior day high confirmation) on volume > 1M in first
-    30 min with stop at 5.20.
-  target_price: 6.5
-  stop_price: 5.2
-  confidence: 0.6
+- symbol: AEHR
+  setup: "Day 2 of breakout — pre-market $63.16 (+3.83%). Fundamental backing:\
+    \ $37.2M quarterly bookings (3.5x book-to-bill), AI/data center demand driving\
+    \ both WLBI and PLBI. Revenue guided to high end of $45-50M. Up 40%+ YTD.\
+    \ Extended but with real earnings power behind the move."
+  entry_trigger: "Pullback entry only. Wait for price to test $61-62 (VWAP area)\
+    \ in first 30 min. Buy 12 shares (~$745) on VWAP hold with 15-min candle close\
+    \ above $61. Stop at $58. If never pulls back and runs above $66, skip — easy\
+    \ money is gone."
+  target_price: 72.0
+  stop_price: 58.0
+  confidence: 0.58
   signals:
   - volume_spike
   - range_breakout
+  - fundamental_catalyst
+  - sector_momentum
+- symbol: LRCX
+  setup: "Zacks Bull of the Day Apr 7. +9.46% Apr 8. Pre-market $246.49 (+0.98%).\
+    \ Memory capex reaccelerating — WFE spend $135-140B projected 2026-27. Cleanest\
+    \ semi chart: EMA crossover + 50-day SMA reclaim + 20-day breakout. No OBV\
+    \ divergence (unlike KEYS, ASML). Structural bull story."
+  entry_trigger: "Buy 7 shares (~$1,725) above $247.50 on first 30-min volume > 2M.\
+    \ Stop $241. If opens above $252, wait for consolidation. Prefer this over\
+    \ AEHR for cleaner risk/reward."
+  target_price: 265.0
+  stop_price: 241.0
+  confidence: 0.63
+  signals:
+  - range_breakout
   - ema_crossover
   - sma_trend
-- symbol: ORGO
-  setup: "26x avg volume with RSI turning up from deeply oversold (24.2 to 26). OBV\
-    \ divergence shows hidden accumulation \u2014 price down but smart money buying.\
-    \ High-risk mean reversion candidate."
-  entry_trigger: Buy above 1.05 if it holds above prior-day close on volume > 2M.
-    Requires RSI confirmation above 30 at open.
-  target_price: 1.35
-  stop_price: 0.92
-  confidence: 0.52
+  - analyst_upgrade
+  - sector_momentum
+- symbol: NVTS
+  setup: "Already long 52 shares from $9.505. Pre-market $9.55 (+0.5%). Small-cap\
+    \ power semi play. No specific catalyst today. Semiconductor sector tide\
+    \ may lift this — monitor for volume pickup. Position is small ($497 MV)\
+    \ and manageable."
+  entry_trigger: "Hold. No add. Monitor for sector spillover momentum. If breaks\
+    \ $10 on volume, ride trailing stop. If sector fades and NVTS drops below\
+    \ $9.20, exit to redeploy capital into LRCX or AEHR."
+  target_price: 10.5
+  stop_price: 9.2
+  confidence: 0.45
   signals:
-  - volume_spike
-  - rsi_oversold
-  - obv_divergence
-- symbol: GBX
-  setup: "Bearish day with 5.5x volume and price at lower Bollinger Band with RSI\
-    \ 29.1 \u2014 classic oversold bounce setup. Contrarian long opportunity if selling\
-    \ exhausts at open."
-  entry_trigger: Buy above 49.50 if it bounces off lower BB in first 30 min with RSI
-    turning up. Volume confirmation required. Do not chase if gap-up > 2% at open.
-  target_price: 53.0
-  stop_price: 47.8
-  confidence: 0.5
-  signals:
-  - volume_spike
-  - bb_bounce
   - sma_trend
+  - sector_momentum
 market_outlook:
-  bias: bullish
-  reasoning: "Semis surged hard today \u2014 MU +12.4%, INTC +10.3%, NVDA +4.1% \u2014\
-    \ on strong sector rotation into AI/tech. Multiple breakout setups across watchlist\
-    \ on extreme volume confirm broad risk-on appetite. However, RSI readings are\
-    \ extreme on several names; expect some morning chop before continuation."
+  bias: cautiously_bullish
+  reasoning: "Semi momentum persisting into day 2 with pre-market green across AEHR,\
+    \ LRCX. LEVI earnings beat adds positive tone. But macro backdrop is complex:\
+    \ SCOTUS struck down IEEPA tariffs, admin pivoted to Section 122 (10% global\
+    \ tariff). Ford denied aluminum tariff relief. Consumer facing $1,500/yr tariff\
+    \ tax. SPY $676 (+0.19%), QQQ $606 (+0.26%) — mild green. Strategy: lean into\
+    \ semis and earnings winners, avoid tariff-exposed cyclicals."
   key_levels:
-  - 'SPY: Watch 540 as near-term support; 550 resistance is the level bulls need to
-    reclaim for sustained follow-through'
-  - 'QQQ: 460 support; failure below 455 would flip bias to neutral'
-  - "NVDA: Director sold 221K shares at ~$173 on March 20 \u2014 insider supply overhead;\
-    \ key resistance near $190"
+  - "SPY: $676 holding; $670 support; break below = defensive"
+  - "QQQ: $606; $600 is the floor — semis carrying the index"
+  - "LEVI: $22.00 is the breakout trigger post-earnings"
+  - "AEHR: $61-62 VWAP pullback zone; $58 hard stop"
+  - "LRCX: $247.50 entry; $241 stop; $265 target"
 avoid_list:
-- symbol: AIXI
-  reason: RSI 94.4 is extreme overbought, price 679% above 50-day SMA. Any entry here
-    is chasing a parabolic. High dump risk after this kind of run.
 - symbol: MGRT
-  reason: "RSI 88.4 overbought with only 1.6x avg volume. Weak volume does not support\
-    \ the price extension. Price 247% above 50-day SMA \u2014 high reversal risk."
-- symbol: SMX
-  reason: Bearish signal but OBV divergence (hidden buying) creates conflicting reads.
-    Mixed signals with low combined strength (0.537). Avoid until direction resolves.
-- symbol: SKYQ
-  reason: "Bearish signal direction with RSI 74.3 and price 111% above 50-day SMA.\
-    \ Overbought on extended run \u2014 no clean short setup without a clear breakdown\
-    \ trigger."
-- symbol: SIDU
-  reason: Only 3 signals, modest volume (3.3x), price already 57% above 50-day SMA.
-    Easy money likely gone from today's move. Risk/reward unfavorable chasing here.
-lessons_from_today:
-- "Semi sector confirmation matters: MU, INTC, NVDA all surging together validates\
-  \ AI/chip theme \u2014 when sector leaders move in unison, related setups on watchlist\
-  \ carry higher probability."
-- "Extreme RSI (>90) is a hard avoid for new entries regardless of other signal strength\
-  \ \u2014 AIXI at RSI 94.4 with price 679% above SMA is a trap for latecomers."
-- "OBV divergence on bearish-directed stocks (SMX, ORGO) creates ambiguity \u2014\
-  \ treat these as mean reversion candidates only, not trend follows."
-- "Insider selling overhead on NVDA (~$173 cost basis for 221K shares sold) creates\
-  \ resistance \u2014 note institutional activity as a price ceiling input, not just\
-  \ a signal."
-- "A stop_loss close with severe capital constraint ($682 / $54 headroom) means position\
-  \ sizing must be micro \u2014 max 1 share on anything above $50 until capital grows."
+  reason: "RSI 93.2, 402% above 50-day SMA. Extreme pump — unchanged."
+- symbol: KRUS
+  reason: "Bearish breakdown confirmed. OBV distribution. No long."
+- symbol: ASML
+  reason: "OBV divergence on marginal breakout. Distribution risk."
+- symbol: KEYS
+  reason: "Pre-market $318 (-0.21%). OBV divergence flagged yesterday still applies.\
+    \ Smart money selling into strength. Skip."
+- symbol: GOOGL
+  reason: "OBV divergence. Breakout strength weak. Wait for confirmation."
+- symbol: MPWR
+  reason: "RSI 71 overbought, volume weakest of semi breakouts. $1,295 price =\
+    \ huge dollar risk per share. Better R/R in LRCX."
 user_directive:
-  todays_mission: >
-    TODAY IS ABOUT PROFIT. Your #1 job is to make money. Not hedge, not wait,
-    not analyze endlessly — TRADE and PROFIT.
-  price_range_focus: >
-    Pay extra attention to stocks in the $2.00 - $20.00 range — they have velocity
-    and percentage-move potential. BUT this is NOT a restriction. If INTC is ripping
-    14% on massive volume, trade INTC. If MU is the strongest mover, trade MU. The
-    best opportunity wins regardless of price. $2-$20 is a sweet spot to watch, not
-    a ceiling.
-  pre_bell_scan: >
-    Before the bell, scan for stocks in the $2-$20 range showing pre-market
-    momentum, volume spikes, or positive catalysts. These are your targets.
-    Look at post-market earnings movers — any stock that reported after yesterday's
-    close and beat/missed expectations could gap hard at open.
-  at_the_bell: >
-    When the bell rings at 9:30 ET, immediately look at TOP MARKET MOVERS.
-    Find what's moving with volume and RIDE THE WAVE. Do not overthink. Do not
-    wait for perfect setups. If something in the $2-$20 range is running on real
-    volume, get in with a 2.5% trailing stop and let it ride.
-  inverse_etf_warning: >
-    You are holding SH (inverse S&P). If the market opens bullish and your movers
-    are running, this hedge is COSTING you money. Dead weight in a bull market is
-    the opposite of profit. Consider dumping it to free up capital for winners.
-  mandate: PROFIT. Not safety. Not hedging. PROFIT.
-evolved_parameters:
-  confidence_threshold: 0.45
-  max_position_size_pct: 10.0
-  stop_loss_pct: 2.0
-  trailing_stop_pct: 1.5
+  flip_strategy: "MANDATORY — when ANY trailing stop triggers on a position, do NOT\
+    \ just close and walk away. Execute the FLIP: if your LONG stop triggers (price\
+    \ dropping), immediately buy_short the SAME stock with a 5% trailing stop to\
+    \ profit from continued downside. If your SHORT stop triggers (price rising),\
+    \ immediately buy LONG the same stock with a 5% trailing stop. Use trade_type\
+    \ 'momentum_ride'. You have $425 daily loss budget — USE IT. Paper mode is for\
+    \ learning, and you learn nothing by sitting in cash after a stop-out."
+  active_trading: "Stop holding dead money. If a position hasn't moved 1%+ in 2 cycles,\
+    \ consider closing it and redeploying into a momentum name. F is a prime candidate\
+    \ to exit and flip into LRCX or semi sector plays."
+  scan_for_opportunities: "EVERY CYCLE you MUST review the Market Scanner top 20\
+    \ gainers AND top 20 losers. The best trades come from these lists — not from\
+    \ stale watchlists. Top gainers = momentum_ride candidates (buy long with tight\
+    \ trailing stop). Top losers = buy_short candidates (flip/short with trailing stop).\
+    \ Pick the best 1-2 setups from the scanner and ACT on them. You have $2.8K cash\
+    \ sitting idle — deploy it. Stop ignoring the scanner data."
+  flip_candidates_today:
+  - "F — tariff headwinds, dead money at -1.2%. If breaks below $11.90, close long\
+    \ and buy_short F with 5% trailing stop."
+  - "NVTS — small position, if it drops below $9.20 stop, flip short immediately."
+  - "Any position where trailing stop fires — FLIP immediately, don't hesitate."
+  - "Top 20 losers from scanner — pick the strongest downtrend and buy_short it."
+  - "Top 20 gainers from scanner — pick the cleanest breakout and buy long momentum_ride."
+lessons_from_today:
+- "LEVI earnings beat confirmed: holding through event risk paid off when position\
+  \ size was controlled. The homework plan (cut below 19.50) was never triggered.\
+  \ This is why you plan exits BEFORE the event."
+- "Semi momentum is fundamentally driven — AEHR 3.5x B/B, LRCX capex cycle, not\
+  \ just a technical squeeze. Multi-day sector plays have higher conviction when\
+  \ backed by earnings/bookings data."
+- "Tariff macro is the #1 risk — SCOTUS ruling created policy uncertainty, aluminum\
+  \ tariffs directly hitting auto sector (F). Favor sectors with pricing power\
+  \ (tech/semis) over tariff-exposed (auto, consumer discretionary)."
+- "FLIP STRATEGY HAS NEVER BEEN EXECUTED IN 5 TRADING DAYS. This is a failure.\
+  \ You have the instructions, you have the budget. Next stop-out = immediate flip.\
+  \ No excuses about cash or loss limits — the daily budget is $425."
+- "F position (53 @ $12.145) is dead money with structural tariff headwinds.\
+  \ Consider exiting to free ~$645 for a better semi entry."

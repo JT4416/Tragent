@@ -112,7 +112,7 @@ class MarketFeed:
             except Exception:
                 continue
 
-        # Top market movers (Schwab real-time)
+        # Top market movers (Schwab real-time, yfinance fallback)
         movers = []
         scanner = {}
         if self._schwab is not None:
@@ -121,7 +121,12 @@ class MarketFeed:
             except Exception:
                 movers = []
             try:
-                scanner = self._schwab.scan_market(top_n=10)
+                scanner = self._schwab.scan_market(top_n=20)
+            except Exception:
+                scanner = {}
+        if not scanner or not scanner.get("pct_gainers_all"):
+            try:
+                scanner = self._yfinance_scanner(top_n=20)
             except Exception:
                 scanner = {}
 
@@ -147,6 +152,79 @@ class MarketFeed:
 
         for q in self._queues:
             q.put(packet)
+
+    @staticmethod
+    def _yfinance_scanner(top_n: int = 20) -> dict:
+        """Fallback market scanner using yfinance when Schwab is unavailable."""
+        import yfinance as yf
+        import logging
+        _log = logging.getLogger(__name__)
+
+        # Broad universe: S&P 500 components + popular small/mid caps
+        # Using a representative sample to keep API calls manageable
+        _SCAN_UNIVERSE = [
+            # Mega/large cap
+            "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "AMD",
+            "NFLX", "CRM", "ORCL", "ADBE", "INTC", "QCOM", "AVGO", "TXN",
+            "MU", "LRCX", "AMAT", "KLAC", "MRVL", "ARM", "ASML", "MPWR",
+            # Mid cap tech/growth
+            "AEHR", "KEYS", "NET", "SNOW", "PATH", "PLTR", "CRWD", "DDOG",
+            "ZS", "BILL", "HUBS", "SHOP", "SQ", "COIN", "MARA", "RIOT",
+            # Consumer/retail
+            "LEVI", "NKE", "LULU", "TGT", "WMT", "COST", "DG", "DLTR",
+            "CCL", "RCL", "DAL", "UAL", "AAL", "LUV",
+            # Energy/industrial
+            "XOM", "CVX", "OXY", "F", "GM", "RIVN", "LCID", "NIO",
+            "LMT", "RTX", "NOC", "BA", "CAT", "DE",
+            # Biotech/health
+            "MRNA", "BNTX", "CRSP", "RXRX", "NVTS",
+            # Small cap momentum
+            "FUBO", "SPCE", "JOBY", "ACHR", "RKLB", "SATS",
+            "SMX", "MLEC", "CLIR", "SIDU",
+            # ETFs
+            "SPY", "QQQ", "IWM", "XLF", "XLE", "XLK", "ARKK",
+        ]
+
+        try:
+            data = yf.download(
+                _SCAN_UNIVERSE, period="2d", interval="1d",
+                group_by="ticker", progress=False, threads=True,
+            )
+        except Exception as e:
+            _log.warning("yfinance scanner download failed: %s", e)
+            return {}
+
+        results = []
+        for sym in _SCAN_UNIVERSE:
+            try:
+                closes = data[sym]["Close"].dropna()
+                volumes = data[sym]["Volume"].dropna()
+                if len(closes) < 2:
+                    continue
+                prev_close = float(closes.iloc[-2])
+                last_price = float(closes.iloc[-1])
+                volume = int(volumes.iloc[-1]) if len(volumes) >= 1 else 0
+                if prev_close <= 0:
+                    continue
+                pct_change = round((last_price - prev_close) / prev_close * 100, 2)
+                results.append({
+                    "symbol": sym,
+                    "lastPrice": last_price,
+                    "netPercentChange": pct_change,
+                    "volume": volume,
+                })
+            except Exception:
+                continue
+
+        gainers = sorted(results, key=lambda x: x["netPercentChange"], reverse=True)
+        losers = sorted(results, key=lambda x: x["netPercentChange"])
+        vol_leaders = sorted(results, key=lambda x: x["volume"], reverse=True)
+
+        return {
+            "pct_gainers_all": gainers[:top_n],
+            "pct_losers_all": losers[:top_n],
+            "volume_leaders": vol_leaders[:top_n],
+        }
 
     def run(self, interval_seconds: int, stop_event) -> None:
         while not stop_event.is_set():

@@ -96,3 +96,35 @@ class StateStore:
         row = self._conn.execute(
             "SELECT value FROM round_state WHERE key='round_pnl'").fetchone()
         return row[0] if row else 0.0
+
+    def update_daily_pnl(self, pnl_delta: float, today: str) -> None:
+        """Add pnl_delta to today's daily P&L. Resets if date changed."""
+        stored_date = self._conn.execute(
+            "SELECT value FROM round_state WHERE key='daily_pnl_date'"
+        ).fetchone()
+        if stored_date and str(stored_date[0]) != today:
+            # New day — reset
+            self._conn.execute(
+                "INSERT OR REPLACE INTO round_state VALUES ('daily_pnl', ?)",
+                (pnl_delta,))
+        else:
+            current = self.get_daily_pnl(today)
+            self._conn.execute(
+                "INSERT OR REPLACE INTO round_state VALUES ('daily_pnl', ?)",
+                (current + pnl_delta,))
+        self._conn.execute(
+            "INSERT OR REPLACE INTO round_state VALUES ('daily_pnl_date', ?)",
+            (today,))
+        self._conn.commit()
+
+    def get_daily_pnl(self, today: str) -> float:
+        """Return today's realized P&L. Returns 0.0 if no trades today."""
+        stored_date = self._conn.execute(
+            "SELECT value FROM round_state WHERE key='daily_pnl_date'"
+        ).fetchone()
+        if not stored_date or str(stored_date[0]) != today:
+            return 0.0
+        row = self._conn.execute(
+            "SELECT value FROM round_state WHERE key='daily_pnl'"
+        ).fetchone()
+        return row[0] if row else 0.0

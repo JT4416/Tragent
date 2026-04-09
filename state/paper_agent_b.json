@@ -1,14 +1,29 @@
 {
-  "cash": 2559.66,
+  "cash": 2672.27,
   "positions": {
     "NVTS": {
-      "quantity": 209,
-      "entry_price": 9.51,
+      "quantity": 52,
+      "entry_price": 9.505,
       "direction": "long"
     },
-    "INTC": {
-      "quantity": 4,
-      "entry_price": 58.67,
+    "LEVI": {
+      "quantity": 52,
+      "entry_price": 21.84,
+      "direction": "long"
+    },
+    "F": {
+      "quantity": 53,
+      "entry_price": 12.145,
+      "direction": "long"
+    },
+    "PLTR": {
+      "quantity": 1,
+      "entry_price": 130.43,
+      "direction": "short"
+    },
+    "LRCX": {
+      "quantity": 1,
+      "entry_price": 258.08,
       "direction": "long"
     }
   },
@@ -16,7 +31,8 @@
     "2026-04-02",
     "2026-04-06",
     "2026-04-07",
-    "2026-04-08"
+    "2026-04-08",
+    "2026-04-09"
   ],
   "paper_start_date": "2026-04-02"
 }

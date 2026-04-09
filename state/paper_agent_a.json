@@ -1,27 +1,24 @@
 {
-  "cash": 533.03,
+  "cash": 3430.61,
   "positions": {
-    "QID": {
-      "quantity": 8,
-      "entry_price": 22.33
-    },
-    "SH": {
-      "quantity": 1,
-      "entry_price": 37.62
-    },
-    "SDS": {
-      "quantity": 1,
-      "entry_price": 74.04,
+    "F": {
+      "quantity": 55,
+      "entry_price": 12.14,
       "direction": "long"
     },
-    "LEVI": {
-      "quantity": 8,
-      "entry_price": 21.73,
+    "NVTS": {
+      "quantity": 44,
+      "entry_price": 9.51,
       "direction": "long"
     },
-    "INTC": {
+    "CCL": {
+      "quantity": 9,
+      "entry_price": 28.18,
+      "direction": "long"
+    },
+    "LRCX": {
       "quantity": 1,
-      "entry_price": 58.78,
+      "entry_price": 257.96,
       "direction": "long"
     }
   },
@@ -29,7 +26,8 @@
     "2026-04-02",
     "2026-04-06",
     "2026-04-07",
-    "2026-04-08"
+    "2026-04-08",
+    "2026-04-09"
   ],
   "paper_start_date": "2026-04-02"
 }

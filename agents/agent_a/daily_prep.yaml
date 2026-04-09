@@ -1,197 +1,184 @@
+prepared_date: "2026-04-09"
+prepared_time: "08:31 ET"
+session: pre_market
 top_picks:
-- symbol: CETX
-  setup: Massive volume spike (87.3x avg) with 20-day range breakout above 0.96. EMA
-    9 crossed above EMA 21. Price reclaimed 50-day SMA. Strongest combined signal
-    of the day at 0.85.
-  entry_trigger: Buy above 0.96 on volume > 10M in first 30 min. Confirm price holds
-    above 0.90 (prior resistance turned support). Do not chase if already up >10%
-    at open.
-  target_price: 1.2
-  stop_price: 0.84
+- symbol: LEVI
+  setup: "EARNINGS BEAT — Q1 EPS $0.42 vs $0.37 expected, revenue $1.74B vs $1.65B\
+    \ (+14% YoY). DTC sales +16%, now 52% of revenue. Raised FY26 guidance to 5.5-6.5%\
+    \ rev growth and EPS $1.42-$1.48. Already long 30 shares from $21.54. Pre-market\
+    \ at $21.81 (+1.3% from entry). Position is now above water after being underwater\
+    \ all week."
+  entry_trigger: "Hold current position. If price opens above $22.00 with volume confirmation,\
+    \ consider adding 20 shares with stop at $21.00. Earnings beat + raised guidance\
+    \ = bullish. Take profit at $23.50 on half if it runs."
+  target_price: 23.5
+  stop_price: 21.0
   confidence: 0.72
   signals:
+  - earnings_beat
+  - guidance_raise
   - volume_spike
   - range_breakout
   - ema_crossover
-  - sma_trend
-- symbol: ADVB
-  setup: "Volume 49.8x avg with clean 20-day range breakout above 5.62. EMA 9 crossed\
-    \ above EMA 21, price crossed above 50-day SMA. RSI at 72 \u2014 elevated but\
-    \ not extreme. Strong multi-signal confirmation."
-  entry_trigger: Buy above 5.62 on volume > 1M in first 30 min with stop at 5.10.
-    If opens gap-up >10%, wait for first 5-min pullback to VWAP before entering.
-  target_price: 7.0
-  stop_price: 5.1
-  confidence: 0.7
+- symbol: AEHR
+  setup: "Continuing monster rally — pre-market $63.16 (+3.83%). $37.2M quarterly bookings\
+    \ (3.5x book-to-bill ratio), strong AI/data center demand. Fiscal 2026 revenue\
+    \ expected high end of $45-50M range. Stock up 40%+ in 2026. Extended but momentum\
+    \ is real with fundamental backing."
+  entry_trigger: "Wait for first 15-min pullback to $61-62 VWAP zone. Buy 15 shares\
+    \ (~$930) on VWAP hold with volume > 500k. Do NOT chase above $65. If gaps above\
+    \ $67, skip entirely."
+  target_price: 72.0
+  stop_price: 58.5
+  confidence: 0.62
   signals:
   - volume_spike
   - range_breakout
+  - vwap_cross
+  - fundamental_catalyst
+- symbol: LRCX
+  setup: "Zacks Bull of the Day (Apr 7). Surged 9.46% on Apr 8. Pre-market $246.49\
+    \ (+0.98%). Memory capex cycle reaccelerating — WFE spending projected $135-140B\
+    \ in 2026-27. Clean EMA crossover, 50-day SMA reclaim, no OBV warning. Strongest\
+    \ semi setup."
+  entry_trigger: "Buy 8 shares (~$1,970) above $247.50 on first 30-min volume > 2M.\
+    \ Stop at $240. If opens gap-up above $252, wait for 5-min consolidation. This\
+    \ is the cleanest semi play — no distribution warnings unlike KEYS/ASML."
+  target_price: 265.0
+  stop_price: 240.0
+  confidence: 0.65
+  signals:
+  - range_breakout
   - ema_crossover
   - sma_trend
-- symbol: ORGO
-  setup: "Volume 26.4x avg with RSI bouncing from deeply oversold (24.2 to 26.0) and\
-    \ OBV divergence (price down, OBV rising = accumulation). Classic smart money\
-    \ accumulation before reversal. High risk \u2014 still in downtrend."
-  entry_trigger: Buy above 1.05 (needs to reclaim 50-day SMA area) on volume > 2M.
-    Confirm RSI staying above 30. Smaller position size given downtrend context.
-  target_price: 1.3
-  stop_price: 0.92
-  confidence: 0.52
+  - vwap_cross
+  - analyst_upgrade
+- symbol: F
+  setup: "Already long 55 shares from $12.14. Pre-market $12.18 (+0.3%). Headwinds:\
+    \ White House denied aluminum tariff exemption, $2B loss from Novelis plant disruption,\
+    \ Q1 sales -8.8% YoY, F-Series -16%. But stock rebounded 6% recently. Tariff overhang\
+    \ limits upside."
+  entry_trigger: "Hold existing position. No add — tariff headwinds are structural.\
+    \ Tighten stop to $11.75. If breaks $12.50 on volume, ride it. Otherwise this\
+    \ is dead money — consider trimming if a better opportunity needs capital."
+  target_price: 13.0
+  stop_price: 11.75
+  confidence: 0.4
   signals:
-  - volume_spike
-  - rsi_oversold_bounce
-  - obv_divergence
-- symbol: GBX
-  setup: "Bearish signal but lower Bollinger Band touch with RSI 29.1 sets up a mean\
-    \ reversion long. Volume 5.5x avg. Oversold bounce setup for a quick scalp \u2014\
-    \ not a trend trade."
-  entry_trigger: Buy above 49.50 (first sign of bounce off lower BB) with volume confirmation.
-    This is a 1-2 day scalp only. Exit at 50-day SMA resistance or +5%.
-  target_price: 52.0
-  stop_price: 47.8
-  confidence: 0.5
-  signals:
-  - volume_spike
-  - bb_bounce
-  - mean_reversion
+  - sma_trend
 market_outlook:
-  bias: bullish
-  reasoning: "Semis surged (MU +12%, INTC +10%, NVDA +4%) on strong volume, signaling\
-    \ broad risk-on rotation. Multiple breakout setups firing simultaneously suggests\
-    \ momentum buyers are active \u2014 favor long setups over shorts tomorrow."
+  bias: cautiously_bullish
+  reasoning: "Semi sector momentum continuing (AEHR +3.8%, LRCX +1% pre-market). LEVI\
+    \ earnings beat adds consumer sentiment tailwind. But macro overhang is real:\
+    \ Supreme Court struck down IEEPA tariffs, admin pivoted to Section 122 10% global\
+    \ tariff. Average household facing $1,500 tariff tax increase in 2026. Consumer\
+    \ strain building. SPY $676 (+0.19%), QQQ $606 (+0.26%) — mild green pre-market.\
+    \ Lean bullish on semis and earnings winners, defensive on tariff-exposed names."
   key_levels:
-  - "SPY: Watch 560 as intraday support \u2014 break below signals fade, hold signals\
-    \ continuation"
-  - "QQQ: 475 is key level \u2014 semis surge should carry QQQ higher; failure there\
-    \ = caution"
-  - "NVDA: Director sold ~221K shares at 172-174 \u2014 overhead supply risk near\
-    \ 185-190"
+  - "SPY: $676 — holding above; watch $670 as near-term support"
+  - "QQQ: $606 — semis leading; $600 is the line"
+  - "LEVI: $22.00 breakout level post-earnings — above = add, below $21.00 = cut"
+  - "LRCX: $247.50 entry trigger; $240 hard stop"
 avoid_list:
-- symbol: AIXI
-  reason: "RSI 94.4 is extreme overbought. Price 679% above 50-day SMA. No sustainable\
-    \ entry \u2014 parabolic moves at this RSI historically reverse violently. Risk/reward\
-    \ is terrible."
 - symbol: MGRT
-  reason: "RSI 88.4 overbought, 247% above 50-day SMA, but volume only 1.6x avg \u2014\
-    \ weak volume does not confirm the move. Likely exhaustion, not breakout."
-- symbol: SKYQ
-  reason: "Bearish signal with RSI 74.3 overbought and 111.8% above SMA \u2014 but\
-    \ OBV divergence and volume spike create conflicting signals. Avoid until direction\
-    \ clarifies."
-- symbol: SMX
-  reason: "Bearish but OBV divergence suggests hidden buying \u2014 contradictory\
-    \ signals make this untradeable with confidence. No edge."
-- symbol: NVDA
-  reason: Director sold 221K+ shares at 172-174. Despite today's +4% gain, insider
-    selling at these levels creates overhead supply. Avoid new longs until selling
-    pressure resolves.
-lessons_from_today:
-- "Stop loss triggered again with zero open positions entering tomorrow \u2014 discipline\
-  \ is working but need to ensure stops are set correctly on entry, not loosened during\
-  \ trade."
-- "The highest-volume breakouts (CETX 87x, ADVB 49x, ORGO 26x) are the cleanest signals\
-  \ \u2014 prioritize extreme volume multiples over moderate ones when selecting trades."
-- "Semi sector rotation (MU, INTC, NVDA all +10%+) creates tailwind for AI/tech watchlist\
-  \ stocks \u2014 sector momentum matters, align longs with the hot sector of the\
-  \ day."
-- "Insider selling (NVDA director -221K shares) at levels below current price is a\
-  \ red flag even when price action is bullish \u2014 track institutional activity\
-  \ against price signals."
-- "RSI 94+ (AIXI) is not an entry signal regardless of other confirmations \u2014\
-  \ extreme overbought at micro-cap level is almost always a trap for late longs."
+  reason: "RSI 93.2, price 402% above 50-day SMA. Extreme pump profile — no change."
+- symbol: KRUS
+  reason: "Bearish breakdown below 50-day SMA on heavy volume. OBV distribution confirmed."
+- symbol: ASML
+  reason: "OBV divergence (distribution) on marginal breakout. Wait for OBV confirmation."
+- symbol: KEYS
+  reason: "Pre-market $318.33 (-0.21%). OBV divergence still present. Smart money\
+    \ distributing into strength. Skip unless OBV confirms today."
+- symbol: GOOGL
+  reason: "OBV divergence undermines technical setup. Breakout strength only 0.31."
+- symbol: CCL
+  reason: "Already long 9 shares from $28.18. Pre-market $28.03 (-0.5%). No catalyst.\
+    \ Consumer discretionary under tariff pressure. Consider exiting to free capital\
+    \ for better setups."
 user_directive:
-  todays_mission: >
-    TODAY IS ABOUT PROFIT. Your #1 job is to make money. Not hedge, not wait,
-    not analyze endlessly — TRADE and PROFIT.
-  price_range_focus: >
-    Pay extra attention to stocks in the $2.00 - $20.00 range — they have velocity
-    and percentage-move potential. BUT this is NOT a restriction. If INTC is ripping
-    14% on massive volume, trade INTC. If MU is the strongest mover, trade MU. The
-    best opportunity wins regardless of price. $2-$20 is a sweet spot to watch, not
-    a ceiling.
-  pre_bell_scan: >
-    Before the bell, scan for stocks in the $2-$20 range showing pre-market
-    momentum, volume spikes, or positive catalysts. These are your targets.
-    Look at post-market earnings movers — any stock that reported after yesterday's
-    close and beat/missed expectations could gap hard at open.
-  at_the_bell: >
-    When the bell rings at 9:30 ET, immediately look at TOP MARKET MOVERS.
-    Find what's moving with volume and RIDE THE WAVE. Do not overthink. Do not
-    wait for perfect setups. If something in the $2-$20 range is running on real
-    volume, get in with a 2.5% trailing stop and let it ride.
-  inverse_etf_warning: >
-    You are currently holding inverse ETFs (QID, SH, SDS) from a prior bearish
-    thesis. If the market opens bullish and your movers are running, consider
-    whether these hedges are COSTING you. Dead weight in a bull market is the
-    opposite of profit.
-  mandate: PROFIT. Not safety. Not hedging. PROFIT.
+  flip_strategy: "MANDATORY — when ANY trailing stop triggers on a position, do NOT\
+    \ just close and walk away. Execute the FLIP: if your LONG stop triggers (price\
+    \ dropping), immediately buy_short the SAME stock with a 5% trailing stop to\
+    \ profit from continued downside. If your SHORT stop triggers (price rising),\
+    \ immediately buy LONG the same stock with a 5% trailing stop. Use trade_type\
+    \ 'momentum_ride'. You have $425 daily loss budget — USE IT. Paper mode is for\
+    \ learning, and you learn nothing by sitting in cash after a stop-out."
+  active_trading: "Stop holding dead money. If a position hasn't moved 1%+ in 2 cycles,\
+    \ consider closing it and redeploying into a momentum name. F and CCL are prime\
+    \ candidates to exit and flip into LRCX or semi sector plays."
+  scan_for_opportunities: "EVERY CYCLE you MUST review the Market Scanner top 20\
+    \ gainers AND top 20 losers. The best trades come from these lists — not from\
+    \ stale watchlists. Top gainers = momentum_ride candidates (buy long with tight\
+    \ trailing stop). Top losers = buy_short candidates (flip/short with trailing stop).\
+    \ Pick the best 1-2 setups from the scanner and ACT on them. You have $3K cash\
+    \ sitting idle — deploy it. Stop ignoring the scanner data."
+  flip_candidates_today:
+  - "CCL — down 4.2% from entry, no catalyst, tariff pressure on consumer discretionary.\
+    \ If it breaks below $26.75, close the long and buy_short CCL."
+  - "F — tariff headwinds, dead money. If breaks below $11.90, flip short."
+  - "Any position where trailing stop fires — FLIP immediately, don't hesitate."
+  - "Top 20 losers from scanner — pick the strongest downtrend and buy_short it."
+  - "Top 20 gainers from scanner — pick the cleanest breakout and buy long momentum_ride."
+lessons_from_today:
+- "LEVI earnings beat validates holding through overnight event risk when position\
+  \ sizing is small. But both agents were right to plan exits — you need the plan\
+  \ even when the outcome is favorable."
+- "Semi sector momentum is FUNDAMENTAL not just technical — AEHR bookings 3.5x B/B,\
+  \ LRCX capex cycle. This isn't a one-day squeeze, it's a multi-week rotation."
+- "Tariff environment is the macro headwind — aluminum tariffs hitting F hard, consumer\
+  \ strain building. Favor tech/semis over tariff-exposed consumer/industrial names."
+- "FLIP STRATEGY HAS NEVER BEEN EXECUTED IN 5 TRADING DAYS. This is a failure.\
+  \ You have the instructions, you have the budget. Next stop-out = immediate flip.\
+  \ No excuses about cash or loss limits — the daily budget is $425."
+- "Dead money positions (F barely moving, CCL flat) tie up capital and attention.\
+  \ Paper mode is for learning — better to actively trade than hold sleepers."
 updated_expertise:
-  Market:
+  market:
     breakout_patterns:
     - pattern: volume_spike_with_range_breakout
+      confidence: 0.7
+      note: Volume spike + 20-day range breakout = high probability continuation
+    - pattern: earnings_beat_breakout
       confidence: 0.75
-      note: "Volume spike (>20x avg) + 20-day range breakout = strongest combo; 87x\
-        \ and 49x examples today reinforce \u2014 extreme volume multiples warrant\
-        \ highest conviction"
-    - pattern: 52w_high_breakout
+      note: "Earnings beat + raised guidance + pre-existing technical setup = strongest\
+        \ catalyst combo. LEVI example: beat drives next-day gap potential."
+    - pattern: multi_day_sector_momentum
+      confidence: 0.7
+      note: "When sector rallies persist into day 2+ with pre-market green (AEHR +3.8%),\
+        \ momentum is institutional not retail. Pullback entries work better than chasing."
+    - pattern: fundamental_plus_technical
       confidence: 0.8
-      note: Stocks hitting 52-week highs tend to continue higher if volume confirms
-    - pattern: vwap_reclaim
-      confidence: 0.5
-      note: Price crossing back above VWAP after morning sell-off can signal reversal
-    - pattern: sector_momentum_alignment
-      confidence: 0.7
-      note: "When sector leaders surge (MU +12%, INTC +10%), align longs with sector\
-        \ tailwind \u2014 increases base rate of success on individual setups"
-    mean_reversion_patterns:
-    - pattern: bollinger_squeeze_breakout
-      confidence: 0.7
-      note: Tight Bollinger Bands + breakout above upper = explosive move; low bandwidth
-        = coiled spring
-    - pattern: lower_band_rsi_bounce
-      confidence: 0.55
-      note: "Price at lower BB with RSI < 35 \u2014 oversold bounce setup; needs volume\
-        \ confirmation; GBX today is textbook example"
-    - pattern: obv_divergence_accumulation
-      confidence: 0.62
-      note: "Price falling but OBV rising = smart money accumulating; ORGO showed\
-        \ this today \u2014 often precedes reversal but requires patience"
-    momentum_patterns:
-    - pattern: rsi_oversold_bounce
-      confidence: 0.6
-      note: "RSI below 30 and turning up \u2014 mean reversion play; works best in\
-        \ uptrending stocks; ORGO RSI 24->26 with volume spike = textbook"
-    - pattern: rsi_overbought_not_sell_signal
-      confidence: 0.4
-      note: "RSI above 70 is caution, not automatic sell \u2014 but RSI above 90 in\
-        \ micro-caps is almost always exhaustion, not continuation"
-    - pattern: macd_histogram_flip
-      confidence: 0.55
-      note: "MACD histogram turning positive after extended negative run \u2014 early\
-        \ momentum shift"
+      note: "Bookings/earnings catalysts + technical breakout (AEHR, LRCX) have highest\
+        \ conviction. Pure technical without fundamental = lower confidence."
     known_false_signals:
     - pattern: micro_cap_volume_spike
       confidence: 0.8
-      note: Micro-cap stocks with sudden volume spikes and no news catalyst are often
-        pump-and-dump. Avoid unless institutional involvement confirmed.
-    - pattern: leveraged_etf_hold_decay
-      confidence: 0.9
-      note: Leveraged ETFs (SDS, QID) decay over time due to daily rebalancing. Hold
-        hours to days only, never weeks.
-    - pattern: gap_up_fade
-      confidence: 0.5
-      note: Many gap-ups fade in first 30 minutes. Wait for first pullback before
-        entering. Open blackout exists for this reason.
-    - pattern: extreme_rsi_micro_cap_entry
-      confidence: 0.85
-      note: RSI above 90 in micro-caps (AIXI 94.4 today) is exhaustion signal, not
-        momentum entry. Price 600%+ above SMA = parabolic trap for late longs.
-    - pattern: insider_sell_against_bullish_signal
+      note: Micro-cap sudden volume spikes with no news = likely pump-and-dump.
+    - pattern: obv_divergence_distribution
       confidence: 0.75
-      note: "Director/officer selling overrides bullish technicals \u2014 NVDA director\
-        \ sold 221K shares at 172-174 while price at 184; creates overhead supply,\
-        \ reduces conviction on longs"
-  Trade:
+      note: "Price up but OBV falling = smart money distributing. Half-conviction only."
+    - pattern: extreme_rsi_extension
+      confidence: 0.85
+      note: RSI above 90 + price 300%+ above 50-day SMA = hard avoid.
+    - pattern: tariff_exposed_rebound
+      confidence: 0.6
+      note: "Stocks rebounding after tariff denial (F) may be dead cat bounces.\
+        \ Structural headwinds limit upside — don't add to positions."
+    mean_reversion_patterns:
+    - pattern: bollinger_squeeze_breakout
+      confidence: 0.7
+      note: Tight Bollinger Bands + breakout above upper = explosive move
+    - pattern: obv_divergence_accumulation
+      confidence: 0.6
+      note: Price falling but OBV rising = smart money accumulating
+    momentum_patterns:
+    - pattern: rsi_oversold_bounce
+      confidence: 0.6
+      note: "RSI below 30 turning up — mean reversion in uptrending stocks"
+    - pattern: macd_histogram_flip
+      confidence: 0.55
+      note: "MACD histogram turning positive after extended negative — early momentum"
+  trade:
     evolved_parameters:
       confidence_threshold: 0.45
       max_position_size_pct: 10.0
@@ -199,27 +186,16 @@ updated_expertise:
       trailing_stop_pct: 1.5
     lessons_learned:
     - confidence: 0.9
-      lesson: "Paper trading is for learning \u2014 take more trades at lower confidence\
-        \ to build data"
+      lesson: "Paper trading is for learning — take more trades at lower confidence"
     - confidence: 0.7
-      lesson: Multi-signal confirmation (2+ signals on same symbol) dramatically improves
-        win rate
+      lesson: Multi-signal confirmation (2+ signals) improves win rate
     - confidence: 0.9
-      lesson: "Position sizing matters more than entry timing \u2014 never risk more\
-        \ than 2% on a single trade"
+      lesson: "Position sizing > entry timing — never risk more than 2% per trade"
     - confidence: 0.85
-      lesson: Cut losses fast (respect stop losses), let winners run (trail stops
-        upward)
-    - confidence: 0.65
-      lesson: "Avoid chasing \u2014 if a stock has already moved 5%+ today, the easy\
-        \ money is gone; wait for pullback to VWAP"
-    - confidence: 0.75
-      lesson: "Prioritize extreme volume multiples (>20x avg) over moderate ones \u2014\
-        \ 87x and 49x today produced cleanest setups; 1.6x is noise"
-    overview:
-      avg_gain_pct: 0.0
-      avg_loss_pct: 0.0
-      last_updated: '2026-03-24'
-      total_trades: 0
-      win_rate: 0.0
-    recent_trades: []
+      lesson: Cut losses fast, let winners run with trailing stops
+    - confidence: 0.8
+      lesson: "Fundamental catalysts (earnings, bookings) + technical alignment =\
+        \ highest conviction trades. Prioritize these over pure technicals."
+    - confidence: 0.7
+      lesson: "Trim dead money to free capital for active setups. Holding F and CCL\
+        \ while missing AEHR/LRCX entries is an opportunity cost problem."

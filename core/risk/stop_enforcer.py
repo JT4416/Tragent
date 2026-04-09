@@ -30,7 +30,13 @@ class StopEnforcer:
         for agent in self._agents:
             for pos in agent._store.get_positions():
                 try:
-                    quote = self._broker.get_quote(pos.symbol)
+                    try:
+                        quote = self._broker.get_quote(pos.symbol)
+                    except Exception:
+                        # Fallback to yfinance when Schwab token is expired
+                        import yfinance as yf
+                        tk = yf.Ticker(pos.symbol)
+                        quote = {"lastPrice": tk.fast_info.last_price}
                     price = quote.get("lastPrice") or quote.get("mark") or 0.0
                     if price <= 0:
                         continue
